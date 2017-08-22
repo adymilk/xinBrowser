@@ -1,0 +1,45 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="settings"
+        android:enabled="true"
+        android:icon="@mipmap/logo"
+        android:shortcutShortLabel="@string/shortcut_item_photograph"
+        android:shortcutLongLabel="@string/shortcut_item_photograph"
+        android:shortcutDisabledMessage="@string/shortcut_item_disable">
+
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.adymilk.easybrowser"
+            android:targetClass="com.adymilk.easybrowser.PhotographActivity" />
+        <categories android:name="android.shortcut.conversation"/>
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="settings2"
+        android:enabled="true"
+        android:icon="@mipmap/logo"
+        android:shortcutShortLabel="@string/shortcut_item_games"
+        android:shortcutLongLabel="@string/shortcut_item_games"
+        android:shortcutDisabledMessage="@string/shortcut_item_disable">
+
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.adymilk.easybrowser"
+            android:targetClass="com.adymilk.easybrowser.GamesActivity" />
+        <categories android:name="android.shortcut.conversation"/>
+    </shortcut>
+    <shortcut
+        android:shortcutId="settings3"
+        android:enabled="true"
+        android:icon="@mipmap/logo"
+        android:shortcutShortLabel="@string/shortcut_item_code"
+        android:shortcutLongLabel="@string/shortcut_item_code"
+        android:shortcutDisabledMessage="@string/shortcut_item_disable">
+
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.adymilk.easybrowser"
+            android:targetClass="com.adymilk.easybrowser.CodeActivity" />
+        <categories android:name="android.shortcut.conversation"/>
+    </shortcut>
+</shortcuts>
