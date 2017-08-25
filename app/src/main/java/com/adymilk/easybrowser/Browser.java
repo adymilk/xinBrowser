@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import com.gyf.barlibrary.ImmersionBar;
 import com.just.library.FragmentKeyDown;
 
 
@@ -18,9 +19,16 @@ public class Browser extends AppCompatActivity {
     private FrameLayout mFrameLayout;
     private FragmentManager mFragmentManager;
     private AgentWebFragment mAgentWebFragment;
+    private ImmersionBar mImmersionBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //沉浸状态栏
+        ImmersionBar.with(this)
+                .fitsSystemWindows(true)
+                .statusBarColor(R.color.colorPrimary)
+                .init();
+
         setContentView(com.adymilk.easybrowser.R.layout.activity_browser);
         Intent intent=getIntent();//getIntent将该项目中包含的原始intent检索出来，将检索出来的intent赋值给一个Intent类型的变量intent
         Bundle bundle=intent.getExtras();//.getExtras()得到intent所附带的额外数据
@@ -63,6 +71,9 @@ public class Browser extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (mImmersionBar != null){
+            mImmersionBar.destroy();  //不调用该方法，如果界面bar发生改变，在不关闭app的情况下，退出此界面再进入将记忆最后一次bar改变的状态
+        }
 
     }
     /* 创建菜单 */

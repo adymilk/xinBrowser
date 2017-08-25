@@ -5,17 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="?attr/colorPrimary"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?android:actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="@color/white"
         android:titleTextColor="@android:color/white"
         app:theme="@style/toolBar"
-        app:titleTextColor="@android:color/white">
+        app:titleTextColor="@android:color/black">
 
         <RelativeLayout
 
@@ -28,7 +29,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/iv_back_selector"
                 android:scaleType="center"
-                android:src="@mipmap/menu"
+                android:src="@mipmap/menu_black"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
@@ -40,7 +41,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/iv_back_selector"
                 android:scaleType="center"
-                android:src="@mipmap/more"
+                android:src="@mipmap/more_black"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
@@ -51,7 +52,6 @@
 
     <LinearLayout
         android:layout_margin="5dp"
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"

@@ -268,7 +268,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         public boolean onMenuItemClick(MenuItem item) {
 
             switch (item.getItemId()) {
-                case com.adymilk.easybrowser.R.id.copy:
+                case com.adymilk.easybrowser.R.id.copy://复制链接
                     if (mAgentWeb != null)
                         toCopy(AgentWebFragment.this.getContext(), mAgentWeb.getWebCreator().get().getUrl());
                     return true;
@@ -322,7 +322,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
     public void shareText(String shareUrl) {
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.putExtra(Intent.EXTRA_TEXT, shareUrl);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, shareUrl+" \n分享来自昕浏览器");
         shareIntent.setType("text/plain");
 
         //设置分享列表的标题，并且每次都显示分享列表

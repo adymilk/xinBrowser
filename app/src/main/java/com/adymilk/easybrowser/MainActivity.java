@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
+import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +17,14 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 
+import com.gyf.barlibrary.ImmersionBar;
+import com.nightfarmer.themer.Themer;
+
+import java.util.regex.Pattern;
+
 import moe.feng.alipay.zerosdk.AlipayZeroSdk;
+
+import static com.adymilk.easybrowser.R.attr.colorPrimary;
 
 public class MainActivity extends AppCompatActivity {
     private PopupMenu mPopupMenu;
@@ -28,13 +36,27 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        沉浸状态栏
+        ImmersionBar.with(this)
+                .statusBarDarkFont(true)
+                .statusBarColor(R.color.white)
+                .init();
         setContentView(R.layout.activity_main);
         final EditText editText = (EditText) findViewById(com.adymilk.easybrowser.R.id.edit_url);
+        ImageView home_menu = (ImageView) findViewById(R.id.iv_home_menu);
         CardView cardView1 = (CardView) findViewById(R.id.cardview1);
         CardView cardView2 = (CardView) findViewById(R.id.cardview2);
         CardView cardView3 = (CardView) findViewById(R.id.cardview3);
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         intent=new Intent();
+
+        home_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,Drawer_Main_Activity.class);
+                startActivity(intent);
+            }
+        });
 
 
         cardView1.setOnClickListener(new View.OnClickListener() {
@@ -137,17 +159,26 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-//        用户输入监听按钮
+//        Edittext用户输入监听按钮
         editText.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                坚挺软键盘回车键
                 if (keyCode == KeyEvent.KEYCODE_ENTER &&event.getAction() == KeyEvent.ACTION_DOWN){
-                    String url = editText.getText().toString();
-                    if (!(url.isEmpty())){
-                        url = searchEngines + url;
+                    String searchKey = editText.getText().toString();
+                    if (!(searchKey.isEmpty())){
+                        /**
+                         * TODO: 判断输入的是否为网址
+                         */
+//                    包含 http 头
+                        if (searchKey.indexOf("http") != -1){
+                            searchKey = searchKey;
+                        }else {
+                            searchKey = searchEngines + searchKey;
+                        }
                         Intent intent=new Intent();
                         intent.setClass(MainActivity.this, Browser.class);//从一个activity跳转到另一个activity
-                        intent.putExtra("str", url);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
+                        intent.putExtra("str", searchKey);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
                         startActivity(intent);
 
                     }else{
@@ -164,22 +195,23 @@ public class MainActivity extends AppCompatActivity {
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = editText.getText().toString();
+                String searchKey = editText.getText().toString();
 
-                if (!(url.isEmpty())){
-//                    判断输入的是否为网址
-                    if ((url.substring(0,4)).equals("http")){
-                        Intent intent=new Intent();
-                        intent.setClass(MainActivity.this, Browser.class);//从一个activity跳转到另一个activity
-                        intent.putExtra("str", url);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
-                        startActivity(intent);
+                if (!(searchKey.isEmpty())){
+                    /**
+                     * TODO: 判断输入的是否为网址
+                     */
+//                    包含 http 头
+                    if (searchKey.indexOf("http") != -1){
+                        searchKey = searchKey;
                     }else {
-                        url = searchEngines + url;
-                        Intent intent=new Intent();
-                        intent.setClass(MainActivity.this, Browser.class);//从一个activity跳转到另一个activity
-                        intent.putExtra("str", url);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
-                        startActivity(intent);
+                        searchKey = searchEngines + searchKey;
                     }
+                    Intent intent=new Intent();
+                    intent.setClass(MainActivity.this, Browser.class);//从一个activity跳转到另一个activity
+                    intent.putExtra("str", searchKey);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
+                    startActivity(intent);
+
 
                 }else{
                     Toast.makeText(MainActivity.this,"输入不能为空！", Toast.LENGTH_SHORT).show();

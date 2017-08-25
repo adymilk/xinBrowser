@@ -10,8 +10,17 @@
 
     </style>
 
+    <style name="BaseAppTheme2" parent="AppTheme2">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:actionBarSize">48dp</item>
+
+    </style>
+
         <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar"></style>
-        <style name="AppTheme" parent="AppBaseTheme">
+        <style name="AppTheme1" parent="AppBaseTheme">
             <item name="windowActionBar">false</item>
             <item name="windowNoTitle">true</item>
         </style>
@@ -28,6 +37,32 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--状态栏颜色-->
+        <item name="colorPrimaryDark">@color/Indigo_colorPrimaryDark</item>
+        <!--Toolbar颜色-->
+        <item name="colorPrimary">@color/Indigo_colorPrimary</item>
+        <!--返回键样式-->
+        <item name="drawerArrowStyle">@style/AppTheme.DrawerArrowToggle</item>
+    </style>
+
+    <style name="AppTheme2" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!--状态栏颜色-->
+        <item name="colorPrimaryDark">@color/Indigo_colorPrimaryDark</item>
+        <!--Toolbar颜色-->
+        <item name="colorPrimary">@color/black</item>
+        <!--返回键样式-->
+        <item name="drawerArrowStyle">@style/AppTheme.DrawerArrowToggleDark</item>
+    </style>
+
+
+    <style name="AppTheme.DrawerArrowToggle" parent="Base.Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@android:color/black</item>
+    </style>
+    <style name="AppTheme.DrawerArrowToggleDark" parent="Base.Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@android:color/white</item>
+    </style>
 
 
 

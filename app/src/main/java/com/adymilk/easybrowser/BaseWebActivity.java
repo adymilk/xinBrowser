@@ -19,6 +19,7 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.gyf.barlibrary.ImmersionBar;
 import com.just.library.AgentWeb;
 import com.just.library.ChromeClientCallbackManager;
 import com.just.library.LogUtils;
@@ -47,8 +48,8 @@ public class BaseWebActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(com.adymilk.easybrowser.R.layout.activity_web);
 
+        setContentView(com.adymilk.easybrowser.R.layout.activity_web);
 
         mLinearLayout = (LinearLayout) this.findViewById(com.adymilk.easybrowser.R.id.container);
         mToolbar = (Toolbar) this.findViewById(com.adymilk.easybrowser.R.id.toolbar);
@@ -190,5 +191,6 @@ public class BaseWebActivity extends AppCompatActivity {
         super.onDestroy();
         //mAgentWeb.destroy();
         mAgentWeb.getWebLifeCycle().onDestroy();
+
     }
 }

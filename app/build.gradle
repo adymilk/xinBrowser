@@ -7,8 +7,8 @@ android {
         applicationId "com.adymilk.easybrowser"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.2"
+        versionCode 2
+        versionName "2.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -38,7 +38,6 @@ dependencies {
     //    支付宝转账
     compile 'moe.feng:AlipayZeroSdk:1.1'
     compile 'com.android.support:appcompat-v7:26.+'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.just.agentweb:agentweb:1.2.6'
     compile 'com.android.support:cardview-v7:26.0.0-alpha1'
     compile 'com.lcodecorex:tkrefreshlayout:1.0.7'
@@ -48,7 +47,9 @@ dependencies {
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
-    //    dialog
-    //    compile 'com.afollestad.material-dialogs:commons:0.9.4.7'
+//   沉浸状态栏
+    compile 'com.gyf.barlibrary:barlibrary:2.2.8'
+//    主题
+    compile 'com.github.NightFarmer:Themer:1.0.0'
 }
 

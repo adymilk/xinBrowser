@@ -1,20 +1,13 @@
 package com.adymilk.easybrowser;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.KeyEvent;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.just.library.AgentWeb;
-import com.just.library.FragmentKeyDown;
 
-public class GamesActivity extends Activity {
+public class CardView1Activity extends Activity {
     private LinearLayout mLinearLayout;
     private AgentWeb mAgentWeb;
 
@@ -31,7 +24,7 @@ public class GamesActivity extends Activity {
 //                .setReceivedTitleCallback(mCallback) //设置 Web 页面的 title 回调
                 .createAgentWeb()//
                 .ready()
-                .go("http://h5.qq.com");
+                .go("https://activity.uc.cn/uclive2017/index?entry=zbyp&uc_biz_str=S%3Acustom%7CC%3Aiflow_ncmt%7CK%3Atrue%7CN%3Atrue");//直播
 
 
     }

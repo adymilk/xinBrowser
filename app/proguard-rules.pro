@@ -27,3 +27,5 @@
     *;
 }
 -dontwarn com.just.library.**
+# 沉浸状态栏
+-keep class com.gyf.barlibrary.* {*;}
