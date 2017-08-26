@@ -18,7 +18,7 @@ public class Browser extends AppCompatActivity {
 
     private FrameLayout mFrameLayout;
     private FragmentManager mFragmentManager;
-    private AgentWebFragment mAgentWebFragment;
+    private com.adymilk.easybrowser.AgentWebFragment mAgentWebFragment;
     private ImmersionBar mImmersionBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +42,8 @@ public class Browser extends AppCompatActivity {
 
         Bundle mBundle = null;
 
-        ft.add(com.adymilk.easybrowser.R.id.container_framelayout, mAgentWebFragment = SmartRefreshWebFragment.getInstance(mBundle = new Bundle()), SmartRefreshWebFragment.class.getName());
-        mBundle.putString(AgentWebFragment.URL_KEY, str);
+        ft.add(com.adymilk.easybrowser.R.id.container_framelayout, mAgentWebFragment = com.adymilk.easybrowser.SmartRefreshWebFragment.getInstance(mBundle = new Bundle()), com.adymilk.easybrowser.SmartRefreshWebFragment.class.getName());
+        mBundle.putString(com.adymilk.easybrowser.AgentWebFragment.URL_KEY, str);
         ft.commit();
     }
     @Override
@@ -56,7 +56,7 @@ public class Browser extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-        AgentWebFragment mAgentWebFragment = this.mAgentWebFragment;
+        com.adymilk.easybrowser.AgentWebFragment mAgentWebFragment = this.mAgentWebFragment;
         if (mAgentWebFragment != null) {
             FragmentKeyDown mFragmentKeyDown = mAgentWebFragment;
             if (mFragmentKeyDown.onFragmentKeyDown(keyCode, event))

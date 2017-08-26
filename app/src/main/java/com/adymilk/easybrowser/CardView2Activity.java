@@ -2,20 +2,25 @@ package com.adymilk.easybrowser;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.webkit.WebView;
 import android.widget.LinearLayout;
 
+import com.gyf.barlibrary.BarHide;
 import com.gyf.barlibrary.ImmersionBar;
 import com.just.library.AgentWeb;
 
 public class CardView2Activity extends Activity {
     private LinearLayout mLinearLayout;
     private AgentWeb mAgentWeb;
+    private WebView mWebView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        沉浸状态栏
         ImmersionBar.with(this)
+                .hideBar(BarHide.FLAG_HIDE_BAR)
                 .init();
         AgentWeb mAgentWeb = AgentWeb.with(this)//传入Activity
                 .setAgentWebParent(mLinearLayout, new LinearLayout.LayoutParams(-1, -1))//传入AgentWeb 的父控件 ，如果父控件为 RelativeLayout ， 那么第二参数需要传入 RelativeLayout.LayoutParams ,第一个参数和第二个参数应该对应。
@@ -25,6 +30,8 @@ public class CardView2Activity extends Activity {
                 .createAgentWeb()//
                 .ready()
                 .go("https://cartoon.uc.cn/?uc_biz_str=S:custom&t=1502715479582&modal=hide&download_guide=1");//漫画
+
+        mWebView=mAgentWeb.getWebCreator().get();
 
 
     }
@@ -43,5 +50,13 @@ public class CardView2Activity extends Activity {
         super.onPause();
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && mWebView.canGoBack()) {
+            mWebView.goBack();// 返回前一个页面
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
 }

@@ -16,6 +16,7 @@
     <color name="gray">#BDBDBD</color>
     <color name="yellow"> #CDDC39</color>
     <color name="gray2">#cccccc</color>
+    <color name="gray3">#999999</color>
 
     <color name="Indigo_colorPrimaryDark">#303f9f</color>
     <color name="Indigo_colorPrimary">#3f51b5</color>

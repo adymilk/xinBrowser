@@ -110,10 +110,17 @@
         </activity>
         <activity android:name=".CardView1Activity"/>
         <activity android:name=".CardView2Activity"/>
-        <activity android:name=".CardView4Activity"/>
+        <activity android:name=".CardView4Activity"
+            android:hardwareAccelerated="true"
+            android:configChanges="orientation|screenSize">
+        </activity>
         <activity android:name=".CardView5Activity"/>
         <activity android:name=".CardView6Activity"/>
-        <activity android:name=".CardView7Activity"/>
+        <activity android:name=".CardView7Activity"
+            android:hardwareAccelerated="true"
+            android:configChanges="orientation|screenSize">
+
+        </activity>
         <activity android:name=".CardView8Activity"/>
         <activity android:name=".CardView9Activity"/>
     </application>

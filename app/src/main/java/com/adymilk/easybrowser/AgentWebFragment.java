@@ -92,7 +92,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 
 
         DefaultMsgConfig.DownLoadMsgConfig mDownLoadMsgConfig=mAgentWeb.getDefaultMsgConfig().getDownLoadMsgConfig();
-        //  mDownLoadMsgConfig.setCancel("放弃");  // 修改下载提示信息，这里可以语言切换
+          mDownLoadMsgConfig.setCancel("放弃");  // 修改下载提示信息，这里可以语言切换
         //优化
 
 
