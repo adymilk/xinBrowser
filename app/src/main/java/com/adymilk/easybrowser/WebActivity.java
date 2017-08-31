@@ -1,4 +1,4 @@
-package com.adymilk.easybrowser;
+package com.adymilk.easybrowser.por;
 
 /**
  * Created by cenxiaozhong on 2017/5/22.

@@ -2,44 +2,44 @@
     <shortcut
         android:shortcutId="settings"
         android:enabled="true"
-        android:icon="@mipmap/logo"
+        android:icon="@mipmap/ic_launcher"
         android:shortcutShortLabel="@string/shortcut_item_photograph"
         android:shortcutLongLabel="@string/shortcut_item_photograph"
         android:shortcutDisabledMessage="@string/shortcut_item_disable">
 
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetPackage="com.adymilk.easybrowser"
-            android:targetClass="com.adymilk.easybrowser.PhotographActivity" />
+            android:targetPackage="com.adymilk.easybrowser.por"
+            android:targetClass="com.adymilk.easybrowser.por.PhotographActivity" />
         <categories android:name="android.shortcut.conversation"/>
     </shortcut>
 
     <shortcut
         android:shortcutId="settings2"
         android:enabled="true"
-        android:icon="@mipmap/logo"
+        android:icon="@mipmap/ic_launcher"
         android:shortcutShortLabel="@string/shortcut_item_games"
         android:shortcutLongLabel="@string/shortcut_item_games"
         android:shortcutDisabledMessage="@string/shortcut_item_disable">
 
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetPackage="com.adymilk.easybrowser"
-            android:targetClass="com.adymilk.easybrowser.GamesActivity" />
+            android:targetPackage="com.adymilk.easybrowser.por"
+            android:targetClass="com.adymilk.easybrowser.por.GamesActivity" />
         <categories android:name="android.shortcut.conversation"/>
     </shortcut>
     <shortcut
         android:shortcutId="settings3"
         android:enabled="true"
-        android:icon="@mipmap/logo"
+        android:icon="@mipmap/ic_launcher"
         android:shortcutShortLabel="@string/shortcut_item_code"
         android:shortcutLongLabel="@string/shortcut_item_code"
         android:shortcutDisabledMessage="@string/shortcut_item_disable">
 
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetPackage="com.adymilk.easybrowser"
-            android:targetClass="com.adymilk.easybrowser.CodeActivity" />
+            android:targetPackage="com.adymilk.easybrowser.por"
+            android:targetClass="com.adymilk.easybrowser.por.CodeActivity" />
         <categories android:name="android.shortcut.conversation"/>
     </shortcut>
 </shortcuts>

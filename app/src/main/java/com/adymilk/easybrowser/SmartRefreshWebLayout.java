@@ -1,4 +1,4 @@
-package com.adymilk.easybrowser;
+package com.adymilk.easybrowser.por;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
@@ -21,10 +21,10 @@ public class SmartRefreshWebLayout implements IWebLayout {
 
     public SmartRefreshWebLayout(Activity activity){
 
-        View mView=activity.getLayoutInflater().inflate(com.adymilk.easybrowser.R.layout.fragment_srl_web,null);
-        View smarkView = mView.findViewById(com.adymilk.easybrowser.R.id.smarkLayout);
+        View mView=activity.getLayoutInflater().inflate(com.adymilk.easybrowser.por.R.layout.fragment_srl_web,null);
+        View smarkView = mView.findViewById(com.adymilk.easybrowser.por.R.id.smarkLayout);
         mSmartRefreshLayout = (SmartRefreshLayout) smarkView;
-        mWebView = (WebView) mSmartRefreshLayout.findViewById(com.adymilk.easybrowser.R.id.webView);
+        mWebView = (WebView) mSmartRefreshLayout.findViewById(com.adymilk.easybrowser.por.R.id.webView);
 
     }
 

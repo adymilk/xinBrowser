@@ -3,7 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <item
+        android:icon="@mipmap/logo"
+        android:id="@+id/asBookmark"
+        android:title="加入书签"
+        android:visible="true"
+        app:showAsAction="never"/>
+
+    <item
+        android:icon="@mipmap/logo"
         android:id="@+id/copy"
         android:title="复制链接"
         android:visible="true"
@@ -17,7 +26,7 @@
 
     <item
         android:id="@+id/share"
-        android:title="分享到"
+        android:title="分享到..."
         android:visible="true"
         app:showAsAction="never"/>
 

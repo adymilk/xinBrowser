@@ -1,4 +1,4 @@
-package com.adymilk.easybrowser;
+package com.adymilk.easybrowser.por;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
  *  source CODE  https://github.com/Justson/AgentWeb
  */
 
-public class SmartRefreshWebFragment extends BounceWebFragment {
+public class SmartRefreshWebFragment extends com.adymilk.easybrowser.por.BounceWebFragment {
 
     public static SmartRefreshWebFragment getInstance(Bundle bundle){
 
@@ -28,7 +28,7 @@ public class SmartRefreshWebFragment extends BounceWebFragment {
         return mSmartRefreshWebFragment;
     }
 
-    private SmartRefreshWebLayout mSmartRefreshWebLayout=null;
+    private com.adymilk.easybrowser.por.SmartRefreshWebLayout mSmartRefreshWebLayout=null;
 
     @Override
     public String getUrl() {
@@ -66,7 +66,7 @@ public class SmartRefreshWebFragment extends BounceWebFragment {
 
     @Override
     protected IWebLayout getWebLayout(){
-        return this.mSmartRefreshWebLayout=new SmartRefreshWebLayout(this.getActivity());
+        return this.mSmartRefreshWebLayout=new com.adymilk.easybrowser.por.SmartRefreshWebLayout(this.getActivity());
     }
 
 

@@ -1,4 +1,4 @@
-package com.adymilk.easybrowser;
+package com.adymilk.easybrowser.por;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.adymilk.easybrowser", appContext.getPackageName());
+        assertEquals("com.adymilk.easybrowser.por", appContext.getPackageName());
     }
 }

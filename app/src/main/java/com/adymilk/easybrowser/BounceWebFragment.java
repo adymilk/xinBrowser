@@ -1,4 +1,4 @@
-package com.adymilk.easybrowser;
+package com.adymilk.easybrowser.por;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -19,7 +19,7 @@ import com.just.library.IWebLayout;
  *  source CODE  https://github.com/Justson/AgentWeb
  */
 
-public class BounceWebFragment extends AgentWebFragment {
+public class BounceWebFragment extends com.adymilk.easybrowser.por.AgentWebFragment {
 
     public static BounceWebFragment getInstance(Bundle bundle){
 
@@ -61,7 +61,7 @@ public class BounceWebFragment extends AgentWebFragment {
     }
 
     protected IWebLayout getWebLayout() {
-        return new WebLayout(getActivity());
+        return new com.adymilk.easybrowser.por.WebLayout(getActivity());
     }
 
 

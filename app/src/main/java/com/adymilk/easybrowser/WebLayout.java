@@ -1,4 +1,4 @@
-package com.adymilk.easybrowser;
+package com.adymilk.easybrowser.por;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
@@ -23,9 +23,9 @@ public class WebLayout implements IWebLayout {
 
     public WebLayout(Activity activity) {
         this.mActivity = activity;
-        mTwinklingRefreshLayout = (TwinklingRefreshLayout) LayoutInflater.from(activity).inflate(com.adymilk.easybrowser.R.layout.fragment_twk_web, null);
+        mTwinklingRefreshLayout = (TwinklingRefreshLayout) LayoutInflater.from(activity).inflate(com.adymilk.easybrowser.por.R.layout.fragment_twk_web, null);
         mTwinklingRefreshLayout.setPureScrollModeOn();
-        mWebView = (WebView) mTwinklingRefreshLayout.findViewById(com.adymilk.easybrowser.R.id.webView);
+        mWebView = (WebView) mTwinklingRefreshLayout.findViewById(com.adymilk.easybrowser.por.R.id.webView);
     }
 
     @NonNull

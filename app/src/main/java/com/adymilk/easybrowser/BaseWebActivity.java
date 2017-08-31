@@ -1,4 +1,4 @@
-package com.adymilk.easybrowser;
+package com.adymilk.easybrowser.por;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -49,13 +49,13 @@ public class BaseWebActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 
-        setContentView(com.adymilk.easybrowser.R.layout.activity_web);
+        setContentView(com.adymilk.easybrowser.por.R.layout.activity_web);
 
-        mLinearLayout = (LinearLayout) this.findViewById(com.adymilk.easybrowser.R.id.container);
-        mToolbar = (Toolbar) this.findViewById(com.adymilk.easybrowser.R.id.toolbar);
+        mLinearLayout = (LinearLayout) this.findViewById(com.adymilk.easybrowser.por.R.id.container);
+        mToolbar = (Toolbar) this.findViewById(com.adymilk.easybrowser.por.R.id.toolbar);
         mToolbar.setTitleTextColor(Color.WHITE);
         mToolbar.setTitle("");
-        mTitleTextView = (TextView) this.findViewById(com.adymilk.easybrowser.R.id.toolbar_title);
+        mTitleTextView = (TextView) this.findViewById(com.adymilk.easybrowser.por.R.id.toolbar_title);
         this.setSupportActionBar(mToolbar);
         if (getSupportActionBar() != null)
             // Enable the Up button
@@ -79,7 +79,7 @@ public class BaseWebActivity extends AppCompatActivity {
                 .setWebChromeClient(mWebChromeClient)
                 .setWebViewClient(mWebViewClient)
                 .setSecutityType(AgentWeb.SecurityType.strict)
-                .setWebLayout(new com.adymilk.easybrowser.WebLayout(this))
+                .setWebLayout(new com.adymilk.easybrowser.por.WebLayout(this))
                 .createAgentWeb()//
                 .ready()
                 .go(getUrl());

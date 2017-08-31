@@ -29,3 +29,13 @@
 -dontwarn com.just.library.**
 # 沉浸状态栏
 -keep class com.gyf.barlibrary.* {*;}
+
+#-libraryjars libs/alipaySingle-20170510.jar
+-keep class com.alipay.** {
+    *;
+}
+-dontwarn com.alipay.**
+
+
+
+

@@ -1,6 +1,7 @@
-package com.adymilk.easybrowser;
+package com.adymilk.easybrowser.por;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -11,30 +12,46 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.gyf.barlibrary.ImmersionBar;
+import com.just.library.AgentWeb;
 import com.just.library.FragmentKeyDown;
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrConfig;
+
 
 
 public class Browser extends AppCompatActivity {
 
     private FrameLayout mFrameLayout;
     private FragmentManager mFragmentManager;
-    private com.adymilk.easybrowser.AgentWebFragment mAgentWebFragment;
+    private com.adymilk.easybrowser.por.AgentWebFragment mAgentWebFragment;
     private ImmersionBar mImmersionBar;
+    private AgentWeb mAgentWeb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         //沉浸状态栏
         ImmersionBar.with(this)
                 .fitsSystemWindows(true)
                 .statusBarColor(R.color.colorPrimary)
                 .init();
 
-        setContentView(com.adymilk.easybrowser.R.layout.activity_browser);
+        setContentView(com.adymilk.easybrowser.por.R.layout.activity_browser);
+
+       //手势滑动隐藏 Activity
+        //滑动隐藏 Activity
+        SlidrConfig config = new SlidrConfig.Builder()
+                .edge(true)
+                .build();
+        Slidr.attach(this, config);
+        if (mAgentWeb != null)
+        mAgentWeb.getWebCreator().getGroup().setBackgroundColor(getResources().getColor(R.color.black));
+
         Intent intent=getIntent();//getIntent将该项目中包含的原始intent检索出来，将检索出来的intent赋值给一个Intent类型的变量intent
         Bundle bundle=intent.getExtras();//.getExtras()得到intent所附带的额外数据
         String str=bundle.getString("str");//getString()返回指定key的值
 
-        mFrameLayout = (FrameLayout) this.findViewById(com.adymilk.easybrowser.R.id.container_framelayout);
+        mFrameLayout = (FrameLayout) this.findViewById(com.adymilk.easybrowser.por.R.id.container_framelayout);
 
 
         mFragmentManager = this.getSupportFragmentManager();
@@ -42,8 +59,8 @@ public class Browser extends AppCompatActivity {
 
         Bundle mBundle = null;
 
-        ft.add(com.adymilk.easybrowser.R.id.container_framelayout, mAgentWebFragment = com.adymilk.easybrowser.SmartRefreshWebFragment.getInstance(mBundle = new Bundle()), com.adymilk.easybrowser.SmartRefreshWebFragment.class.getName());
-        mBundle.putString(com.adymilk.easybrowser.AgentWebFragment.URL_KEY, str);
+        ft.add(com.adymilk.easybrowser.por.R.id.container_framelayout, mAgentWebFragment = com.adymilk.easybrowser.por.SmartRefreshWebFragment.getInstance(mBundle = new Bundle()), com.adymilk.easybrowser.por.SmartRefreshWebFragment.class.getName());
+        mBundle.putString(com.adymilk.easybrowser.por.AgentWebFragment.URL_KEY, str);
         ft.commit();
     }
     @Override
@@ -56,7 +73,7 @@ public class Browser extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-        com.adymilk.easybrowser.AgentWebFragment mAgentWebFragment = this.mAgentWebFragment;
+        com.adymilk.easybrowser.por.AgentWebFragment mAgentWebFragment = this.mAgentWebFragment;
         if (mAgentWebFragment != null) {
             FragmentKeyDown mFragmentKeyDown = mAgentWebFragment;
             if (mFragmentKeyDown.onFragmentKeyDown(keyCode, event))
