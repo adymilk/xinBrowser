@@ -26,6 +26,7 @@ public class Browser extends AppCompatActivity {
     private com.adymilk.easybrowser.por.AgentWebFragment mAgentWebFragment;
     private ImmersionBar mImmersionBar;
     private AgentWeb mAgentWeb;
+    private SlidrConfig mConfig;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,12 +39,19 @@ public class Browser extends AppCompatActivity {
 
         setContentView(com.adymilk.easybrowser.por.R.layout.activity_browser);
 
+        // Get the status bar colors to interpolate between
+
        //手势滑动隐藏 Activity
-        //滑动隐藏 Activity
-        SlidrConfig config = new SlidrConfig.Builder()
+        mConfig = new SlidrConfig.Builder()
+                .velocityThreshold(2400)
+                .distanceThreshold(.25f)
                 .edge(true)
+//                .touchSize(Utils.dpToPx(this, 32))
                 .build();
-        Slidr.attach(this, config);
+
+        // Attach the Slidr Mechanism to this activity
+        Slidr.attach(this, mConfig);
+
         if (mAgentWeb != null)
         mAgentWeb.getWebCreator().getGroup().setBackgroundColor(getResources().getColor(R.color.black));
 

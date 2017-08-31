@@ -354,12 +354,15 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         SharedPreferencesUtils.init(getContext()).putInt("书签数量",书签数量);
         System.out.println("书签数量为：" + 书签数量 );
         String urlTitle = mTitleTextView.getText().toString();
-        String urlLink = getUrl().toString();
+        String urlLink = mAgentWeb.getWebCreator().get().getUrl().toString();
 
         // 写入书签标题和链接
         SharedPreferencesUtils.init(getContext())
-                .putString("bookmarkTitle" + 书签数量, urlTitle )
-                .putString("bookmarkLink" + 书签数量 , urlLink);
+                .putString("bookmarkTitle" + Integer.toString(书签数量), urlTitle )
+                .putString("bookmarkLink" + Integer.toString(书签数量), urlLink);
+        String bookmarkTitle = SharedPreferencesUtils.init(getContext()).getString("bookmarkTitle" + Integer.toString(书签数量));
+        String bookmarkUrl = SharedPreferencesUtils.init(getContext()).getString("bookmarkLink" + Integer.toString(书签数量));
+        System.out.println("书签为：书签为："+ bookmarkTitle + bookmarkUrl);
 
         toastShowShort(getContext(), "书签添加成功！");
     }

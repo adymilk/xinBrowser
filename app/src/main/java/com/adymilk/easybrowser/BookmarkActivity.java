@@ -1,41 +1,43 @@
 package com.adymilk.easybrowser;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutCompat;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
+
+import com.adymilk.easybrowser.por.Browser;
 import com.adymilk.easybrowser.por.R;
 import com.gyf.barlibrary.ImmersionBar;
 import com.heima.easysp.SharedPreferencesUtils;
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrConfig;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.just.library.AgentWebUtils.toastShowShort;
 
 public class BookmarkActivity extends AppCompatActivity {
-    private String bookmarkLink;
-    private String bookmarkTitle;
-    private CardView bookmark_content;
-    private TextView tv_bookmark;
-    private ImageView iv_back;
-    private LinearLayout linearLayout_bookmark;
-    private TextView tv_BookmarkTitle;
-    private int 书签数量;
-    private String bookmarkUrl;
-    private ImageView del_bookmark;
-    private int i = 0;
-    private ImageView clear_Allbook;
+private ListView lv_book_Main;
+    private TextView tv_bookIsEmpty;
+    private List<Map<String, Object>> data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    //沉浸状态栏
+        //沉浸状态栏
         ImmersionBar.with(this)
                 .fitsSystemWindows(true)
                 .statusBarColor(R.color.colorPrimary)
@@ -43,112 +45,158 @@ public class BookmarkActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_bookmark);
 
-
-        // 查询书签数量
-        书签数量 = SharedPreferencesUtils.init(BookmarkActivity.this).getInt("书签数量");
-
-        System.out.println("书签总数量为：" + 书签数量 );
-
-        iv_back = (ImageView) findViewById(R.id.iv_back);
-        clear_Allbook = (ImageView) findViewById(R.id.clear_Allbook);
-
-        linearLayout_bookmark = (LinearLayout) findViewById(R.id.linearLayout_bookmark);
-
-
-        //动态添加书签
-
+        lv_book_Main = (ListView) findViewById(R.id.lv_book_Main);
+        ImageView clear_Allbook = (ImageView) findViewById(R.id.clear_Allbook);
+        ImageView iv_back = (ImageView) findViewById(R.id.iv_back);
+        tv_bookIsEmpty = (TextView) findViewById(R.id.tv_bookIsEmpty);
+        int 书签数量 = SharedPreferencesUtils.init(BookmarkActivity.this).getInt("书签数量");
         if (书签数量 == 0){
-            linearLayout_bookmark.addView(addView());
-            bookmark_content = (CardView) findViewById(R.id.bookmark_content);
-            TextView bookIsEmpty = (TextView) findViewById(R.id.bookIsEmpty);
-            bookmark_content.setVisibility(View.GONE);
-            bookIsEmpty.setText("没有书签啦～");
+            lv_book_Main.setVisibility(View.GONE);
 
-        }else if (书签数量 > 0){
-            TextView bookIsEmpty = (TextView) findViewById(R.id.bookIsEmpty);
-            bookIsEmpty.setVisibility(View.GONE);
-
-            for ( i = 0; i <= 书签数量; i++){
-                linearLayout_bookmark.addView(addView());
-                tv_BookmarkTitle = (TextView) findViewById(R.id.tv_title);
-                del_bookmark = (ImageView) findViewById(R.id.del_bookmark);
-                bookmark_content = (CardView) findViewById(R.id.bookmark_content);
-
-                bookmarkTitle = SharedPreferencesUtils.init(BookmarkActivity.this).getString("bookmarkTitle" + i);
-                bookmarkUrl = SharedPreferencesUtils.init(BookmarkActivity.this).getString("bookmarkLink" + i);
-
-                tv_BookmarkTitle .setText(bookmarkTitle);
-                tv_BookmarkTitle.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent();
-                        intent.setClass(BookmarkActivity.this, com.adymilk.easybrowser.por.Browser.class);
-                        intent.putExtra("str", bookmarkUrl);
-                        startActivity(intent);
-                    }
-                });
-
-                //删除书签
-                del_bookmark.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        SharedPreferencesUtils.init(BookmarkActivity.this).remove("bookmarkTitle" + (i-1) );
-                        SharedPreferencesUtils.init(BookmarkActivity.this).remove("bookmarkLink" + (i-1) );
-                        bookmark_content.setVisibility(View.GONE);
-                    }
-                });
-                //删除所有书签
-                clear_Allbook.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        SharedPreferencesUtils.init(BookmarkActivity.this).putInt("书签数量",0 );
-                        bookmark_content.setVisibility(View.GONE);
-                        TextView bookIsEmpty = (TextView) findViewById(R.id.bookIsEmpty);
-                        bookIsEmpty.setText("没有书签啦～");
-
-                        toastShowShort(BookmarkActivity.this, "全部删除！");
-                    }
-                });
-
-            }
+            tv_bookIsEmpty.setVisibility(View.VISIBLE);
         }
-
-
-
-
-
-        bookmarkTitle = SharedPreferencesUtils.init(BookmarkActivity.this).getString("bookmarkTitle");
-        bookmarkLink = SharedPreferencesUtils.init(BookmarkActivity.this).getString("bookmarkLink");
-
-        System.out.println("你的书签title= " + bookmarkTitle);
-        System.out.println("你的书签url= " + bookmarkLink);
-
-
-
-
-
-        //返回主界面
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                startActivity(new Intent(BookmarkActivity.this, Drawer_Main_Activity.class));
                 finish();
             }
         });
+        clear_Allbook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialog("警告！","确定要全部删除吗？");
+            }
+        });
+
+        // 沉浸状态栏
+        ininSinBar();
+
+        //获取将要绑定的数据设置到data中
+        data = getData();
+        MyAdapter adapter = new MyAdapter(this);
+        lv_book_Main.setAdapter(adapter);
+
+        lv_book_Main.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String 书签Url = SharedPreferencesUtils.init(BookmarkActivity.this).getString("bookmarkLink" + Integer.toString(i+1) );
+                System.out.println("书签Url"+书签Url);
+                Intent intent = new Intent();
+                intent.setClass(BookmarkActivity.this, Browser.class);
+                intent.putExtra("str", 书签Url);
+                System.out.println();
+                startActivity(intent);
+            }
+        });
+
     }
 
-    private View addView() {
-        // TODO 动态添加布局(xml方式)
-
-
-
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayoutCompat.LayoutParams.FILL_PARENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT);
-        LayoutInflater inflater3 = LayoutInflater.from(this);
-        View view = inflater3.inflate(R.layout.bookmark_item, null);
-        view.setLayoutParams(lp);
-
-//
-        return view;
+    private List<Map<String, Object>> getData()
+    {
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        Map<String, Object> map;
+        int 书签数量 = SharedPreferencesUtils.init(BookmarkActivity.this).getInt("书签数量");
+        for(int i=1; i<= 书签数量; i++)
+        {
+            String bookmarkTitle = SharedPreferencesUtils.init(BookmarkActivity.this).getString("bookmarkTitle" + Integer.toString(i));
+            System.out.println("书签为：" + bookmarkTitle);
+            map = new HashMap<String, Object>();
+            map.put("title", bookmarkTitle);
+            map.put("img", R.mipmap.delete);
+            list.add(map);
+        }
+        return list;
     }
+
+    //ViewHolder静态类
+    static class ViewHolder
+    {
+        public TextView title;
+        public ImageView iv_del;
+    }
+
+    public class MyAdapter extends BaseAdapter
+    {
+        private LayoutInflater mInflater = null;
+        private MyAdapter(Context context)
+        {
+            //根据context上下文加载布局，这里的是Demo17Activity本身，即this
+            this.mInflater = LayoutInflater.from(context);
+        }
+        @Override
+        public int getCount() {
+            //How many items are in the data set represented by this Adapter.
+            //在此适配器中所代表的数据集中的条目数
+            return data.size();
+        }
+        @Override
+        public Object getItem(int position) {
+            // Get the data item associated with the specified position in the data set.
+            //获取数据集中与指定索引对应的数据项
+            return position;
+        }
+        @Override
+        public long getItemId(int position) {
+            //Get the row id associated with the specified position in the list.
+            //获取在列表中与指定索引对应的行id
+            return position;
+        }
+
+        //Get a View that displays the data at the specified position in the data set.
+        //获取一个在数据集中指定索引的视图来显示数据
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder = null;
+            //如果缓存convertView为空，则需要创建View
+            if(convertView == null)
+            {
+                holder = new ViewHolder();
+                //根据自定义的Item布局加载布局
+                convertView = mInflater.inflate(R.layout.bookmark_item, null);
+                holder.title = (TextView)convertView.findViewById(R.id.tv_book_title);
+                holder.iv_del = (ImageView)convertView.findViewById(R.id.del_bookmark);
+                //将设置好的布局保存到缓存中，并将其设置在Tag里，以便后面方便取出Tag
+                convertView.setTag(holder);
+            }else
+            {
+                holder = (ViewHolder)convertView.getTag();
+            }
+            holder.title.setText((String)data.get(position).get("title"));
+//            holder.iv_del.setImageResource((Integer)data.get(position).get("img"));
+
+            return convertView;
+        }
+
+    }
+
+    //    对话框方法
+    public void showDialog(String title,String msg){
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(BookmarkActivity.this);
+        builder.setTitle(title);
+        builder.setMessage(msg);
+        builder.setNegativeButton(R.string.disagree, null);
+        builder.setPositiveButton(R.string.agree, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                SharedPreferencesUtils.init(BookmarkActivity.this).putInt("书签数量",0);
+                lv_book_Main.setVisibility(View.GONE);
+
+                tv_bookIsEmpty.setVisibility(View.VISIBLE);
+            }
+        });
+        builder.show();
+    }
+
+    public void ininSinBar(){
+        // 沉浸状态栏
+        SlidrConfig mConfig = new SlidrConfig.Builder()
+                .velocityThreshold(2400)
+                .distanceThreshold(.25f)
+                .edge(true)
+                .build();
+
+        Slidr.attach(this, mConfig);
+    }
+
+
 }

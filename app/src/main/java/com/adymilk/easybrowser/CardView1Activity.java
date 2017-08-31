@@ -35,10 +35,9 @@ public class CardView1Activity extends Activity {
                 .setAgentWebParent(mLinearLayout, new LinearLayout.LayoutParams(-1, -1))//传入AgentWeb 的父控件 ，如果父控件为 RelativeLayout ， 那么第二参数需要传入 RelativeLayout.LayoutParams ,第一个参数和第二个参数应该对应。
                 .useDefaultIndicator()// 使用默认进度条
                 .defaultProgressBarColor() // 使用默认进度条颜色
-//                .setReceivedTitleCallback(mCallback) //设置 Web 页面的 title 回调
-                .createAgentWeb()//
+                .createAgentWeb()
                 .ready()
-                .go(targetUrl);//直播
+                .go(targetUrl);
 
         mWebView=mAgentWeb.getWebCreator().get();
 
@@ -53,19 +52,11 @@ public class CardView1Activity extends Activity {
 
     @Override
     protected void onDestroy() {
-        ImmersionBar.with(this).destroy(); //不调用该方法，如果界面bar发生改变，在不关闭app的情况下，退出此界面再进入将记忆最后一次bar改变的状态
-//        mAgentWeb.clearWebCache();
-//        mAgentWeb.getWebLifeCycle().onDestroy();
-        mAgentWeb.destroyAndKill();
-        System.out.println("CardViewActivity1 onDestory");
+        ImmersionBar.with(this).destroy();
+//        mAgentWeb.destroyAndKill();
         super.onDestroy();
     }
 
-    @Override
-    protected void onPause() {
-        System.out.println("CardViewActivity1 onPause");
-        super.onPause();
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
