@@ -1,4 +1,4 @@
-package com.adymilk.easybrowser.por;
+package com.adymilk.easybrowser;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -27,10 +27,8 @@ public class CardView1Activity extends Activity {
         Bundle bundle=intent.getExtras();
         String targetUrl=bundle.getString("targetUrl");
 
-//        沉浸状态栏
-        ImmersionBar.with(this)
-                .hideBar(BarHide.FLAG_HIDE_BAR)
-                .init();
+        initBarAndSildeActivity();
+
         mAgentWeb = AgentWeb.with(this)//传入Activity
                 .setAgentWebParent(mLinearLayout, new LinearLayout.LayoutParams(-1, -1))//传入AgentWeb 的父控件 ，如果父控件为 RelativeLayout ， 那么第二参数需要传入 RelativeLayout.LayoutParams ,第一个参数和第二个参数应该对应。
                 .useDefaultIndicator()// 使用默认进度条
@@ -41,13 +39,21 @@ public class CardView1Activity extends Activity {
 
         mWebView=mAgentWeb.getWebCreator().get();
 
+
+
+
+    }
+    public void initBarAndSildeActivity(){
+        // 沉浸状态栏
+        ImmersionBar.with(this)
+                .hideBar(BarHide.FLAG_HIDE_BAR)
+                .init();
+
         //滑动隐藏 Activity
         SlidrConfig config = new SlidrConfig.Builder()
-                                .edge(true)
-                                .build();
+                .edge(true)
+                .build();
         Slidr.attach(this, config);
-
-
     }
 
     @Override

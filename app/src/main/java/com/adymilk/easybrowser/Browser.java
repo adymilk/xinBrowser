@@ -1,4 +1,4 @@
-package com.adymilk.easybrowser.por;
+package com.adymilk.easybrowser;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import com.adymilk.easybrowser.por.R;
+import com.gyf.barlibrary.BarHide;
 import com.gyf.barlibrary.ImmersionBar;
 import com.just.library.AgentWeb;
 import com.just.library.FragmentKeyDown;
@@ -31,26 +33,13 @@ public class Browser extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //沉浸状态栏
-        ImmersionBar.with(this)
-                .fitsSystemWindows(true)
-                .statusBarColor(R.color.colorPrimary)
-                .init();
+        initBarAndSildeActivity();
 
         setContentView(com.adymilk.easybrowser.por.R.layout.activity_browser);
 
         // Get the status bar colors to interpolate between
 
-       //手势滑动隐藏 Activity
-        mConfig = new SlidrConfig.Builder()
-                .velocityThreshold(2400)
-                .distanceThreshold(.25f)
-                .edge(true)
-//                .touchSize(Utils.dpToPx(this, 32))
-                .build();
 
-        // Attach the Slidr Mechanism to this activity
-        Slidr.attach(this, mConfig);
 
         if (mAgentWeb != null)
         mAgentWeb.getWebCreator().getGroup().setBackgroundColor(getResources().getColor(R.color.black));
@@ -91,6 +80,20 @@ public class Browser extends AppCompatActivity {
         }
 
         return super.onKeyDown(keyCode, event);
+    }
+
+    public void initBarAndSildeActivity(){
+        // 沉浸状态栏
+        ImmersionBar.with(this)
+                .fitsSystemWindows(true)
+                .statusBarColor(R.color.colorPrimary)
+                .init();
+
+        //滑动隐藏 Activity
+        SlidrConfig config = new SlidrConfig.Builder()
+                .edge(true)
+                .build();
+        Slidr.attach(this, config);
     }
 
     @Override

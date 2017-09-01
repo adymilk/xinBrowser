@@ -1,5 +1,6 @@
 package com.adymilk.easybrowser;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,8 +16,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
-import com.adymilk.easybrowser.por.Browser;
+import com.adymilk.easybrowser.Browser;
 import com.adymilk.easybrowser.por.R;
+import com.gyf.barlibrary.BarHide;
 import com.gyf.barlibrary.ImmersionBar;
 import com.heima.easysp.SharedPreferencesUtils;
 import com.r0adkll.slidr.Slidr;
@@ -29,27 +31,28 @@ import java.util.Map;
 
 import static com.just.library.AgentWebUtils.toastShowShort;
 
-public class BookmarkActivity extends AppCompatActivity {
-private ListView lv_book_Main;
+public class BookmarkActivity extends Activity {
+    private ListView lv_book_Main;
     private TextView tv_bookIsEmpty;
     private List<Map<String, Object>> data;
+    private int 书签数量;
+    private String 书签Url;
+    private String 书签标题;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //沉浸状态栏
-        ImmersionBar.with(this)
-                .fitsSystemWindows(true)
-                .statusBarColor(R.color.colorPrimary)
-                .init();
 
+    // 初始化 滑动返回和沉浸状态栏
+        initBarAndSildeActivity();
         setContentView(R.layout.activity_bookmark);
+
 
         lv_book_Main = (ListView) findViewById(R.id.lv_book_Main);
         ImageView clear_Allbook = (ImageView) findViewById(R.id.clear_Allbook);
         ImageView iv_back = (ImageView) findViewById(R.id.iv_back);
         tv_bookIsEmpty = (TextView) findViewById(R.id.tv_bookIsEmpty);
-        int 书签数量 = SharedPreferencesUtils.init(BookmarkActivity.this).getInt("书签数量");
+        书签数量 = SharedPreferencesUtils.init(BookmarkActivity.this).getInt("书签数量");
         if (书签数量 == 0){
             lv_book_Main.setVisibility(View.GONE);
 
@@ -68,8 +71,7 @@ private ListView lv_book_Main;
             }
         });
 
-        // 沉浸状态栏
-        ininSinBar();
+
 
         //获取将要绑定的数据设置到data中
         data = getData();
@@ -79,7 +81,7 @@ private ListView lv_book_Main;
         lv_book_Main.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String 书签Url = SharedPreferencesUtils.init(BookmarkActivity.this).getString("bookmarkLink" + Integer.toString(i+1) );
+                书签Url = SharedPreferencesUtils.init(BookmarkActivity.this).getString("bookmarkLink" + Integer.toString(i+1) );
                 System.out.println("书签Url"+书签Url);
                 Intent intent = new Intent();
                 intent.setClass(BookmarkActivity.this, Browser.class);
@@ -89,19 +91,33 @@ private ListView lv_book_Main;
             }
         });
 
+
+        lv_book_Main.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                书签标题 = SharedPreferencesUtils.init(BookmarkActivity.this).getString("bookmarkTitle" + Integer.toString(i+1) );
+//                System.out.println("书签标题是："+ 书签标题);
+
+
+                showDelItemDialog("警告","删除这条书签吗",i);
+                return false;
+            }
+        });
+
+
     }
 
     private List<Map<String, Object>> getData()
     {
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         Map<String, Object> map;
-        int 书签数量 = SharedPreferencesUtils.init(BookmarkActivity.this).getInt("书签数量");
+        书签数量 = SharedPreferencesUtils.init(BookmarkActivity.this).getInt("书签数量");
         for(int i=1; i<= 书签数量; i++)
         {
-            String bookmarkTitle = SharedPreferencesUtils.init(BookmarkActivity.this).getString("bookmarkTitle" + Integer.toString(i));
-            System.out.println("书签为：" + bookmarkTitle);
+            书签标题 = SharedPreferencesUtils.init(BookmarkActivity.this).getString("bookmarkTitle" + Integer.toString(i));
+            System.out.println("书签为：" + 书签标题);
             map = new HashMap<String, Object>();
-            map.put("title", bookmarkTitle);
+            map.put("title", 书签标题);
             map.put("img", R.mipmap.delete);
             list.add(map);
         }
@@ -187,15 +203,39 @@ private ListView lv_book_Main;
         builder.show();
     }
 
-    public void ininSinBar(){
+    //del Dialog
+    public void showDelItemDialog(String title,String msg, int i){
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(BookmarkActivity.this);
+        builder.setTitle(title);
+        builder.setMessage(msg);
+        builder.setNegativeButton(R.string.disagree, null);
+        builder.setPositiveButton(R.string.agree, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+//                SharedPreferencesUtils.init(BookmarkActivity.this).putInt("书签数量",书签数量 - 1);
+                SharedPreferencesUtils.init(BookmarkActivity.this).putInt("bookmarkTitle",0);
+                SharedPreferencesUtils.init(BookmarkActivity.this).putInt("bookmarkLink",0);
+//                SharedPreferencesUtils.init(BookmarkActivity.this).remove("bookmarkTitle" + Integer.toString(i+1));
+//                SharedPreferencesUtils.init(BookmarkActivity.this).remove("bookmarkLink" + Integer.toString(i+1));
+
+
+            }
+        });
+        builder.show();
+    }
+
+    public void initBarAndSildeActivity(){
         // 沉浸状态栏
-        SlidrConfig mConfig = new SlidrConfig.Builder()
-                .velocityThreshold(2400)
-                .distanceThreshold(.25f)
+        ImmersionBar.with(this)
+                .fitsSystemWindows(true)
+                .statusBarColor(R.color.colorPrimary)
+                .init();
+
+        //滑动隐藏 Activity
+        SlidrConfig config = new SlidrConfig.Builder()
                 .edge(true)
                 .build();
-
-        Slidr.attach(this, mConfig);
+        Slidr.attach(this, config);
     }
 
 

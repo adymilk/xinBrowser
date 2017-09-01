@@ -21,7 +21,8 @@
         android:theme="@style/BaseAppTheme"
         tools:replace="android:icon">
         <activity
-            android:name=".Browser"
+            android:name="com.adymilk.easybrowser.BookmarkActivity"
+            android:theme="@style/touming"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true" />
         <activity android:name=".PhotographActivity" />
@@ -92,9 +93,11 @@
         </activity>
 
 
-        <activity android:name="com.adymilk.easybrowser.BookmarkActivity"/>
+        <activity android:name="com.adymilk.easybrowser.por.BaseWebActivity"
+            android:theme="@style/touming"/>
 
-        <activity android:name=".CardView1Activity"
+        <activity android:name="com.adymilk.easybrowser.CardView1Activity"
+            android:theme="@style/touming"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true" />
     </application>
