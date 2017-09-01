@@ -2,7 +2,7 @@
     <string name="app_name">昕浏览器</string>
     <string name="shortcut_item_photograph">摄影</string>
     <string name="shortcut_item_games">游戏</string>
-    <string name="shortcut_item_code">编程</string>
+    <string name="shortcut_item_bookmarks">书签</string>
     <string name="shortcut_item_disable">停用</string>
     <string name="agree">确定</string>
     <string name="disagree">取消</string>

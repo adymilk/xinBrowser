@@ -5,14 +5,14 @@
 
 
     <item
-        android:icon="@mipmap/logo"
+
         android:id="@+id/asBookmark"
         android:title="加入书签"
         android:visible="true"
         app:showAsAction="never"/>
 
     <item
-        android:icon="@mipmap/logo"
+
         android:id="@+id/copy"
         android:title="复制链接"
         android:visible="true"

@@ -28,7 +28,6 @@ public class Browser extends AppCompatActivity {
     private com.adymilk.easybrowser.por.AgentWebFragment mAgentWebFragment;
     private ImmersionBar mImmersionBar;
     private AgentWeb mAgentWeb;
-    private SlidrConfig mConfig;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,9 +35,6 @@ public class Browser extends AppCompatActivity {
         initBarAndSildeActivity();
 
         setContentView(com.adymilk.easybrowser.por.R.layout.activity_browser);
-
-        // Get the status bar colors to interpolate between
-
 
 
         if (mAgentWeb != null)

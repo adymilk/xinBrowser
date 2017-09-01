@@ -16,7 +16,7 @@
 
         <ImageView
             android:layout_marginLeft="10dp"
-            android:src="@mipmap/logo"
+
             android:layout_marginRight="13dp"
             android:id="@+id/img"
             android:layout_width="wrap_content"

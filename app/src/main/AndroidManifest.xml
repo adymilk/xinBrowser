@@ -25,7 +25,7 @@
             android:theme="@style/touming"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true" />
-        <activity android:name=".PhotographActivity" />
+
         <activity android:name="com.adymilk.easybrowser.Drawer_Main_Activity">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
@@ -97,6 +97,11 @@
             android:theme="@style/touming"/>
 
         <activity android:name="com.adymilk.easybrowser.CardView1Activity"
+            android:theme="@style/touming"
+            android:configChanges="orientation|screenSize"
+            android:hardwareAccelerated="true" />
+
+        <activity android:name="com.adymilk.easybrowser.Browser"
             android:theme="@style/touming"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true" />

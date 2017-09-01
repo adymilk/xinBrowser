@@ -1,18 +1,5 @@
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
-    <shortcut
-        android:shortcutId="settings"
-        android:enabled="true"
-        android:icon="@mipmap/ic_launcher"
-        android:shortcutShortLabel="@string/shortcut_item_photograph"
-        android:shortcutLongLabel="@string/shortcut_item_photograph"
-        android:shortcutDisabledMessage="@string/shortcut_item_disable">
 
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:targetPackage="com.adymilk.easybrowser.por"
-            android:targetClass="com.adymilk.easybrowser.por.PhotographActivity" />
-        <categories android:name="android.shortcut.conversation"/>
-    </shortcut>
 
     <shortcut
         android:shortcutId="settings2"
@@ -32,14 +19,14 @@
         android:shortcutId="settings3"
         android:enabled="true"
         android:icon="@mipmap/ic_launcher"
-        android:shortcutShortLabel="@string/shortcut_item_code"
-        android:shortcutLongLabel="@string/shortcut_item_code"
+        android:shortcutShortLabel="@string/shortcut_item_bookmarks"
+        android:shortcutLongLabel="@string/shortcut_item_bookmarks"
         android:shortcutDisabledMessage="@string/shortcut_item_disable">
 
         <intent
             android:action="android.intent.action.VIEW"
             android:targetPackage="com.adymilk.easybrowser.por"
-            android:targetClass="com.adymilk.easybrowser.por.CodeActivity" />
+            android:targetClass="com.adymilk.easybrowser.BookmarkActivity" />
         <categories android:name="android.shortcut.conversation"/>
     </shortcut>
 </shortcuts>
