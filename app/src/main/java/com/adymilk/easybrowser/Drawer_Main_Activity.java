@@ -27,11 +27,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.adymilk.easybrowser.BookmarkActivity;
-import com.adymilk.easybrowser.Browser;
+import com.adymilk.easybrowser.por.BookmarkActivity;
+import com.adymilk.easybrowser.por.Browser;
 import com.adymilk.easybrowser.por.R;
 import com.gyf.barlibrary.ImmersionBar;
 import com.heima.easysp.SharedPreferencesUtils;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 
 import java.util.ArrayList;
@@ -75,6 +77,8 @@ public class Drawer_Main_Activity extends ActionBarActivity {
     private EditText editText;
     private Spinner spinner;
     private ImageView scaner;
+    private IWXAPI wxApi;
+    private String WX_APP_ID = "wxee53eb68352c793e";
 
 
 
@@ -189,7 +193,7 @@ public class Drawer_Main_Activity extends ActionBarActivity {
                         }
 
                         Intent intent=new Intent();
-                        intent.setClass(Drawer_Main_Activity.this, com.adymilk.easybrowser.Browser.class);//从一个activity跳转到另一个activity
+                        intent.setClass(Drawer_Main_Activity.this, Browser.class);//从一个activity跳转到另一个activity
                         intent.putExtra("str", searchKey);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
                         startActivity(intent);
 
@@ -220,7 +224,7 @@ public class Drawer_Main_Activity extends ActionBarActivity {
                         searchKey = searchEngines + searchKey;
                     }
                     Intent intent=new Intent();
-                    intent.setClass(Drawer_Main_Activity.this, com.adymilk.easybrowser.Browser.class);//从一个activity跳转到另一个activity
+                    intent.setClass(Drawer_Main_Activity.this, Browser.class);//从一个activity跳转到另一个activity
                     intent.putExtra("str", searchKey);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
                     startActivity(intent);
 
@@ -648,7 +652,7 @@ public class Drawer_Main_Activity extends ActionBarActivity {
             if (uri != null ){
                 searchKey = uri.toString();
                 Intent intent=new Intent();
-                intent.setClass(Drawer_Main_Activity.this, com.adymilk.easybrowser.Browser.class);//从一个activity跳转到另一个activity
+                intent.setClass(Drawer_Main_Activity.this, com.adymilk.easybrowser.por.Browser.class);//从一个activity跳转到另一个activity
                 intent.putExtra("str", searchKey);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
                 startActivity(intent);
             }
@@ -711,7 +715,16 @@ public class Drawer_Main_Activity extends ActionBarActivity {
                     startActivity(intent);
                     break;
                 case R.id.iv_scaner:
-                    toWeChatScanDirect(Drawer_Main_Activity.this);
+                    //实例化
+
+                    wxApi = WXAPIFactory.createWXAPI(Drawer_Main_Activity.this,WX_APP_ID);
+                    wxApi.registerApp(WX_APP_ID);
+
+                    if(!wxApi.isWXAppInstalled()){
+                        toastShowShort(Drawer_Main_Activity.this, "未安装微信客户端！");
+                    }else {
+                        toWeChatScanDirect(Drawer_Main_Activity.this);
+                    }
                 default:
                     break;
 
@@ -761,5 +774,11 @@ public class Drawer_Main_Activity extends ActionBarActivity {
     protected void onStart() {
         super.onStart();
         System.out.println("当前Activity状态为onStart"+ isLightTheme);
+    }
+
+    @Override
+    protected void onDestroy() {
+        System.out.println("当前Activity状态为onDestroy");
+        super.onDestroy();
     }
 }

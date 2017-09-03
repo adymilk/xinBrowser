@@ -26,7 +26,7 @@
         <intent
             android:action="android.intent.action.VIEW"
             android:targetPackage="com.adymilk.easybrowser.por"
-            android:targetClass="com.adymilk.easybrowser.BookmarkActivity" />
+            android:targetClass="com.adymilk.easybrowser.por.BookmarkActivity" />
         <categories android:name="android.shortcut.conversation"/>
     </shortcut>
 </shortcuts>

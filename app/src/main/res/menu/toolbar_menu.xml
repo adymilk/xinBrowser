@@ -25,10 +25,43 @@
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/share"
-        android:title="分享到..."
+        android:id="@+id/addToQQFavorites"
+        android:title="收藏到QQ"
         android:visible="true"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/share"
+        android:title="@string/share_title"
+        android:visible="true"
+        app:showAsAction="never"/>
+
+    <!--<item-->
+        <!--android:id="@+id/shareToQQ"-->
+        <!--android:title="分享到QQ"-->
+        <!--android:visible="true"-->
+        <!--app:showAsAction="never"/>-->
+    <!--<item-->
+        <!--android:id="@+id/shareToQQZone"-->
+        <!--android:title="分享到QQ空间"-->
+        <!--android:visible="true"-->
+        <!--app:showAsAction="never"/>-->
+    <!--<item-->
+        <!--android:id="@+id/shareToWechat"-->
+        <!--android:title="分享到微信"-->
+        <!--android:visible="true"-->
+        <!--app:showAsAction="never"/>-->
+
+    <!--<item-->
+        <!--android:id="@+id/shareToWechatTimeLine"-->
+        <!--android:title="分享到朋友圈"-->
+        <!--android:visible="true"-->
+        <!--app:showAsAction="never"/>-->
+
+    <!--<item-->
+        <!--android:id="@+id/shareToMore"-->
+        <!--android:title="分享到其他"-->
+        <!--android:visible="true"-->
+        <!--app:showAsAction="never"/>-->
 
 
 </menu>

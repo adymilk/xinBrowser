@@ -1,7 +1,6 @@
-package com.adymilk.easybrowser;
+package com.adymilk.easybrowser.por;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -10,15 +9,13 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-
-import com.adymilk.easybrowser.por.R;
-import com.gyf.barlibrary.BarHide;
 import com.gyf.barlibrary.ImmersionBar;
 import com.just.library.AgentWeb;
 import com.just.library.FragmentKeyDown;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
-
+import com.r0adkll.slidr.model.SlidrPosition;
+import com.tencent.tauth.Tencent;
 
 
 public class Browser extends AppCompatActivity {
@@ -28,6 +25,7 @@ public class Browser extends AppCompatActivity {
     private com.adymilk.easybrowser.por.AgentWebFragment mAgentWebFragment;
     private ImmersionBar mImmersionBar;
     private AgentWeb mAgentWeb;
+    private Tencent mTencent;// 新建Tencent实例用于调用分享方法
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +33,6 @@ public class Browser extends AppCompatActivity {
         initBarAndSildeActivity();
 
         setContentView(com.adymilk.easybrowser.por.R.layout.activity_browser);
-
 
         if (mAgentWeb != null)
         mAgentWeb.getWebCreator().getGroup().setBackgroundColor(getResources().getColor(R.color.black));
@@ -87,6 +84,7 @@ public class Browser extends AppCompatActivity {
 
         //滑动隐藏 Activity
         SlidrConfig config = new SlidrConfig.Builder()
+                .position(SlidrPosition.LEFT)
                 .edge(true)
                 .build();
         Slidr.attach(this, config);
@@ -94,10 +92,16 @@ public class Browser extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+        finish();
+        System.out.println("当前onDestroy");
         if (mImmersionBar != null){
             mImmersionBar.destroy();  //不调用该方法，如果界面bar发生改变，在不关闭app的情况下，退出此界面再进入将记忆最后一次bar改变的状态
+//            mAgentWeb.clearWebCache();
+//            mAgentWeb.destroyAndKill();
+
         }
+        super.onDestroy();
+
 
     }
     /* 创建菜单 */
@@ -127,4 +131,6 @@ public class Browser extends AppCompatActivity {
         }
         return false;
     }
+
+
 }

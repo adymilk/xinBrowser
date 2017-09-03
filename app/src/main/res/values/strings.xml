@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">昕浏览器</string>
+    <string name="app_name">昕浏览器Pro</string>
+    <string name="error">网络错误</string>
     <string name="shortcut_item_photograph">摄影</string>
     <string name="shortcut_item_games">游戏</string>
     <string name="shortcut_item_bookmarks">书签</string>
@@ -8,9 +9,16 @@
     <string name="disagree">取消</string>
     <string name="title">关于软件</string>
     <string name="open">打开</string>
+    <string name="sharSecondTitle">我们不去假装很“懂你”--【昕浏览器】</string>
     <string name="close">关闭</string>
-    <string name="aboutContent">讲个故事吧。以前有一款浏览器，挺不错的。但是每天它都在猜我可能喜欢这个，喜欢那个...然后经常给我推送新闻。卧槽，这点挺烦人的。万一哪天与女神的那些事儿也被开发者一览无余。多尴尬。。\n\n 为了对浏览器的那些恶意行为说NO！2017年/8月19日 上午8点 我开始构思开发一款纯净简约的浏览器且具备高性能省电省流量的特性。于是【盺浏览器】就诞生了！关于这款浏览器，如果你有好的设计想法，欢迎跟我们投稿。期待你的设计出现在下一个发行版本中。互联网的时代，是一个全民参与设计的时代。让开发者和用户共同碰撞出设计灵感的火花吧。<b>加油！</b>
-</string>
+    <string name="aboutContent">讲个故事吧。以前有一款浏览器，挺不错的。但是每天它都在猜我可能喜欢这个，喜欢那个...然后经常给我推送新闻。卧槽，这点挺烦人的。万一哪天与女神的那些事儿也被开发者一览无余。多尴尬。。\n\n 为了对浏览器的那些恶意行为说NO！2017年/8月19日 上午8点 我开始构思开发一款纯净简约的浏览器且具备高性能省电省流量的特性。于是【盺浏览器】就诞生了！关于这款浏览器，如果你有好的设计想法，欢迎跟我们投稿。期待你的设计出现在下一个发行版本中。互联网的时代，是一个全民参与设计的时代。让开发者和用户共同碰撞出设计灵感的火花吧。<b>加油！</b></string>
+    <string name="qq">QQ</string>
+    <string name="qzone">QQ空间</string>
+    <string name="wechat">微信</string>
+    <string name="wechatTimeLine">朋友圈</string>
+    <string name="weibo">微博</string>
+    <string name="sharMore">更多</string>
+    <string name="share_title">分享到</string>
     <array name="spinnerData">
         <item>百度</item>
         <item>谷歌</item>

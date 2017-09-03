@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/moments"
+        android:icon="@mipmap/ic_share_moments"
+        android:title="@string/wechatTimeLine" />
+    <item
+        android:id="@+id/wechat"
+        android:icon="@mipmap/ic_share_wechat"
+        android:title="@string/wechat" />
+    <item
+        android:id="@+id/qq"
+        android:icon="@mipmap/ic_share_qq"
+        android:title="@string/qq" />
+    <item
+        android:id="@+id/qzone"
+        android:icon="@mipmap/ic_share_qzone"
+        android:title="@string/qzone" />
+
+    <item
+        android:id="@+id/shar_more"
+        android:icon="@mipmap/ic_share_weibo"
+        android:title="@string/sharMore" />
+
+
+</menu>

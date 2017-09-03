@@ -3,14 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.adymilk.easybrowser.por">
 
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
-
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -21,11 +22,15 @@
         android:theme="@style/BaseAppTheme"
         tools:replace="android:icon">
         <activity
-            android:name="com.adymilk.easybrowser.BookmarkActivity"
-            android:theme="@style/touming"
+            android:name=".Browser"
             android:configChanges="orientation|screenSize"
-            android:hardwareAccelerated="true" />
-
+            android:hardwareAccelerated="true"
+            android:theme="@style/touming" />
+        <activity
+            android:name=".BaseWebActivity"
+            android:configChanges="orientation|screenSize"
+            android:hardwareAccelerated="true"
+            android:theme="@style/touming" />
         <activity android:name="com.adymilk.easybrowser.Drawer_Main_Activity">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
@@ -91,20 +96,60 @@
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
         </activity>
-
-
-        <activity android:name="com.adymilk.easybrowser.por.BaseWebActivity"
-            android:theme="@style/touming"/>
-
-        <activity android:name="com.adymilk.easybrowser.CardView1Activity"
-            android:theme="@style/touming"
+        <activity
+            android:name="com.adymilk.easybrowser.CardView1Activity"
             android:configChanges="orientation|screenSize"
-            android:hardwareAccelerated="true" />
+            android:hardwareAccelerated="true"
+            android:theme="@style/touming" />
+        <activity android:name="com.adymilk.easybrowser.ShareToTencent" />
+        <activity
+            android:name=".BookmarkActivity"
+            android:theme="@style/touming" />
 
-        <activity android:name="com.adymilk.easybrowser.Browser"
-            android:theme="@style/touming"
-            android:configChanges="orientation|screenSize"
-            android:hardwareAccelerated="true" />
+        <!-- ############ QQ空间和QQ SSO授权的Activity注册 ############ -->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+
+            　　
+            <intent-filter>
+
+                　　　　
+                <action android:name="android.intent.action.VIEW" />
+
+                　　　　
+                <category android:name="android.intent.category.DEFAULT" />
+
+                　　　　
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                　　　　
+                <data android:scheme="tencent1106376406" />
+
+                　　
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.adymilk.easybrowser.wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="sdksample" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.adymilk.easybrowser.ErrorActivity"></activity>
     </application>
 
 </manifest>

@@ -4,8 +4,9 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,6 +22,7 @@ import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
@@ -28,7 +30,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.adymilk.easybrowser.BookmarkActivity;
+import com.adymilk.easybrowser.ErrorActivity;
+import com.adymilk.easybrowser.ShareToTencent;
 import com.heima.easysp.SharedPreferencesUtils;
 import com.just.library.AgentWeb;
 import com.just.library.AgentWebSettings;
@@ -39,6 +42,15 @@ import com.just.library.DownLoadResultListener;
 import com.just.library.FragmentKeyDown;
 import com.just.library.LogUtils;
 import com.just.library.WebDefaultSettingsManager;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.tencent.tauth.Tencent;
+
+import java.util.List;
+
+import me.curzbin.library.BottomDialog;
+import me.curzbin.library.Item;
+import me.curzbin.library.OnItemClickListener;
 
 import static com.just.library.AgentWebUtils.clearWebViewAllCache;
 import static com.just.library.AgentWebUtils.toastShowShort;
@@ -60,6 +72,14 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
     private ImageView mMoreImageView;
     private PopupMenu mPopupMenu;
     private int 书签数量 = 0;
+    private String 网页标题;
+    private String 网页链接;
+    private Tencent mTencent;// 新建Tencent实例用于调用分享方法
+    private Intent intent;
+    private IWXAPI wxApi;
+    private String WX_APP_ID = "wxee53eb68352c793e";
+    private WebView mWebView;
+
 
     public static AgentWebFragment getInstance(Bundle bundle) {
 
@@ -71,11 +91,14 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 
     }
 
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(com.adymilk.easybrowser.por.R.layout.fragment_agentweb, container, false);
     }
+
 
 
     @Override
@@ -137,9 +160,10 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
     protected ChromeClientCallbackManager.ReceivedTitleCallback mCallback = new ChromeClientCallbackManager.ReceivedTitleCallback() {
         @Override
         public void onReceivedTitle(WebView view, String title) {
+            网页标题 = title;
             if (mTitleTextView != null && !TextUtils.isEmpty(title))
                 if (title.length() > 10)
-                    title = title.substring(0, 10) + "...";
+                    title = title.substring(0, 11) + "...";
             mTitleTextView.setText(title);
 
         }
@@ -155,7 +179,15 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 
         @Override
         public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+            toastShowShort(getContext(),"onReceivedError");
+            startActivity(new Intent(getContext(), ErrorActivity.class));
             super.onReceivedError(view, request, error);
+        }
+
+        @Override
+        public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+            toastShowShort(getContext(),"onReceivedHttpError");
+            super.onReceivedHttpError(view, request, errorResponse);
         }
 
         @Override
@@ -183,12 +215,22 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
 
             Log.i("Info", "url:" + url + " onPageStarted  target:" + getUrl());
+
             if (url.equals(getUrl())) {
                 pageNavigator(View.GONE);
             } else {
                 pageNavigator(View.VISIBLE);
             }
 
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            mAgentWeb.getJsEntraceAccess().quickCallJs("document.body.style.backgroundColor=\"#000000\";");
+//            mWebView = mAgentWeb.getWebCreator().get();
+//            String js = "document.body.style.backgroundColor="#000000";";
+//            mWebView.loadUrl("javascript:"+ "document.body.style.backgroundColor=\"#000000\"");
+            super.onPageFinished(view, url);
         }
     };
 
@@ -272,6 +314,8 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
     private PopupMenu.OnMenuItemClickListener mOnMenuItemClickListener = new PopupMenu.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem item) {
+            wxApi = WXAPIFactory.createWXAPI(getContext(),WX_APP_ID);
+            wxApi.registerApp(WX_APP_ID);
 
             switch (item.getItemId()) {
                 case R.id.asBookmark:
@@ -279,9 +323,8 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                      * TODO 加入书签
                      */
                     asBookmark();
-
-
                     return true;
+
                 case com.adymilk.easybrowser.por.R.id.copy://复制链接
                     if (mAgentWeb != null)
                         toCopy(AgentWebFragment.this.getContext(), mAgentWeb.getWebCreator().get().getUrl());
@@ -291,9 +334,19 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                     if (mAgentWeb != null)
                         openBrowser(mAgentWeb.getWebCreator().get().getUrl());
                     return true;
+
+                case R.id.addToQQFavorites:
+                    if (!isQQClientAvailable(getContext())){
+                        toastShowShort(getContext(),"未安装QQ客户端");
+                    }else {
+                        shareTo(String.valueOf(item));
+                    }
+                    return true;
+
                 case R.id.share:
-                    shareText(mAgentWeb.getWebCreator().get().getUrl().toString());
-//                    ShareUtil.shareText(getContext(), SharePlatform.QQ, "分享文字", null);
+                    showShareDialog();
+
+                    return true;
 
                 default:
                     return false;
@@ -329,7 +382,8 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 
     @Override
     public void onDestroyView() {
-        //mAgentWeb.clearWebCache();
+        mAgentWeb.clearWebCache();
+        mAgentWeb.destroyAndKill();
         mAgentWeb.getWebLifeCycle().onDestroy();
         clearWebViewAllCache(getContext());
         super.onDestroyView();
@@ -353,13 +407,13 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         书签数量 = 书签数量 + 1;
         SharedPreferencesUtils.init(getContext()).putInt("书签数量",书签数量);
         System.out.println("书签数量为：" + 书签数量 );
-        String urlTitle = mTitleTextView.getText().toString();
-        String urlLink = mAgentWeb.getWebCreator().get().getUrl().toString();
+        网页标题 = mTitleTextView.getText().toString();
+        网页链接 = mAgentWeb.getWebCreator().get().getUrl().toString();
 
         // 写入书签标题和链接
         SharedPreferencesUtils.init(getContext())
-                .putString("bookmarkTitle" + Integer.toString(书签数量), urlTitle )
-                .putString("bookmarkLink" + Integer.toString(书签数量), urlLink);
+                .putString("bookmarkTitle" + Integer.toString(书签数量), 网页标题 )
+                .putString("bookmarkLink" + Integer.toString(书签数量), 网页链接);
         String bookmarkTitle = SharedPreferencesUtils.init(getContext()).getString("bookmarkTitle" + Integer.toString(书签数量));
         String bookmarkUrl = SharedPreferencesUtils.init(getContext()).getString("bookmarkLink" + Integer.toString(书签数量));
         System.out.println("书签为：书签为："+ bookmarkTitle + bookmarkUrl);
@@ -367,11 +421,94 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         toastShowShort(getContext(), "书签添加成功！");
     }
 
+
     /**
-     * TODO 分享链接到微信
-     * @param shareUrl
+     * TODO 分享到社交平台
+     * @param item PopuMenu 菜单
      */
-    public void shareUrlToWx(String shareUrl) {
+    private void shareTo(String item){
+        System.out.println("点击了那个菜单"+ item);
+        网页标题 = mTitleTextView.getText().toString();
+        网页链接 = mAgentWeb.getWebCreator().get().getUrl().toString();
+        intent = new Intent();
+        intent.putExtra("网页标题", 网页标题);
+        intent.putExtra("网页链接", 网页链接);
+        intent.putExtra("要分享的平台", item);
+        intent.setClass(getContext(),ShareToTencent.class);
+        startActivity(intent);
+    }
+
+//    判断用户是否安装QQ
+    public static boolean isQQClientAvailable(Context context) {
+        final PackageManager packageManager = context.getPackageManager();
+        List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);
+        if (pinfo != null) {
+            for (int i = 0; i < pinfo.size(); i++) {
+                String pn = pinfo.get(i).packageName;
+                if (pn.equals("com.tencent.mobileqq")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private void showShareDialog(){
+        new BottomDialog(getContext())
+                .title(R.string.share_title)             //设置标题
+                .layout(BottomDialog.GRID)              //设置内容layout,默认为线性(LinearLayout)
+                .orientation(BottomDialog.VERTICAL)     //设置滑动方向,默认为横向
+                .inflateMenu(R.menu.menu_share)         //传人菜单内容
+                .itemClick(new OnItemClickListener() {  //设置监听
+                    @Override
+                    public void click(Item item) {
+                        switch (item.getTitle()){
+                            case "朋友圈":
+                                if (!wxApi.isWXAppInstalled()){
+                                    toastShowShort(getContext(),"未安装微信客户端！");
+                                }else {
+                                    shareTo(String.valueOf(item.getTitle()));
+                                }
+                                break;
+
+                            case "微信":
+                                if (!wxApi.isWXAppInstalled()){
+                                    toastShowShort(getContext(),"未安装微信客户端");
+                                }else {
+                                    shareTo(String.valueOf(item.getTitle()));
+                                }
+                                break;
+                            case "QQ":
+                                if (!isQQClientAvailable(getContext())){
+                                    toastShowShort(getContext(),"未安装QQ客户端");
+                                }else {
+                                    shareTo(String.valueOf(item.getTitle()));
+                                }
+                                break;
+
+                            case "QQ空间":
+                                if (!isQQClientAvailable(getContext())){
+                                    toastShowShort(getContext(),"未安装QQ客户端");
+                                }else {
+                                    shareTo(String.valueOf(item.getTitle()));
+                                }
+                                break;
+
+                            case "更多":
+                                网页链接 = mAgentWeb.getWebCreator().get().getUrl().toString();
+                                shareText(网页链接);
+                                break;
+                            default:
+                                break;
+
+
+
+                        }
+
+
+                    }
+                })
+                .show();
 
     }
 

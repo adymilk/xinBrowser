@@ -35,7 +35,16 @@
     *;
 }
 -dontwarn com.alipay.**
+#微信
 
+-keep class com.tencent.mm.**{*;}
+-dontwarn com.tencent.mm.**
+
+#底部弹出分享对话框
+-keep class me.curzbin.library.** {
+    *;
+}
+-dontwarn me.curzbin.library.**
 
 
 

@@ -1,4 +1,4 @@
-package com.adymilk.easybrowser;
+package com.adymilk.easybrowser.por;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,13 +16,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
-import com.adymilk.easybrowser.Browser;
+import com.adymilk.easybrowser.por.Browser;
 import com.adymilk.easybrowser.por.R;
 import com.gyf.barlibrary.BarHide;
 import com.gyf.barlibrary.ImmersionBar;
 import com.heima.easysp.SharedPreferencesUtils;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
+import com.r0adkll.slidr.model.SlidrPosition;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -233,6 +234,7 @@ public class BookmarkActivity extends Activity {
 
         //滑动隐藏 Activity
         SlidrConfig config = new SlidrConfig.Builder()
+                .position(SlidrPosition.LEFT)
                 .edge(true)
                 .build();
         Slidr.attach(this, config);
