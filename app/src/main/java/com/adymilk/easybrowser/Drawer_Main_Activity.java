@@ -276,7 +276,7 @@ public class Drawer_Main_Activity extends ActionBarActivity {
 
                         break;
                     case 1:
-                        showDialog("酷安有你们更精彩","@城岚，@先生we，@吃猫的咸鱼，@yuensui，@有关部门负责人，@谷歌惊奇，@罗强，@都顾 \n\n感谢以上网友提出的宝贵建议，如果你也想要你的 ID 出现在这里，赶快点击上面参与设计与我交流吧。\n生活中每个人都是设计师！");
+                        showDialog("酷安有你们更精彩","@城岚，@先生we，@吃猫的咸鱼，@yuensui，@有关部门负责人，@谷歌惊奇，@罗强，@都顾,@爱幻想的大白 \n\n感谢以上网友提出的宝贵建议，如果你也想要你的 ID 出现在这里，赶快点击上面参与设计与我交流吧。\n生活中每个人都是设计师！");
                         break;
 
                     case 2:
@@ -299,11 +299,15 @@ public class Drawer_Main_Activity extends ActionBarActivity {
                         setSimpleMode();
                         break;
                     case 6:
-                        Intent intent = new Intent();
+                        intent = new Intent();
                         intent.setClass(Drawer_Main_Activity.this, BookmarkActivity.class);
                         startActivity(intent);
                         break;
                     case 7:
+                        intent=new Intent();
+                        intent.setClass(Drawer_Main_Activity.this, Browser.class);//从一个activity跳转到另一个activity
+                        intent.putExtra("str", "https://www.coolapk.com/apk/157097");//给intent添加额外数据，key为“str”,key值为"Intent Demo"
+                        startActivity(intent);
                         break;
                 }
                 mDrawerLayout.closeDrawers();
@@ -780,5 +784,7 @@ public class Drawer_Main_Activity extends ActionBarActivity {
     protected void onDestroy() {
         System.out.println("当前Activity状态为onDestroy");
         super.onDestroy();
+        finish();
+        System.exit(0);//退出
     }
 }

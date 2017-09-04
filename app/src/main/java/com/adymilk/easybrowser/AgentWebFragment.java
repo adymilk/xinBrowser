@@ -179,14 +179,13 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 
         @Override
         public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-            toastShowShort(getContext(),"onReceivedError");
-            startActivity(new Intent(getContext(), ErrorActivity.class));
+//            toastShowShort(getContext(),"onReceivedError");
+//            startActivity(new Intent(getContext(), ErrorActivity.class));
             super.onReceivedError(view, request, error);
         }
 
         @Override
         public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
-            toastShowShort(getContext(),"onReceivedHttpError");
             super.onReceivedHttpError(view, request, errorResponse);
         }
 
@@ -204,11 +203,11 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
             //例如优酷视频播放 ，intent://play?...package=com.youku.phone;end;
             //优酷想唤起自己应用播放该视频 ， 下面拦截地址返回 true  则会在应用内 H5 播放 ，禁止优酷唤起播放该视频， 如果返回 false ， DefaultWebClient  会根据intent 协议处理 该地址 ， 首先匹配该应用存不存在 ，如果存在 ， 唤起该应用播放 ， 如果不存在 ， 则跳到应用市场下载该应用 .
             if (url.startsWith("intent://"))
-                return false;
+                return true;
             /*else if (isAlipay(view, url))   //1.2.5开始不用调用该方法了 ，只要引入支付宝sdk即可 ， DefaultWebClient 默认会处理相应url调起支付宝
                 return true;*/
 
-            return false;
+            return true;
         }
 
         @Override
@@ -226,10 +225,6 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 
         @Override
         public void onPageFinished(WebView view, String url) {
-            mAgentWeb.getJsEntraceAccess().quickCallJs("document.body.style.backgroundColor=\"#000000\";");
-//            mWebView = mAgentWeb.getWebCreator().get();
-//            String js = "document.body.style.backgroundColor="#000000";";
-//            mWebView.loadUrl("javascript:"+ "document.body.style.backgroundColor=\"#000000\"");
             super.onPageFinished(view, url);
         }
     };
@@ -318,12 +313,19 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
             wxApi.registerApp(WX_APP_ID);
 
             switch (item.getItemId()) {
+                case R.id.reload:
+                    mAgentWeb.getLoader().reload();
+                    toastShowShort(getContext(),"刷新成功！");
+                    return true;
+
                 case R.id.asBookmark:
                     /**
                      * TODO 加入书签
                      */
                     asBookmark();
                     return true;
+                case R.id.clearCatch:
+                    mAgentWeb.clearWebCache();
 
                 case com.adymilk.easybrowser.por.R.id.copy://复制链接
                     if (mAgentWeb != null)

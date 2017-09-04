@@ -40,23 +40,23 @@ public class SmartRefreshWebFragment extends com.adymilk.easybrowser.por.BounceW
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final SmartRefreshLayout mSmartRefreshLayout= (SmartRefreshLayout) this.mSmartRefreshWebLayout.getLayout();
-
-        final WebView mWebView=this.mSmartRefreshWebLayout.getWeb();
-        mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(RefreshLayout refreshlayout) {
-                mAgentWeb.getLoader().reload();
-
-                mSmartRefreshLayout.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mSmartRefreshLayout.finishRefresh();
-                    }
-                },2000);
-            }
-        });
-        mSmartRefreshLayout.autoRefresh();
+//        final SmartRefreshLayout mSmartRefreshLayout= (SmartRefreshLayout) this.mSmartRefreshWebLayout.getLayout();
+//
+//        final WebView mWebView=this.mSmartRefreshWebLayout.getWeb();
+//        mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+//            @Override
+//            public void onRefresh(RefreshLayout refreshlayout) {
+//                mAgentWeb.getLoader().reload();
+//
+//                mSmartRefreshLayout.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        mSmartRefreshLayout.finishRefresh();
+//                    }
+//                },2000);
+//            }
+//        });
+//        mSmartRefreshLayout.autoRefresh();
 
 
 

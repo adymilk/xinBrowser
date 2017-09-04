@@ -5,14 +5,24 @@
 
 
     <item
+        android:id="@+id/reload"
+        android:title="刷新页面"
+        android:visible="true"
+        app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/clearCatch"
+        android:title="清除缓存"
+        android:visible="true"
+        app:showAsAction="never"/>
+
+    <item
         android:id="@+id/asBookmark"
         android:title="加入书签"
         android:visible="true"
         app:showAsAction="never"/>
 
     <item
-
         android:id="@+id/copy"
         android:title="复制链接"
         android:visible="true"
@@ -35,33 +45,7 @@
         android:visible="true"
         app:showAsAction="never"/>
 
-    <!--<item-->
-        <!--android:id="@+id/shareToQQ"-->
-        <!--android:title="分享到QQ"-->
-        <!--android:visible="true"-->
-        <!--app:showAsAction="never"/>-->
-    <!--<item-->
-        <!--android:id="@+id/shareToQQZone"-->
-        <!--android:title="分享到QQ空间"-->
-        <!--android:visible="true"-->
-        <!--app:showAsAction="never"/>-->
-    <!--<item-->
-        <!--android:id="@+id/shareToWechat"-->
-        <!--android:title="分享到微信"-->
-        <!--android:visible="true"-->
-        <!--app:showAsAction="never"/>-->
 
-    <!--<item-->
-        <!--android:id="@+id/shareToWechatTimeLine"-->
-        <!--android:title="分享到朋友圈"-->
-        <!--android:visible="true"-->
-        <!--app:showAsAction="never"/>-->
-
-    <!--<item-->
-        <!--android:id="@+id/shareToMore"-->
-        <!--android:title="分享到其他"-->
-        <!--android:visible="true"-->
-        <!--app:showAsAction="never"/>-->
 
 
 </menu>

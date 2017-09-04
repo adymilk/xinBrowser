@@ -46,7 +46,7 @@ public class BounceWebFragment extends com.adymilk.easybrowser.por.AgentWebFragm
                 .setWebViewClient(mWebViewClient)
                 .setWebChromeClient(mWebChromeClient)
                 .setReceivedTitleCallback(mCallback)
-                .setWebLayout(getWebLayout())
+//                .setWebLayout(getWebLayout())
                 .setSecurityType(AgentWeb.SecurityType.strict)
                 .addDownLoadResultListener(mDownLoadResultListener)
                 .createAgentWeb()//
