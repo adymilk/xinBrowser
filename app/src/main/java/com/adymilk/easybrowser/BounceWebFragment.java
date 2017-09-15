@@ -74,7 +74,7 @@ public class BounceWebFragment extends com.adymilk.easybrowser.por.AgentWebFragm
         frameLayout.setBackgroundColor(Color.parseColor("#272b2d"));
         FrameLayout.LayoutParams mFlp=new FrameLayout.LayoutParams(-2,-2);
         mFlp.gravity= Gravity.CENTER_HORIZONTAL;
-        mFlp.topMargin= AgentWebUtils.dp2px(frameLayout.getContext(),15);
+//        mFlp.topMargin= AgentWebUtils.dp2px(frameLayout.getContext(),15);
         frameLayout.addView(mTextView,0,mFlp);
     }
 

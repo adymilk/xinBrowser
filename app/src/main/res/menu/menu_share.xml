@@ -22,8 +22,41 @@
 
     <item
         android:id="@+id/shar_more"
-        android:icon="@mipmap/ic_share_weibo"
+        android:icon="@mipmap/share_more"
         android:title="@string/sharMore" />
+
+    <item
+        android:id="@+id/moments1"
+        android:icon="@mipmap/reload"
+        android:title="@string/reload" />
+    <item
+        android:id="@+id/qzone1"
+        android:icon="@mipmap/copyurl"
+        android:title="@string/copy_url" />
+
+    <item
+        android:id="@+id/wechat1"
+        android:icon="@mipmap/clear_cache"
+        android:title="@string/clear_cache" />
+    <item
+        android:id="@+id/qq1"
+        android:icon="@mipmap/book"
+        android:title="@string/as_book" />
+
+    <item
+        android:id="@+id/qzone2"
+        android:icon="@mipmap/browser"
+        android:title="@string/use_other_browser_open" />
+
+    <item
+        android:id="@+id/qzon3"
+        android:icon="@mipmap/collect"
+        android:title="@string/collect" />
+
+    <item
+        android:id="@+id/search"
+        android:icon="@mipmap/search"
+        android:title="@string/search" />
 
 
 </menu>

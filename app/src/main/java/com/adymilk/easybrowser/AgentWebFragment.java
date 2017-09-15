@@ -8,9 +8,11 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
 import android.util.Log;
@@ -47,13 +49,15 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.tauth.Tencent;
 
 import java.util.List;
+import java.util.jar.Manifest;
 
 import me.curzbin.library.BottomDialog;
 import me.curzbin.library.Item;
 import me.curzbin.library.OnItemClickListener;
 
-import static com.just.library.AgentWebUtils.clearWebViewAllCache;
-import static com.just.library.AgentWebUtils.toastShowShort;
+import com.just.library.PermissionInterceptor;
+
+import static android.Manifest.permission_group.LOCATION;
 
 
 /**
@@ -111,6 +115,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                 .setAgentWebWebSettings(getSettings())//
                 .setWebViewClient(mWebViewClient)
                 .setWebChromeClient(mWebChromeClient)
+                .setPermissionInterceptor(mPermissionInterceptor)
                 .setReceivedTitleCallback(mCallback)
                 .setSecurityType(AgentWeb.SecurityType.strict)
                 .addDownLoadResultListener(mDownLoadResultListener)
@@ -128,6 +133,23 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
     }
 
 
+    protected PermissionInterceptor mPermissionInterceptor = new PermissionInterceptor() {
+        String TAG = null;
+
+        //AgentWeb 在触发某些敏感的 Action 时候会回调该方法， 比如定位触发 。
+        //例如 http//:www.taobao.com 该 Url 需要定位权限， 返回false ，如果版本大于等于23 ， agentWeb 会动态申请权限 ，true 该Url对应页面请求定位失败。
+        //该方法是每次都会优先触发的 ， 开发者可以做一些敏感权限拦截 。
+        @Override
+        public boolean intercept(String url, String[] permissions, String action) {
+            Log.i(TAG, "url:" + url + "  permission:" + permissions + " action:" + action);
+            toastShowShort(getContext(),"正在申请权限！");
+
+            return false;
+        }
+    };
+
+
+
 
 
     protected DownLoadResultListener mDownLoadResultListener = new DownLoadResultListener() {
@@ -143,6 +165,8 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
             Toast.makeText(getContext(),"下载错误！",Toast.LENGTH_SHORT).show();
         }
     };
+
+
 
     public AgentWebSettings getSettings() {
         return WebDefaultSettingsManager.getInstance();
@@ -198,16 +222,16 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         //
         @Override
         public boolean shouldOverrideUrlLoading(final WebView view, String url) {
-            LogUtils.i("Info", "mWebViewClient shouldOverrideUrlLoading:" + url);
+//            LogUtils.i("Info", "mWebViewClient shouldOverrideUrlLoading:" + url);
             //intent:// scheme的处理 如果返回false ， 则交给 DefaultWebClient 处理 ， 默认会打开该Activity  ， 如果Activity不存在则跳到应用市场上去.  true 表示拦截
             //例如优酷视频播放 ，intent://play?...package=com.youku.phone;end;
             //优酷想唤起自己应用播放该视频 ， 下面拦截地址返回 true  则会在应用内 H5 播放 ，禁止优酷唤起播放该视频， 如果返回 false ， DefaultWebClient  会根据intent 协议处理 该地址 ， 首先匹配该应用存不存在 ，如果存在 ， 唤起该应用播放 ， 如果不存在 ， 则跳到应用市场下载该应用 .
             if (url.startsWith("intent://"))
-                return true;
+                return false;
             /*else if (isAlipay(view, url))   //1.2.5开始不用调用该方法了 ，只要引入支付宝sdk即可 ， DefaultWebClient 默认会处理相应url调起支付宝
                 return true;*/
 
-            return true;
+            return false;
         }
 
         @Override
@@ -274,7 +298,8 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                     AgentWebFragment.this.getActivity().finish();
                     break;
                 case com.adymilk.easybrowser.por.R.id.iv_more:
-                    showPoPup(v);
+                    showShareDialog();
+//                    showPoPup(v);
                     break;
 
             }
@@ -286,7 +311,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 
     private void openBrowser(String targetUrl) {
         if(!TextUtils.isEmpty(targetUrl)&&targetUrl.startsWith("file://")){
-            AgentWebUtils.toastShowShort(this.getContext(),targetUrl+" 该链接无法使用浏览器打开。");
+            toastShowShort(this.getContext(),targetUrl+" 该链接无法使用浏览器打开。");
             return;
         }
         Intent intent = new Intent();
@@ -296,66 +321,6 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         startActivity(intent);
     }
 
-    private void showPoPup(View view) {
-        if (mPopupMenu == null) {
-            mPopupMenu = new PopupMenu(this.getActivity(), view);
-            mPopupMenu.inflate(com.adymilk.easybrowser.por.R.menu.toolbar_menu);
-            mPopupMenu.setOnMenuItemClickListener(mOnMenuItemClickListener);
-        }
-        mPopupMenu.show();
-    }
-
-//    网页右上角PopupMenu 监听事件
-    private PopupMenu.OnMenuItemClickListener mOnMenuItemClickListener = new PopupMenu.OnMenuItemClickListener() {
-        @Override
-        public boolean onMenuItemClick(MenuItem item) {
-            wxApi = WXAPIFactory.createWXAPI(getContext(),WX_APP_ID);
-            wxApi.registerApp(WX_APP_ID);
-
-            switch (item.getItemId()) {
-                case R.id.reload:
-                    mAgentWeb.getLoader().reload();
-                    toastShowShort(getContext(),"刷新成功！");
-                    return true;
-
-                case R.id.asBookmark:
-                    /**
-                     * TODO 加入书签
-                     */
-                    asBookmark();
-                    return true;
-                case R.id.clearCatch:
-                    mAgentWeb.clearWebCache();
-
-                case com.adymilk.easybrowser.por.R.id.copy://复制链接
-                    if (mAgentWeb != null)
-                        toCopy(AgentWebFragment.this.getContext(), mAgentWeb.getWebCreator().get().getUrl());
-                    toastShowShort(getContext(),"已复制！");
-                    return true;
-                case com.adymilk.easybrowser.por.R.id.default_browser:
-                    if (mAgentWeb != null)
-                        openBrowser(mAgentWeb.getWebCreator().get().getUrl());
-                    return true;
-
-                case R.id.addToQQFavorites:
-                    if (!isQQClientAvailable(getContext())){
-                        toastShowShort(getContext(),"未安装QQ客户端");
-                    }else {
-                        shareTo(String.valueOf(item));
-                    }
-                    return true;
-
-                case R.id.share:
-                    showShareDialog();
-
-                    return true;
-
-                default:
-                    return false;
-            }
-
-        }
-    };
 
 
     private void toCopy(Context context, String text) {
@@ -387,7 +352,6 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         mAgentWeb.clearWebCache();
         mAgentWeb.destroyAndKill();
         mAgentWeb.getWebLifeCycle().onDestroy();
-        clearWebViewAllCache(getContext());
         super.onDestroyView();
         //  mAgentWeb.destroy();
 
@@ -500,18 +464,66 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                                 网页链接 = mAgentWeb.getWebCreator().get().getUrl().toString();
                                 shareText(网页链接);
                                 break;
+                            case "刷新":
+                                mAgentWeb.getLoader().reload();
+                                toastShowShort(getContext(),"刷新成功！");
+                                break;
+
+                            case "复制链接":
+                                if (mAgentWeb != null)
+                                    toCopy(AgentWebFragment.this.getContext(), mAgentWeb.getWebCreator().get().getUrl());
+                                toastShowShort(getContext(),"已复制！");
+                                break;
+
+                            case "清除缓存":
+                                mAgentWeb.clearWebCache();
+                                toastShowShort(getContext(),"清除成功！");
+                                break;
+
+                            case "加入书签":
+                                asBookmark();
+                                break;
+
+                            case "换浏览器打开":
+                                if (mAgentWeb != null)
+                                    openBrowser(mAgentWeb.getWebCreator().get().getUrl());
+                                break;
+
+                            case "收藏":
+                                if (!isQQClientAvailable(getContext())){
+                                    toastShowShort(getContext(),"未安装QQ客户端");
+                                }else {
+                                    shareTo(String.valueOf(item.getTitle()));
+                                }
+                                break;
+
+                            case "搜索":
+                                /**
+                                 * TODO:搜索
+                                 */
+                                break;
+
                             default:
                                 break;
 
 
 
                         }
-
-
                     }
                 })
                 .show();
 
+    }
+
+    private void toastShowShort(Context context, String msg){
+        Toast mToast = null;
+        if (mToast == null) {
+            mToast = Toast.makeText(context.getApplicationContext(), msg, Toast.LENGTH_SHORT);
+        } else {
+
+            mToast.setText(msg);
+        }
+        mToast.show();
     }
 
 

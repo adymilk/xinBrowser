@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'key0'
+            keyPassword '123456'
+            storeFile file('/home/jack/AndroidStudioProjects/appKey.jks')
+            storePassword '123456'
+        }
+    }
     compileSdkVersion 26
     buildToolsVersion "26.0.0"
     defaultConfig {
@@ -8,13 +16,14 @@ android {
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 2
-        versionName "2.9.3"
+        versionName "2.9.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             minifyEnabled true
+            signingConfig signingConfigs.config
         }
     }
 }
@@ -56,7 +65,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'moe.feng:AlipayZeroSdk:1.1'
     compile 'com.android.support:appcompat-v7:26.+'
-    compile 'com.just.agentweb:agentweb:1.2.6'
+    compile 'com.just.agentweb:agentweb:2.0.1'
     compile 'com.android.support:cardview-v7:26.0.0-alpha1'
     compile 'com.lcodecorex:tkrefreshlayout:1.0.7'
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'

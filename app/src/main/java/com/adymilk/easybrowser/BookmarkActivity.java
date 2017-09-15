@@ -30,7 +30,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.just.library.AgentWebUtils.toastShowShort;
 
 public class BookmarkActivity extends Activity {
     private ListView lv_book_Main;

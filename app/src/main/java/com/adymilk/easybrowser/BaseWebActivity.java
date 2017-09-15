@@ -180,7 +180,7 @@ public class BaseWebActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        LogUtils.i("Info", "result:" + requestCode + " result:" + resultCode);
+//        LogUtils.i("Info", "result:" + requestCode + " result:" + resultCode);
         mAgentWeb.uploadFileResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }

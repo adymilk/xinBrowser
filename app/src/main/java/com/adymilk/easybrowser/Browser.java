@@ -96,9 +96,6 @@ public class Browser extends AppCompatActivity {
         System.out.println("当前onDestroy");
         if (mImmersionBar != null){
             mImmersionBar.destroy();  //不调用该方法，如果界面bar发生改变，在不关闭app的情况下，退出此界面再进入将记忆最后一次bar改变的状态
-//            mAgentWeb.clearWebCache();
-//            mAgentWeb.destroyAndKill();
-
         }
         super.onDestroy();
 

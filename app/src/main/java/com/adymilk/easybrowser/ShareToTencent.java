@@ -1,6 +1,7 @@
 package com.adymilk.easybrowser;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -33,7 +34,6 @@ import me.curzbin.library.BottomDialog;
 import me.curzbin.library.Item;
 import me.curzbin.library.OnItemClickListener;
 
-import static com.just.library.AgentWebUtils.toastShowShort;
 
 /**
  * Created by jack on 17-9-1.
@@ -72,7 +72,7 @@ public class ShareToTencent extends Activity {
         if (mTencent == null) {
             mTencent = Tencent.createInstance(APP_ID, ShareToTencent.this);
         }
-        if (要分享的平台.equals("收藏到QQ")){
+        if (要分享的平台.equals("收藏")){
             collectToQQ();
         }
 
@@ -184,6 +184,17 @@ public class ShareToTencent extends Activity {
     };
 
 
+
+    private void toastShowShort(Context context, String msg){
+        Toast mToast = null;
+        if (mToast == null) {
+            mToast = Toast.makeText(context.getApplicationContext(), msg, Toast.LENGTH_SHORT);
+        } else {
+
+            mToast.setText(msg);
+        }
+        mToast.show();
+    }
 
 
 

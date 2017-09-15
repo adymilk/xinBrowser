@@ -1,30 +1,23 @@
 package com.adymilk.easybrowser;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.gyf.barlibrary.BarHide;
 import com.gyf.barlibrary.ImmersionBar;
 import com.just.library.AgentWeb;
-import com.just.library.LogUtils;
+import com.just.library.PermissionInterceptor;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrPosition;
 
-import static com.just.library.AgentWebUtils.toastShowShort;
 
 public class CardView1Activity extends Activity {
     private LinearLayout mLinearLayout;
@@ -45,6 +38,7 @@ public class CardView1Activity extends Activity {
                 .setAgentWebParent(mLinearLayout, new LinearLayout.LayoutParams(-1, -1))//传入AgentWeb 的父控件 ，如果父控件为 RelativeLayout ， 那么第二参数需要传入 RelativeLayout.LayoutParams ,第一个参数和第二个参数应该对应。
                 .useDefaultIndicator()// 使用默认进度条
                 .defaultProgressBarColor() // 使用默认进度条颜色
+                .setPermissionInterceptor(mPermissionInterceptor)
                 .createAgentWeb()
                 .ready()
                 .go(targetUrl);
@@ -66,6 +60,21 @@ public class CardView1Activity extends Activity {
                 .build();
         Slidr.attach(this, config);
     }
+
+    protected PermissionInterceptor mPermissionInterceptor = new PermissionInterceptor() {
+        String TAG = null;
+
+        //AgentWeb 在触发某些敏感的 Action 时候会回调该方法， 比如定位触发 。
+        //例如 http//:www.taobao.com 该 Url 需要定位权限， 返回false ，如果版本大于等于23 ， agentWeb 会动态申请权限 ，true 该Url对应页面请求定位失败。
+        //该方法是每次都会优先触发的 ， 开发者可以做一些敏感权限拦截 。
+        @Override
+        public boolean intercept(String url, String[] permissions, String action) {
+            Log.i(TAG, "url:" + url + "  permission:" + permissions + " action:" + action);
+            toastShowShort(CardView1Activity.this,"正在申请权限！");
+
+            return false;
+        }
+    };
 
     @Override
     protected void onResume() {
@@ -108,6 +117,17 @@ public class CardView1Activity extends Activity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void toastShowShort(Context context, String msg){
+        Toast mToast = null;
+        if (mToast == null) {
+            mToast = Toast.makeText(context.getApplicationContext(), msg, Toast.LENGTH_SHORT);
+        } else {
+
+            mToast.setText(msg);
+        }
+        mToast.show();
     }
 
 }

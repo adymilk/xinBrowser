@@ -3,15 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.adymilk.easybrowser.por">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.CAMERA"></uses-permission>
 
     <application
         android:allowBackup="true"
@@ -26,12 +26,16 @@
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true"
             android:theme="@style/touming" />
+
         <activity
+
             android:name=".BaseWebActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true"
             android:theme="@style/touming" />
-        <activity android:name="com.adymilk.easybrowser.Drawer_Main_Activity">
+        <activity android:name="com.adymilk.easybrowser.Drawer_Main_Activity"
+            android:hardwareAccelerated="true"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
 

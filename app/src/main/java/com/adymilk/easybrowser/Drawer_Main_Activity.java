@@ -44,7 +44,6 @@ import java.util.Map;
 import moe.feng.alipay.zerosdk.AlipayZeroSdk;
 
 import static android.R.attr.onClick;
-import static com.just.library.AgentWebUtils.toastShowShort;
 
 
 public class Drawer_Main_Activity extends ActionBarActivity {
@@ -186,6 +185,8 @@ public class Drawer_Main_Activity extends ActionBarActivity {
                         }else if (searchKey.lastIndexOf(".info") != -1){
                             searchKey = "http://" + searchKey;
                         }else if (searchKey.lastIndexOf(".net") != -1){
+                            searchKey = "http://" + searchKey;
+                        } else if (searchKey.lastIndexOf(".io") != -1){
                             searchKey = "http://" + searchKey;
                         }
                         else {
@@ -675,7 +676,7 @@ public class Drawer_Main_Activity extends ActionBarActivity {
             String 段子 = "http://m.budejie.com/";
             String 生活 = "http://go.uc.cn/page/life/life?uc_param_str=dnfrpfbivecpbtntlaad&source=webapp#!/meituan";
             String 游戏 = "http://59600.com";
-            String 新闻 = "https://news.baidu.com/news#/";
+            String 新闻 = "http://3g.163.com/";
             String 小说 = "http://t.shuqi.com/route.php?pagename=";
             switch (v.getId()){
                 case R.id.cardview1:
@@ -786,5 +787,15 @@ public class Drawer_Main_Activity extends ActionBarActivity {
         super.onDestroy();
         finish();
         System.exit(0);//退出
+    }
+    private void toastShowShort(Context context, String msg){
+        Toast mToast = null;
+        if (mToast == null) {
+            mToast = Toast.makeText(context.getApplicationContext(), msg, Toast.LENGTH_SHORT);
+        } else {
+
+            mToast.setText(msg);
+        }
+        mToast.show();
     }
 }
