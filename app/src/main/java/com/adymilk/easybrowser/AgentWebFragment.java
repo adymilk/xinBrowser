@@ -187,7 +187,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
             网页标题 = title;
             if (mTitleTextView != null && !TextUtils.isEmpty(title))
                 if (title.length() > 10)
-                    title = title.substring(0, 11) + "...";
+                    title = title.substring(0, 13) + "...";
             mTitleTextView.setText(title);
 
         }
@@ -428,6 +428,9 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                 .itemClick(new OnItemClickListener() {  //设置监听
                     @Override
                     public void click(Item item) {
+                        wxApi = WXAPIFactory.createWXAPI(getContext(),WX_APP_ID);
+                        wxApi.registerApp(WX_APP_ID);
+
                         switch (item.getTitle()){
                             case "朋友圈":
                                 if (!wxApi.isWXAppInstalled()){
