@@ -7,9 +7,12 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -32,24 +35,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.adymilk.easybrowser.ErrorActivity;
 import com.adymilk.easybrowser.ShareToTencent;
 import com.heima.easysp.SharedPreferencesUtils;
 import com.just.library.AgentWeb;
 import com.just.library.AgentWebSettings;
-import com.just.library.AgentWebUtils;
 import com.just.library.ChromeClientCallbackManager;
 import com.just.library.DefaultMsgConfig;
 import com.just.library.DownLoadResultListener;
 import com.just.library.FragmentKeyDown;
-import com.just.library.LogUtils;
 import com.just.library.WebDefaultSettingsManager;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.tauth.Tencent;
 
 import java.util.List;
-import java.util.jar.Manifest;
 
 import me.curzbin.library.BottomDialog;
 import me.curzbin.library.Item;
@@ -58,6 +57,7 @@ import me.curzbin.library.OnItemClickListener;
 import com.just.library.PermissionInterceptor;
 
 import static android.Manifest.permission_group.LOCATION;
+import static com.adymilk.easybrowser.por.R.*;
 
 
 /**
@@ -100,7 +100,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(com.adymilk.easybrowser.por.R.layout.fragment_agentweb, container, false);
+        return inflater.inflate(layout.fragment_agentweb, container, false);
     }
 
 
@@ -125,6 +125,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 
 
         initView(view);
+
 
         DefaultMsgConfig.DownLoadMsgConfig mDownLoadMsgConfig=mAgentWeb.getDefaultMsgConfig().getDownLoadMsgConfig();
           mDownLoadMsgConfig.setCancel("放弃");  // 修改下载提示信息，这里可以语言切换
@@ -186,8 +187,9 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         public void onReceivedTitle(WebView view, String title) {
             网页标题 = title;
             if (mTitleTextView != null && !TextUtils.isEmpty(title))
-                if (title.length() > 10)
-                    title = title.substring(0, 13) + "...";
+                if (title.length() >= 20) {
+                    title = title.substring(0, 20) + "...";
+                }
             mTitleTextView.setText(title);
 
         }
@@ -237,12 +239,42 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
 
+            mWebView = mAgentWeb.getWebCreator().get();
+
+            String key_block_image = getString(string.block_image);
+            String key_zoom = getString(string.zoom);
+            Boolean block_image = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(key_block_image, true);
+            Boolean zoom = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(key_zoom, true);
+            System.out.println("block_image：" + block_image);
+            if (zoom) {
+                mWebView.getSettings().setJavaScriptEnabled(true);
+                mWebView.getSettings().setSupportZoom(true);
+                mWebView.getSettings().setBuiltInZoomControls(true);
+                mWebView.getSettings().setUseWideViewPort(true);
+
+            }
+
+            if (block_image) {
+                ConnectivityManager mConnectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo wifiNetInfo = mConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                NetworkInfo mobNetInfo = mConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+                if (mobNetInfo.isConnected()) {
+                    mWebView.getSettings().setBlockNetworkImage(true);
+                    System.out.println("当前网络状态为手机：" + mobNetInfo);
+
+                } else if (wifiNetInfo.isConnected()) {
+                    mWebView.getSettings().setBlockNetworkImage(false);
+                    System.out.println("当前网络状态为wifi：" + wifiNetInfo);
+                }
+            }
+
+
             Log.i("Info", "url:" + url + " onPageStarted  target:" + getUrl());
 
             if (url.equals(getUrl())) {
-                pageNavigator(View.GONE);
+//                pageNavigator(View.GONE);
             } else {
-                pageNavigator(View.VISIBLE);
+//                pageNavigator(View.VISIBLE);
             }
 
         }
@@ -262,15 +294,13 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
     }
 
     protected void initView(View view) {
-        mBackImageView = (ImageView) view.findViewById(com.adymilk.easybrowser.por.R.id.iv_back);
-        mLineView = view.findViewById(com.adymilk.easybrowser.por.R.id.view_line);
-        mFinishImageView = (ImageView) view.findViewById(com.adymilk.easybrowser.por.R.id.iv_finish);
-        mTitleTextView = (TextView) view.findViewById(com.adymilk.easybrowser.por.R.id.toolbar_title);
+        mBackImageView = (ImageView) view.findViewById(id.iv_back);
+        mLineView = view.findViewById(id.view_line);
+        mTitleTextView = (TextView) view.findViewById(id.toolbar_title);
         mBackImageView.setOnClickListener(mOnClickListener);
-        mFinishImageView.setOnClickListener(mOnClickListener);
-        mMoreImageView = (ImageView) view.findViewById(com.adymilk.easybrowser.por.R.id.iv_more);
+        mMoreImageView = (ImageView) view.findViewById(id.iv_more);
         mMoreImageView.setOnClickListener(mOnClickListener);
-        pageNavigator(View.GONE);
+//        pageNavigator(View.GONE);
     }
 
 
@@ -278,7 +308,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
     private void pageNavigator(int tag) {
 
         mBackImageView.setVisibility(tag);
-        mLineView.setVisibility(tag);
+//        mLineView.setVisibility(tag);
     }
 
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
@@ -288,16 +318,13 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 
             switch (v.getId()) {
 
-                case com.adymilk.easybrowser.por.R.id.iv_back:
+                case id.iv_back:
 
                     if (!mAgentWeb.back())
                         AgentWebFragment.this.getActivity().finish();
 
                     break;
-                case com.adymilk.easybrowser.por.R.id.iv_finish:
-                    AgentWebFragment.this.getActivity().finish();
-                    break;
-                case com.adymilk.easybrowser.por.R.id.iv_more:
+                case id.iv_more:
                     showShareDialog();
 //                    showPoPup(v);
                     break;
@@ -421,15 +448,18 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 
     private void showShareDialog(){
         new BottomDialog(getContext())
-                .title(R.string.share_title)             //设置标题
+                .title(string.share_title)             //设置标题
                 .layout(BottomDialog.GRID)              //设置内容layout,默认为线性(LinearLayout)
                 .orientation(BottomDialog.VERTICAL)     //设置滑动方向,默认为横向
-                .inflateMenu(R.menu.menu_share)         //传人菜单内容
+                .inflateMenu(menu.menu_share)         //传人菜单内容
                 .itemClick(new OnItemClickListener() {  //设置监听
                     @Override
                     public void click(Item item) {
                         wxApi = WXAPIFactory.createWXAPI(getContext(),WX_APP_ID);
                         wxApi.registerApp(WX_APP_ID);
+
+
+                        Intent intent = new Intent();
 
                         switch (item.getTitle()){
                             case "朋友圈":
@@ -500,10 +530,17 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                                 }
                                 break;
 
-                            case "搜索":
-                                /**
-                                 * TODO:搜索
-                                 */
+
+                            case "设置":
+
+                                intent.setClass(getContext(), SetttingActivity.class);
+                                startActivity(intent);
+                                break;
+
+                            case "打开书签":
+
+                                intent.setClass(getContext(), com.adymilk.easybrowser.por.BookmarkActivity.class);
+                                startActivity(intent);
                                 break;
 
                             default:
@@ -512,11 +549,13 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 
 
                         }
+
                     }
                 })
                 .show();
 
     }
+
 
     private void toastShowShort(Context context, String msg){
         Toast mToast = null;

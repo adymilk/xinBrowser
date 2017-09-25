@@ -16,9 +16,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
-import com.adymilk.easybrowser.por.Browser;
-import com.adymilk.easybrowser.por.R;
-import com.gyf.barlibrary.BarHide;
 import com.gyf.barlibrary.ImmersionBar;
 import com.heima.easysp.SharedPreferencesUtils;
 import com.r0adkll.slidr.Slidr;

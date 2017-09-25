@@ -12,10 +12,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-/**
- * Created by cenxiaozhong on 2017/7/1.
- *  source CODE  https://github.com/Justson/AgentWeb
- */
 
 public class SmartRefreshWebFragment extends com.adymilk.easybrowser.por.BounceWebFragment {
 

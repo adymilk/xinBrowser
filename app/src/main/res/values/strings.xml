@@ -22,9 +22,20 @@
     <string name="reload">刷新</string>
     <string name="clear_cache">清除缓存</string>
     <string name="as_book">加入书签</string>
+    <string name="simple_mode">清爽模式</string>
+    <string name="dark">夜间模式</string>
     <string name="copy_url">复制链接</string>
     <string name="use_other_browser_open">换浏览器打开</string>
-    <string name="search">搜索</string>
+    <string name="block_image">智能无图</string>
+    <string name="open_bookmarks">打开书签</string>
+    <string name="night_mode">夜间模式</string>
+    <string name="setting">设置</string>
+    <string name="User_Agent">User-Agent</string>
+    <string name="speed_up">云端加速</string>
+    <string name="block_ad">屏蔽广告</string>
+    <string name="hide_mode">神隐模式</string>
+    <string name="zoom">支持缩放</string>
+    <string name="android">Android</string>
     <array name="spinnerData">
         <item>百度</item>
         <item>谷歌</item>
@@ -32,5 +43,29 @@
         <item>搜狗</item>
         <item>神马</item>
     </array>
+    <string name="title_activity_settings">Settings</string>
+    <string name="comm_settings">常规设置</string>
+
+    <string name="pref_theme">theme</string>
+    <string name="pref_theme_default">light</string>
+    <string-array name="pref_theme_list_entries">
+        <item>夜间主题</item>
+        <item>白天主题</item>
+    </string-array>
+    <string-array name="pref_theme_list_values">
+        <item>dark</item>
+        <item>light</item>
+    </string-array>
+
+    <string-array name="User_Agent">
+        <item>Android</item>
+        <item>Iphone</item>
+        <item>PC</item>
+    </string-array>
+    <string-array name="User_Agent_values">
+        <item>Android</item>
+        <item>Iphone</item>
+        <item>PC</item>
+    </string-array>
 
 </resources>

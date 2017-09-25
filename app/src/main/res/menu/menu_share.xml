@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/moments"
@@ -53,10 +51,17 @@
         android:icon="@mipmap/collect"
         android:title="@string/collect" />
 
+
     <item
-        android:id="@+id/search"
-        android:icon="@mipmap/search"
-        android:title="@string/search" />
+        android:id="@+id/bookmarks"
+        android:icon="@mipmap/bookmark"
+        android:title="@string/open_bookmarks" />
+
+
+    <item
+        android:id="@+id/setting"
+        android:icon="@mipmap/setting"
+        android:title="@string/setting" />
 
 
 </menu>

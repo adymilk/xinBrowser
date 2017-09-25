@@ -1,0 +1,162 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory android:title="常规设置">
+        <!--<CheckBoxPreference-->
+        <!--android:summary="夜间使用时，建议开启"-->
+        <!--app:icon="@mipmap/day_mode"-->
+        <!--android:key="@string/night_mode"-->
+        <!--android:defaultValue="false"-->
+        <!--android:icon="@mipmap/day_mode"-->
+        <!--android:title="@string/night_mode"/>-->
+        <com.lb.material_preferences_library.custom_preferences.ListPreference
+            android:defaultValue="@string/pref_theme_default"
+            android:key="@string/pref_theme"
+            android:summary="%s"
+            android:title="主题选择"
+            app:dialogTitle="主题选择"
+            app:entries="@array/pref_theme_list_entries"
+            app:entryValues="@array/pref_theme_list_values" />
+
+        <!--Note: for icons, you need to use this : app:icon="..." , example:  app:icon="@android:drawable/sym_def_app_icon" -->
+
+
+        <CheckBoxPreference
+            android:icon="@mipmap/simple"
+            android:defaultValue="true"
+            android:key="@string/simple_mode"
+            android:summary="不显示主页的推荐入口"
+            android:title="@string/simple_mode" />
+
+        <CheckBoxPreference
+            android:icon="@mipmap/block_image"
+            android:defaultValue="false"
+            android:key="@string/block_image"
+            android:summary="使用数据上网时，自动屏蔽图片"
+            android:title="@string/block_image" />
+
+        <Preference
+            android:icon="@mipmap/clear_cache"
+            android:defaultValue="false"
+            android:key="@string/clear_cache"
+            android:summary="清除所有缓存"
+            android:title="@string/clear_cache" />
+
+
+        <!--<com.lb.material_preferences_library.custom_preferences.ListPreference-->
+        <!--android:defaultValue="dark"-->
+        <!--android:key="@string/pref_theme"-->
+        <!--app:icon="@mipmap/day_mode"-->
+        <!--android:summary="%s"-->
+        <!--android:title="Theme"-->
+        <!--app:dialogTitle="dialog title"-->
+        <!--app:entries="@array/pref_theme_list_entries"-->
+        <!--app:entryValues="@array/pref_theme_list_values"/>-->
+
+        <!--<com.lb.material_preferences_library.custom_preferences.EditTextPreference-->
+        <!--android:capitalize="words"-->
+        <!--android:defaultValue="EditTextPreference default value"-->
+        <!--android:inputType="textCapWords"-->
+        <!--android:key="custom_example_edittext"-->
+        <!--android:maxLines="1"-->
+        <!--android:selectAllOnFocus="true"-->
+        <!--android:singleLine="true"-->
+        <!--android:summary="EditTextPreference summary"-->
+        <!--android:title="EditTextPreference title"-->
+        <!--app:dialogMessage="editText dialogMessage"-->
+        <!--app:negativeButtonText="@android:string/cancel"-->
+        <!--app:positiveButtonText="@android:string/ok"/>-->
+
+        <!--<com.lb.material_preferences_library.custom_preferences.SwitchPreference-->
+        <!--android:defaultValue="true"-->
+        <!--android:key="switchPref"-->
+        <!--android:title="SwitchPreference title"-->
+        <!--app:summaryOff="summaryOff"-->
+        <!--app:summaryOn="summaryOn"/>-->
+
+        <!--<com.lb.material_preferences_library.custom_preferences.CheckBoxPreference-->
+        <!--android:defaultValue="true"-->
+        <!--android:key="checkboxPref"-->
+        <!--android:summary="CheckBoxPreference summary"-->
+        <!--android:title="CheckBoxPreference title"-->
+        <!--/>-->
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="高级设置">
+        <!--<SwitchPreference-->
+        <!--android:summary="just some summary text"-->
+        <!--android:title="switch"/>-->
+
+
+        <com.lb.material_preferences_library.custom_preferences.ListPreference
+            android:defaultValue="@string/android"
+            android:key="@string/User_Agent"
+            app:icon="@mipmap/browser"
+            android:summary="%s"
+            android:title="@string/User_Agent"
+            app:dialogTitle="@string/User_Agent"
+            app:entries="@array/User_Agent"
+            app:entryValues="@array/User_Agent_values" />
+
+
+        <!--<Preference-->
+        <!--android:icon="@mipmap/day_mode"-->
+        <!--android:summary="just some summary text"-->
+        <!--android:title="A simple Preference"/>-->
+
+        <CheckBoxPreference
+            android:icon="@mipmap/cloud"
+            android:defaultValue="true"
+            android:key="@string/speed_up"
+            android:summary="高速云端加速引擎"
+            android:title="@string/speed_up" />
+
+        <!--<EditTextPreference-->
+        <!--android:capitalize="words"-->
+        <!--android:defaultValue="EditTextPreference default value"-->
+        <!--android:dialogMessage="editText dialogMessage"-->
+        <!--android:inputType="textCapWords"-->
+        <!--android:key="custom_example_edittext"-->
+        <!--android:maxLines="1"-->
+        <!--android:negativeButtonText="@android:string/cancel"-->
+        <!--android:positiveButtonText="@android:string/ok"-->
+        <!--android:selectAllOnFocus="true"-->
+        <!--android:singleLine="true"-->
+        <!--android:summary="EditTextPreference summary"-->
+        <!--android:title="EditTextPreference title"/>-->
+
+        <!--<ListPreference-->
+        <!--android:defaultValue="item1"-->
+        <!--android:dialogTitle="dialog title"-->
+        <!--android:entries="@array/pref_example_list_entries"-->
+        <!--android:entryValues="@array/pref_example_list_values"-->
+        <!--android:key="example_list"-->
+        <!--android:negativeButtonText="@null"-->
+        <!--android:positiveButtonText="@null"-->
+        <!--android:summary="%s"-->
+        <!--android:title="ListPreference title"/>-->
+        <CheckBoxPreference
+            android:icon="@mipmap/ad_block"
+            android:defaultValue="false"
+            android:key="@string/block_ad"
+            android:summary="启用脚本屏蔽网页广告"
+            android:title="@string/block_ad" />
+
+
+        <CheckBoxPreference
+            android:icon="@mipmap/zoom"
+            android:defaultValue="false"
+            android:key="@string/zoom"
+            android:summary="让你的网页支持放大缩小"
+            android:title="@string/zoom" />
+
+        <CheckBoxPreference
+            android:icon="@mipmap/hide"
+            android:defaultValue="false"
+            android:key="@string/hide_mode"
+            android:summary="禁止任何网站的跟踪、信息搜集"
+            android:title="@string/hide_mode" />
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>
