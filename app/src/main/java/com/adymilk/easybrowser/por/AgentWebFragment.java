@@ -241,17 +241,52 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 
             mWebView = mAgentWeb.getWebCreator().get();
 
+
+
             String key_block_image = getString(string.block_image);
             String key_zoom = getString(string.zoom);
+            String key_auto_phone = getString(string.auto_phone);
+            String key_hide_mode = getString(string.hide_mode);
+            String key_block_ad = getString(string.block_ad);
+            String key_User_Agent = getString(string.User_Agent), defaultUa = getString(string.android);
             Boolean block_image = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(key_block_image, true);
             Boolean zoom = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(key_zoom, true);
+            Boolean hide_mode = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(key_hide_mode, true);
+            Boolean block_ad = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(key_block_ad, true);
+            Boolean auto_phone = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(key_auto_phone, true);
+           String ua = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(key_User_Agent, defaultUa);
+
+            switch (ua){
+                case "UC浏览器":
+                    mWebView.getSettings().setUserAgentString("Mozilla/5.0 (iPhone; CPU iPhone OS 9_2_1 like Mac OS X; zh-CN) AppleWebKit/537.51.1 (KHTML, like Gecko) Mobile/13D15 UCBrowser/10.9.15.793 Mobile");
+                    break;
+                case "Chrome":
+                    mWebView.getSettings().setUserAgentString("User-Agent: Mozilla/5.0 (Linux; U; Android 2.2.1; zh-cn; HTC_Wildfire_A3333 Build/FRG83D) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1");
+                    break;
+                case "百度浏览器":
+                    mWebView.getSettings().setUserAgentString("Mozilla/5.0 (Linux; U; Android 4.4.4; zh-cn; CHM-CL00 Build/CHM-CL00) AppleWebKit/534.24 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.24 T5/2.0 baiduboxapp/7.1 (Baidu; P1 4.4.4)");
+                    break;
+                case "QQ浏览器":
+                    mWebView.getSettings().setUserAgentString("Mozilla/5.0 (Linux; U; Android 5.1; zh-cn; m2 note Build/LMY47D) AppleWebKit/537.36 (KHTML, like Gecko)Version/4.0 Chrome/37.0.0.0 MQQBrowser/6.6 Mobile Safari/537.36");
+                    break;
+                case "Safari":
+                    mWebView.getSettings().setUserAgentString("Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_5; de-de) AppleWebKit/534.15+ (KHTML, like Gecko) Version/5.0.3 Safari/533.19.4");
+                    break;
+                case "Iphone":
+                    mWebView.getSettings().setUserAgentString("Mozilla/5.0 (iPhone; CPU iPhone OS 5_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B179 Safari/537.4 Maxthon/%s  ");
+                    break;
+                case "windows":
+                    mWebView.getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Maxthon/%s Chrome/30.0.1551.0 Safari/537.36");
+                    break;
+
+                default:
+                    break;
+            }
+
+            System.out.println("ua="+ua);
             System.out.println("block_image：" + block_image);
             if (zoom) {
-                mWebView.getSettings().setJavaScriptEnabled(true);
-                mWebView.getSettings().setSupportZoom(true);
                 mWebView.getSettings().setBuiltInZoomControls(true);
-                mWebView.getSettings().setUseWideViewPort(true);
-
             }
 
             if (block_image) {
@@ -266,6 +301,10 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                     mWebView.getSettings().setBlockNetworkImage(false);
                     System.out.println("当前网络状态为wifi：" + wifiNetInfo);
                 }
+            }
+            if (auto_phone){
+                mWebView.getSettings().setUseWideViewPort(true);
+                mWebView.getSettings().setLoadWithOverviewMode(true);
             }
 
 
@@ -546,10 +585,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                             default:
                                 break;
 
-
-
                         }
-
                     }
                 })
                 .show();

@@ -4,17 +4,25 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.view.GestureDetector;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,6 +36,7 @@ import com.adymilk.easybrowser.por.BookmarkActivity;
 import com.adymilk.easybrowser.por.Browser;
 import com.adymilk.easybrowser.por.R;
 import com.adymilk.easybrowser.por.SetttingActivity;
+import com.gyf.barlibrary.BarHide;
 import com.gyf.barlibrary.ImmersionBar;
 import com.heima.easysp.SharedPreferencesUtils;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -36,12 +45,15 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends Activity {
-    private String searchEngines;
+public class MainActivity extends Activity implements android.view.GestureDetector.OnGestureListener {
+
+    //调用系统相册-选择图片
+    private static final int IMAGE = 1;
     private Intent intent;
     //声明相关变量
-    private ImageView btn_submit;
     private String searchKey;
+    //定义手势检测器实例
+    GestureDetector detector;
 
     private LinearLayout cardview_content;
     private CardView cardView1;
@@ -52,7 +64,7 @@ public class MainActivity extends Activity {
     private CardView cardView6;
     private CardView cardView7;
     private CardView cardView8;
-    private EditText editText;
+    private TextView editText;
     private Spinner spinner;
     private ImageView scaner;
     private IWXAPI wxApi;
@@ -71,6 +83,10 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.activity_main);
 
+
+        //创建手势检测器
+        detector = new GestureDetector(this,this);
+
         findViews(); //获取控件
 
 
@@ -78,12 +94,16 @@ public class MainActivity extends Activity {
         tv_app_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this, BookmarkActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent();
+//                intent.setClass(MainActivity.this, BookmarkActivity.class);
+//                startActivity(intent);
+                //调用相册
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, IMAGE);
             }
         });
-        ImageView imv_setting = findViewById(R.id.setting);
+        ImageView imv_setting = findViewById(R.id.imv_setting);
         imv_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,145 +124,32 @@ public class MainActivity extends Activity {
         scaner.setOnClickListener(new MainActivity.myOnClickListen());
 
 
-//        spinner监听事件
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i == 0) {
-                    searchEngines = "https://m.baidu.com/s?word=";
-                    System.out.println("选择的是百度");
-                } else if (i == 1) {
-                    searchEngines = "https://www.google.fr/search?ei=CDiYWeLYGoKTa5r0qRg&q=";
-                    System.out.println("选择的是谷歌");
-                } else if (i == 2) {
-                    searchEngines = "https://cn.bing.com/search?q=";
-                    System.out.println("必应");
-                } else if (i == 3) {
-                    searchEngines = "https://wap.sogou.com/web/searchList.jsp?keyword=";
-                    System.out.println("搜狗");
-                } else if (i == 4) {
-                    searchEngines = "http://m.sm.cn/s?q=";
-                    System.out.println("神马");
-                } else {
-                    System.out.println("未选择");
-                }
-            }
 
+        editText.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, SearchActivity.class);
+                startActivity(intent);
             }
         });
 
-
-        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                spinner.setVisibility(View.VISIBLE);
-                btn_submit.setVisibility(View.VISIBLE);
-                ImageView clear = (ImageView) findViewById(R.id.clear);
-                clear.setVisibility(View.VISIBLE);
-                clear.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        editText.getText().clear();
-                    }
-                });
-            }
-        });
-
-
-//        Edittext用户输入监听按钮
-        editText.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-
-//                点击软键盘回车键
-                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
-                    searchKey = editText.getText().toString();
-                    if (!(searchKey.isEmpty())) {
-                        /**
-                         * TODO: 判断输入的是否为网址
-                         */
-//                    包含 http 头
-                        if (searchKey.indexOf("http") != -1) {
-                            searchKey = searchKey;
-                        } else if (searchKey.indexOf("www.") != -1) {
-                            searchKey = "http://" + searchKey;
-                        } else if (searchKey.lastIndexOf(".com") != -1) {
-                            searchKey = "http://" + searchKey;
-                        } else if (searchKey.lastIndexOf(".cn") != -1) {
-                            searchKey = "http://" + searchKey;
-                        } else if (searchKey.lastIndexOf(".org") != -1) {
-                            searchKey = "http://" + searchKey;
-                        } else if (searchKey.lastIndexOf(".info") != -1) {
-                            searchKey = "http://" + searchKey;
-                        } else if (searchKey.lastIndexOf(".net") != -1) {
-                            searchKey = "http://" + searchKey;
-                        } else if (searchKey.lastIndexOf(".io") != -1) {
-                            searchKey = "http://" + searchKey;
-                        } else {
-                            searchKey = searchEngines + searchKey;
-                        }
-
-                        Intent intent = new Intent();
-                        intent.setClass(MainActivity.this, Browser.class);//从一个activity跳转到另一个activity
-                        intent.putExtra("str", searchKey);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
-                        startActivity(intent);
-
-                    } else {
-                        Toast.makeText(MainActivity.this, "输入不能为空！", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                return false;
-            }
-        });
-
-//        当用户点击搜索按钮
-        btn_submit = (ImageView) findViewById(com.adymilk.easybrowser.por.R.id.btn_submit);
-
-        btn_submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchKey = editText.getText().toString();
-
-                if (!(searchKey.isEmpty())) {
-                    /**
-                     * TODO: 判断输入的是否为网址
-                     */
-//                    包含 http 头
-                    if (searchKey.indexOf("http") != -1) {
-                        searchKey = searchKey;
-                    } else {
-                        searchKey = searchEngines + searchKey;
-                    }
-                    Intent intent = new Intent();
-                    intent.setClass(MainActivity.this, Browser.class);//从一个activity跳转到另一个activity
-                    intent.putExtra("str", searchKey);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
-                    startActivity(intent);
-
-
-                } else {
-                    Toast.makeText(MainActivity.this, "输入不能为空！", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
     }
 
     private void findViews() {
-        cardview_content = (LinearLayout) findViewById(R.id.cardview_content);
-        editText = (EditText) findViewById(com.adymilk.easybrowser.por.R.id.edit_url);
-        cardView1 = (CardView) findViewById(R.id.cardview1);
-        cardView2 = (CardView) findViewById(R.id.cardview2);
-        cardView3 = (CardView) findViewById(R.id.cardview3);
-        cardView4 = (CardView) findViewById(R.id.cardview4);
-        cardView5 = (CardView) findViewById(R.id.cardview5);
-        cardView6 = (CardView) findViewById(R.id.cardview6);
-        cardView7 = (CardView) findViewById(R.id.cardview7);
-        cardView8 = (CardView) findViewById(R.id.cardview8);
-        spinner = (Spinner) findViewById(R.id.spinner);
-        scaner = (ImageView) findViewById(R.id.iv_scaner);
+        cardview_content =  findViewById(R.id.cardview_content);
+        editText  =   findViewById(R.id.tv_search);
+        cardView1 =  findViewById(R.id.cardview1);
+        cardView2 =  findViewById(R.id.cardview2);
+        cardView3 =  findViewById(R.id.cardview3);
+        cardView4 =  findViewById(R.id.cardview4);
+        cardView5 =  findViewById(R.id.cardview5);
+        cardView6 =  findViewById(R.id.cardview6);
+        cardView7 =  findViewById(R.id.cardview7);
+        cardView8 =  findViewById(R.id.cardview8);
+        spinner   =  findViewById(R.id.spinner);
+        scaner    =  findViewById(R.id.iv_scaner);
     }
 
 
@@ -264,6 +171,69 @@ public class MainActivity extends Activity {
         }
     }
 
+    //将该activity上的触碰事件交给GestureDetector处理
+    public boolean onTouchEvent(MotionEvent me){
+        return detector.onTouchEvent(me);
+    }
+
+
+    @Override
+    public boolean onDown(MotionEvent motionEvent) {
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent motionEvent) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent motionEvent) {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent motionEvent) {
+
+    }
+
+    /**
+     * 滑屏监测
+     *
+     */
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+                           float velocityY) {
+        float minMove = 120;         //最小滑动距离
+        float minVelocity = 0;      //最小滑动速度
+        float beginX = e1.getX();
+        float endX = e2.getX();
+        float beginY = e1.getY();
+        float endY = e2.getY();
+
+        if(beginX-endX>minMove&&Math.abs(velocityX)>minVelocity){   //左滑
+//            Toast.makeText(this,velocityX+"左滑",Toast.LENGTH_SHORT).show();
+        }else if(endX-beginX>minMove&&Math.abs(velocityX)>minVelocity){   //右滑
+//            Toast.makeText(this,velocityX+"右滑",Toast.LENGTH_SHORT).show();
+        }else if(beginY-endY>minMove&&Math.abs(velocityY)>minVelocity){   //上滑
+            intent = new Intent();
+            intent.setClass(MainActivity.this, SetttingActivity.class);
+            startActivity(intent);
+//            Toast.makeText(this,velocityX+"上滑",Toast.LENGTH_SHORT).show();
+        }else if(endY-beginY>minMove&&Math.abs(velocityY)>minVelocity){   //下滑
+            intent = new Intent();
+            intent.setClass(MainActivity.this, SearchActivity.class);
+            startActivity(intent);
+//            Toast.makeText(this,velocityX+"下滑",Toast.LENGTH_SHORT).show();
+        }
+
+        return false;
+    }
 
     class myOnClickListen implements View.OnClickListener {
 
@@ -369,34 +339,19 @@ public class MainActivity extends Activity {
 
     public void initStatusBar() {
         ImmersionBar.with(this)
-                .statusBarDarkFont(true)
-                .statusBarColor(R.color.white)
+                .hideBar(BarHide.FLAG_HIDE_BAR)
                 .init();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        System.out.println("当前Activity状态为onPause");
-    }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        System.out.println("当前Activity状态为onRestart");
-    }
-
-    @Override
-    protected void onResume() {
-
-
-        super.onResume();
-        System.out.println("当前Activity状态为onResume");
-    }
 
     @Override
     protected void onStart() {
         setSimpleMode();
+        String imaePath = SharedPreferencesUtils.init(this).getString("imaePath");
+        if (!(imaePath.isEmpty())){
+            ((LinearLayout)findViewById(R.id.linearLayout_main)).setBackground(Drawable.createFromPath(imaePath));
+        }
         super.onStart();
         System.out.println("当前Activity状态为onStart");
     }
@@ -407,6 +362,30 @@ public class MainActivity extends Activity {
         super.onDestroy();
         finish();
         System.exit(0);//退出
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //获取图片路径
+        if (requestCode == IMAGE && resultCode == Activity.RESULT_OK && data != null) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumns = {MediaStore.Images.Media.DATA};
+            Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
+            c.moveToFirst();
+            int columnIndex = c.getColumnIndex(filePathColumns[0]);
+            String imagePath = c.getString(columnIndex);
+            showImage(imagePath);
+            c.close();
+        }
+    }
+
+    //加载图片
+    private void showImage(String imaePath){
+//        Bitmap bm = BitmapFactory.decodeFile(imaePath);
+        SharedPreferencesUtils.init(this).putString("imaePath",imaePath);
+        System.out.println("图片路径"+ imaePath);
+        ((LinearLayout)findViewById(R.id.linearLayout_main)).setBackground(Drawable.createFromPath(imaePath));
     }
 
     private void toastShowShort(Context context, String msg) {

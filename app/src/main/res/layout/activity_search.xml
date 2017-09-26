@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/search_bg"
+    android:background="@color/write"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <FrameLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:background="@drawable/edit_shap2"
+            android:weightSum="10"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_weight="2"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Spinner
+                android:scrollbarSize="12sp"
+                android:visibility="visible"
+                android:textAlignment="center"
+                android:id="@+id/spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:entries="@array/spinnerData"
+                android:spinnerMode="dropdown" />
+
+            <EditText
+                android:focusableInTouchMode="true"
+                android:textColorHint="@color/gray"
+                android:hint="搜索或输入关键词"
+                android:textSize="14dp"
+                android:id="@+id/edit_url"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/edit_shap2"
+                android:contentDescription="搜索关键词"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textAlignment="center" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+
+            android:layout_weight="8"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_marginRight="3dp"
+                android:id="@+id/clear"
+                android:src="@mipmap/clear"
+                android:layout_width="20dp"
+                android:layout_height="match_parent" />
+            <TextView
+                android:layout_marginRight="2dp"
+                android:textColor="@color/black"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:id="@+id/btn_submit"
+                android:text="搜索"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        </LinearLayout>
+
+
+    </FrameLayout>
+
+
+    </RelativeLayout>
+</LinearLayout>

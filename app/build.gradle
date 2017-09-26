@@ -16,7 +16,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 26
         versionCode 2
-        versionName "2.9.6"
+        versionName "2.9.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -60,6 +60,7 @@ dependencies {
     //    compile 'com.github.NashLegend:AnyPref:1.2.6'
     compile files('libs/open_sdk_r5793.jar')
     testCompile 'junit:junit:4.12'
+
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     compile 'com.github.open-android:SharedPreferencesUtils:0.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -75,13 +76,13 @@ dependencies {
     compile 'com.android.support:support-v4:26.+'
     compile 'top.zibin:BottomDialog:1.0.1'
     compile 'com.leon:lsettingviewlibrary:1.5.0'
+    compile 'com.github.AndroidDeveloperLB:MaterialPreferenceLibrary:10'
     testCompile 'junit:junit:4.12'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
-    compile 'com.github.AndroidDeveloperLB:MaterialPreferenceLibrary:10'
-
 }
+
 
 
 

@@ -19,28 +19,43 @@ public class CommSettingsActivity extends PreferenceActivity {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
-        final String themePrefKey = getString(R.string.pref_theme), defaultTheme = getResources().getString(R.string.pref_theme_default);
-        final String theme = PreferenceManager.getDefaultSharedPreferences(this).getString(themePrefKey, defaultTheme);
-        switch (theme) {
-            case "dark":
-                setTheme(R.style.AppTheme_Dark);
-                break;
-            case "light":
-                setTheme(R.style.AppTheme_Light);
-                break;
+//        final String themePrefKey = getString(R.string.pref_theme), defaultTheme = getResources().getString(R.string.pref_theme_default);
+        String darkTheme = getString(R.string.dark);
+//        final String theme = PreferenceManager.getDefaultSharedPreferences(this).getString(themePrefKey, defaultTheme);
+        final Boolean theme = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(darkTheme,true);
+        if (!theme){
+            setTheme(R.style.AppTheme_Light);
+        }else {
+            setTheme(R.style.AppTheme_Dark);
         }
+//        switch (theme) {
+//            case "dark":
+//                setTheme(R.style.AppTheme_Dark);
+//                break;
+//            case "light":
+//                setTheme(R.style.AppTheme_Light);
+//                break;
+//        }
 
         super.onCreate(savedInstanceState);
 
 
-        ListPreference themeListPreference = (ListPreference) findPreference(getString(R.string.pref_theme));
-        themeListPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+        findPreference(darkTheme).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
-            public boolean onPreferenceChange(final Preference preference, final Object newValue) {
+            public boolean onPreferenceClick(Preference preference) {
                 restartActivity(CommSettingsActivity.this);
-                return true;
+                return false;
             }
         });
+
+//        ListPreference themeListPreference = (ListPreference) findPreference(getString(R.string.pref_theme));
+//        themeListPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+//            @Override
+//            public boolean onPreferenceChange(final Preference preference, final Object newValue) {
+//                restartActivity(CommSettingsActivity.this);
+//                return true;
+//            }
+//        });
         String app_name = getString(R.string.clear_cache);
         findPreference(app_name).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override

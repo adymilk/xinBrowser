@@ -31,7 +31,6 @@
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true"
             android:theme="@style/touming" />
-
         <activity
             android:name="com.adymilk.easybrowser.CardView1Activity"
             android:configChanges="orientation|screenSize"
@@ -46,14 +45,15 @@
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
-            android:noHistory="true">　　
+            android:noHistory="true">
+            　　
+
 
             <intent-filter>
-
                 <action android:name="android.intent.action.VIEW" />
 
-
-                <category android:name="android.intent.category.DEFAULT" />　　　　
+                <category android:name="android.intent.category.DEFAULT" />
+                　　　　
 
 
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -89,7 +89,6 @@
                 <data android:scheme="sdksample" />
             </intent-filter>
         </activity>
-        <activity android:name="com.adymilk.easybrowser.ErrorActivity" />
         <activity android:name=".SetttingActivity" />
         <activity android:name="com.adymilk.easybrowser.AboutSoft" />
         <activity
@@ -161,9 +160,13 @@
                 android:resource="@xml/shortcuts" />
         </activity>
         <activity
-            android:theme="@style/AppTheme"
             android:name="com.adymilk.easybrowser.CommSettingsActivity"
-            android:label="@string/comm_settings"></activity>
+            android:label="@string/comm_settings"
+            android:theme="@style/AppTheme" />
+        <activity android:name="com.adymilk.easybrowser.SearchActivity"
+            android:windowSoftInputMode="stateAlwaysVisible">
+
+        </activity>
     </application>
 
 </manifest>

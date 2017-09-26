@@ -27,6 +27,7 @@
     <string name="copy_url">复制链接</string>
     <string name="use_other_browser_open">换浏览器打开</string>
     <string name="block_image">智能无图</string>
+    <string name="auto_phone">网页自适应</string>
     <string name="open_bookmarks">打开书签</string>
     <string name="night_mode">夜间模式</string>
     <string name="setting">设置</string>
@@ -34,7 +35,7 @@
     <string name="speed_up">云端加速</string>
     <string name="block_ad">屏蔽广告</string>
     <string name="hide_mode">神隐模式</string>
-    <string name="zoom">支持缩放</string>
+    <string name="zoom">强制缩放</string>
     <string name="android">Android</string>
     <array name="spinnerData">
         <item>百度</item>
@@ -58,14 +59,26 @@
     </string-array>
 
     <string-array name="User_Agent">
-        <item>Android</item>
+        <item>UC浏览器</item>
+        <item>Chrome</item>
+        <item>百度浏览器</item>
+        <item>QQ浏览器</item>
+        <item>Safari</item>
         <item>Iphone</item>
-        <item>PC</item>
+        <item>iPad</item>
+        <item>windows</item>
+
+
     </string-array>
     <string-array name="User_Agent_values">
-        <item>Android</item>
+        <item>UC浏览器</item>
+        <item>Chrome</item>
+        <item>百度浏览器</item>
+        <item>QQ浏览器</item>
+        <item>Safari</item>
         <item>Iphone</item>
-        <item>PC</item>
+        <item>iPad</item>
+        <item>windows</item>
     </string-array>
 
 </resources>

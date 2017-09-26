@@ -1,45 +1,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/linearLayout_main"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/write"
     android:fitsSystemWindows="true">
-    tools:context=".MainActivity">
-
-    <android.support.v7.widget.Toolbar android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?android:actionBarSize"
-        android:background="@color/write"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/iv_scaner"
-                android:layout_width="55dp"
-                android:layout_height="match_parent"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/scaner"
-                android:scaleType="center"
-                android:clickable="true" />
-
-
-            <ImageView
-                android:id="@+id/setting"
-                android:layout_width="55dp"
-                android:layout_height="match_parent"
-                android:src="@mipmap/menu_gray"
-                android:scaleType="center"
-                android:layout_alignParentRight="true" />
-        </RelativeLayout>
-
-
-    </android.support.v7.widget.Toolbar>
 
 
     <LinearLayout
@@ -63,7 +29,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:background="@color/write"
         android:layout_weight="3"
         android:layout_margin="5dp"
         android:layout_width="match_parent"
@@ -78,47 +43,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <EditText
-                android:textSize="18dp"
-                android:id="@+id/edit_url"
+            <TextView
+                android:id="@+id/tv_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_shap"
-                android:contentDescription="搜索关键词"
                 android:padding="10dp"
                 android:singleLine="true"
                 android:textAlignment="center" />
 
             <ImageView
-                android:visibility="invisible"
-                android:id="@+id/clear"
-                android:layout_marginRight="50dp"
-                android:layout_gravity="end"
-                android:src="@mipmap/clear"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
-
-
-            <ImageView
-                android:visibility="invisible"
+                android:layout_gravity="right"
+                android:id="@+id/iv_scaner"
+                android:layout_width="55dp"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/scaner"
                 android:scaleType="center"
-                android:id="@+id/btn_submit"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="right|center"
-                android:layout_marginRight="5dp"
-                android:src="@mipmap/search" />
+                android:clickable="true" />
 
-            <Spinner
-                android:visibility="invisible"
-                android:textAlignment="center"
-                android:gravity="center"
-                android:id="@+id/spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:dropDownWidth="70dp"
-                android:entries="@array/spinnerData"
-                android:spinnerMode="dropdown" />
+
+
+
+
 
         </FrameLayout>
 
@@ -468,4 +415,11 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imv_setting"
+        android:layout_gravity="center"
+        android:src="@mipmap/up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </LinearLayout>
