@@ -16,15 +16,14 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/iv_back"
+            android:id="@+id/iv_close"
             android:layout_width="55dp"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:src="@mipmap/back"
+            android:src="@mipmap/cha"
             android:background="@drawable/iv_back_selector"
             android:scaleType="center"
-            android:clickable="true"
-            />
+            android:clickable="true" />
 
         <TextView
             android:id="@+id/toolbar_title"

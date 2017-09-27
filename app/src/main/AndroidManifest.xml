@@ -12,6 +12,9 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <application
         android:allowBackup="true"
@@ -165,8 +168,8 @@
             android:theme="@style/AppTheme" />
         <activity android:name="com.adymilk.easybrowser.SearchActivity"
             android:windowSoftInputMode="stateAlwaysVisible">
-
         </activity>
+        <activity android:name="io.github.xudaojie.qrcodelib.CaptureActivity" />
     </application>
 
 </manifest>

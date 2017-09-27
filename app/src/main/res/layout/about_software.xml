@@ -8,71 +8,7 @@
     android:orientation="vertical"
     tools:context=".SetttingActivity">
 
-    <android.support.v7.widget.Toolbar android:layout_width="match_parent"
-        android:layout_height="?android:actionBarSize"
-        android:background="@color/colorPrimary"
-        app:contentInsetLeft="0dp"
-        app:contentInsetStart="0dp"
-        android:titleTextColor="@android:color/white"
-        app:titleTextColor="@android:color/white"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/iv_back"
-                android:layout_width="55dp"
-                android:layout_height="match_parent"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/back"
-                android:background="@drawable/iv_back_selector"
-                android:scaleType="center"
-                android:clickable="true" />
-
-            <TextView
-                android:text="关于软件"
-                android:id="@+id/toolbar_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textColor="@android:color/white" />
-
-        </RelativeLayout>
-    </android.support.v7.widget.Toolbar>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:background="#fff"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_margin="15dp"
-            android:src="@mipmap/speed_and_safe"
-            android:id="@+id/headimage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="昕浏览器是由王恒先生业余时间开发的一款全新浏览器。\n\n极致简约，更快还要更省电！\n 核心理念：让用户快速搜索到自己想要的内容，并迅速离开！\n\n 欢迎加入下方的QQ群和我们大家一起讨论交流。\n\n关于捐赠：所有的捐赠将会用于昕浏览器的研发，感谢大家的继续支持！"
-            android:textAlignment="viewStart"
-            android:textSize="16sp" />
-    </LinearLayout>
-
-    <TextView
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <com.leon.lib.settingview.LSettingItem
         android:id="@+id/join_qq_group"
@@ -91,6 +27,12 @@
         leon:rightStyle="iconShow" />
 
 
+    <WebView
+        android:id="@+id/webView_about"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </WebView>
 
 
 </LinearLayout>

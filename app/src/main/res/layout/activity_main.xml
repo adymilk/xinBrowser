@@ -21,7 +21,7 @@
             android:paddingBottom="15dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="昕浏览器"
+            android:text="@string/app"
 
             android:textColor="#999999"
             android:textSize="22sp"

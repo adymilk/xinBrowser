@@ -2,11 +2,15 @@ package com.adymilk.easybrowser;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 
@@ -22,20 +26,13 @@ public class CommSettingsActivity extends PreferenceActivity {
 //        final String themePrefKey = getString(R.string.pref_theme), defaultTheme = getResources().getString(R.string.pref_theme_default);
         String darkTheme = getString(R.string.dark);
 //        final String theme = PreferenceManager.getDefaultSharedPreferences(this).getString(themePrefKey, defaultTheme);
-        final Boolean theme = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(darkTheme,true);
+        final Boolean theme = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(darkTheme, false);
         if (!theme){
             setTheme(R.style.AppTheme_Light);
         }else {
             setTheme(R.style.AppTheme_Dark);
         }
-//        switch (theme) {
-//            case "dark":
-//                setTheme(R.style.AppTheme_Dark);
-//                break;
-//            case "light":
-//                setTheme(R.style.AppTheme_Light);
-//                break;
-//        }
+
 
         super.onCreate(savedInstanceState);
 
@@ -48,14 +45,6 @@ public class CommSettingsActivity extends PreferenceActivity {
             }
         });
 
-//        ListPreference themeListPreference = (ListPreference) findPreference(getString(R.string.pref_theme));
-//        themeListPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-//            @Override
-//            public boolean onPreferenceChange(final Preference preference, final Object newValue) {
-//                restartActivity(CommSettingsActivity.this);
-//                return true;
-//            }
-//        });
         String app_name = getString(R.string.clear_cache);
         findPreference(app_name).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -67,6 +56,8 @@ public class CommSettingsActivity extends PreferenceActivity {
                 return false;
             }
         });
+
+
     }
 
 
@@ -91,4 +82,5 @@ public class CommSettingsActivity extends PreferenceActivity {
         }
 
     }
+
 }

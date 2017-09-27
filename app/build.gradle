@@ -13,10 +13,10 @@ android {
     buildToolsVersion "26.0.0"
     defaultConfig {
         applicationId "com.adymilk.easybrowser.por"
-        minSdkVersion 23
+        minSdkVersion 21
         targetSdkVersion 26
-        versionCode 2
-        versionName "2.9.7"
+        versionCode 4
+        versionName "Bate 3.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -34,6 +34,9 @@ allprojects {
         maven {
             url "https://jitpack.io"
         }
+        maven {
+            url "http://repo1.maven.org/maven2"
+        }
     }
 }
 
@@ -42,41 +45,40 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    //    支付宝转账
+
     //    浏览器库
     //    下拉刷新
     //   沉浸状态栏
     //    主题
     //    多彩主题
-    //    滑动 dismiss
-    //保存用户设置工具类
+
     //    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+' //微信开发工具包
     //支付宝转账
     //浏览器库
-    //沉浸状态栏
+
     //    compile 'com.github.NightFarmer:Themer:1.0.0'
     //    compile 'com.github.garretyoder:Colorful:1.1'
-    //滑动关闭当前 Activity
     //    compile 'com.github.NashLegend:AnyPref:1.2.6'
     compile files('libs/open_sdk_r5793.jar')
     testCompile 'junit:junit:4.12'
 
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
-    compile 'com.github.open-android:SharedPreferencesUtils:0.1.0'
+    compile 'com.github.open-android:SharedPreferencesUtils:0.1.0' //保存用户设置工具类
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'moe.feng:AlipayZeroSdk:1.1'
+    compile 'moe.feng:AlipayZeroSdk:1.1' //支付宝转账
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.just.agentweb:agentweb:2.0.1'
     compile 'com.android.support:cardview-v7:26.0.0-alpha1'
     compile 'com.lcodecorex:tkrefreshlayout:1.0.7'
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
-    compile 'com.gyf.barlibrary:barlibrary:2.2.8'
-    compile 'com.r0adkll:slidableactivity:2.0.5'
+    compile 'com.gyf.barlibrary:barlibrary:2.2.8' //沉浸状态栏
+    compile 'com.r0adkll:slidableactivity:2.0.5' //滑动关闭当前 Activity
     compile 'com.android.support:support-v4:26.+'
     compile 'top.zibin:BottomDialog:1.0.1'
     compile 'com.leon:lsettingviewlibrary:1.5.0'
     compile 'com.github.AndroidDeveloperLB:MaterialPreferenceLibrary:10'
+    compile 'com.github.XuDaojie:QRCode-Android:v0.4.2' //二维码
     testCompile 'junit:junit:4.12'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'

@@ -40,21 +40,21 @@ import com.gyf.barlibrary.BarHide;
 import com.gyf.barlibrary.ImmersionBar;
 import com.heima.easysp.SharedPreferencesUtils;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
-import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends Activity implements android.view.GestureDetector.OnGestureListener {
 
     //调用系统相册-选择图片
-    private static final int IMAGE = 1;
+    private static final int IMAGE = 2;
+    private static final int REQUEST_QR_CODE = 1;
     private Intent intent;
     //声明相关变量
     private String searchKey;
     //定义手势检测器实例
     GestureDetector detector;
 
+    // 状态栏
+    private ImmersionBar mImmersionBar;
     private LinearLayout cardview_content;
     private CardView cardView1;
     private CardView cardView2;
@@ -94,9 +94,7 @@ public class MainActivity extends Activity implements android.view.GestureDetect
         tv_app_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent();
-//                intent.setClass(MainActivity.this, BookmarkActivity.class);
-//                startActivity(intent);
+
                 //调用相册
                 Intent intent = new Intent(Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -292,14 +290,17 @@ public class MainActivity extends Activity implements android.view.GestureDetect
                 case R.id.iv_scaner:
                     //实例化
 
-                    wxApi = WXAPIFactory.createWXAPI(MainActivity.this, WX_APP_ID);
-                    wxApi.registerApp(WX_APP_ID);
-
-                    if (!wxApi.isWXAppInstalled()) {
-                        toastShowShort(MainActivity.this, "未安装微信客户端！");
-                    } else {
-                        toWeChatScanDirect(MainActivity.this);
-                    }
+//                    wxApi = WXAPIFactory.createWXAPI(MainActivity.this, WX_APP_ID);
+//                    wxApi.registerApp(WX_APP_ID);
+//
+//                    if (!wxApi.isWXAppInstalled()) {
+//                        toastShowShort(MainActivity.this, "未安装微信客户端！");
+//                    } else {
+//                        toWeChatScanDirect(MainActivity.this);
+//                    }
+                    Intent i = new Intent(MainActivity.this, io.github.xudaojie.qrcodelib.CaptureActivity.class);
+                    startActivityForResult(i, REQUEST_QR_CODE);
+                    break;
                 default:
                     break;
 
@@ -337,6 +338,7 @@ public class MainActivity extends Activity implements android.view.GestureDetect
     }
 
 
+    // 沉浸状态栏
     public void initStatusBar() {
         ImmersionBar.with(this)
                 .hideBar(BarHide.FLAG_HIDE_BAR)
@@ -347,12 +349,13 @@ public class MainActivity extends Activity implements android.view.GestureDetect
 
     @Override
     protected void onStart() {
+        super.onStart();
         setSimpleMode();
         String imaePath = SharedPreferencesUtils.init(this).getString("imaePath");
         if (!(imaePath.isEmpty())){
             ((LinearLayout)findViewById(R.id.linearLayout_main)).setBackground(Drawable.createFromPath(imaePath));
         }
-        super.onStart();
+        initStatusBar();
         System.out.println("当前Activity状态为onStart");
     }
 
@@ -362,13 +365,27 @@ public class MainActivity extends Activity implements android.view.GestureDetect
         super.onDestroy();
         finish();
         System.exit(0);//退出
+        if (mImmersionBar != null) {
+            mImmersionBar.destroy();  //不调用该方法，如果界面bar发生改变，在不关闭app的情况下，退出此界面再进入将记忆最后一次bar改变的状态
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        // 获取二维码扫码结果
+        if (resultCode == RESULT_OK
+                && requestCode == REQUEST_QR_CODE
+                && data != null) {
+            String result = data.getStringExtra("result");
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this, Browser.class);//从一个activity跳转到另一个activity
+            intent.putExtra("str", result);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
+            startActivity(intent);
+            Toast.makeText(MainActivity.this, result, Toast.LENGTH_SHORT).show();
+        }
         //获取图片路径
-        if (requestCode == IMAGE && resultCode == Activity.RESULT_OK && data != null) {
+        else if (requestCode == IMAGE && resultCode == Activity.RESULT_OK && data != null) {
             Uri selectedImage = data.getData();
             String[] filePathColumns = {MediaStore.Images.Media.DATA};
             Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
@@ -378,13 +395,16 @@ public class MainActivity extends Activity implements android.view.GestureDetect
             showImage(imagePath);
             c.close();
         }
+
     }
+
 
     //加载图片
     private void showImage(String imaePath){
 //        Bitmap bm = BitmapFactory.decodeFile(imaePath);
         SharedPreferencesUtils.init(this).putString("imaePath",imaePath);
         System.out.println("图片路径"+ imaePath);
+//        toastShowShort(this,"图片路径为："+imaePath);
         ((LinearLayout)findViewById(R.id.linearLayout_main)).setBackground(Drawable.createFromPath(imaePath));
     }
 
@@ -398,5 +418,6 @@ public class MainActivity extends Activity implements android.view.GestureDetect
         }
         mToast.show();
     }
+
 
 }

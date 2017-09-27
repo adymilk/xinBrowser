@@ -3,7 +3,7 @@
 <p align="center"><img src="http://image.coolapk.com/apk_logo/2017/0827/icon-for-157097-o_1bohp62u4b6le6j1i4jdn41c4lq-uid-638761.jpg"/></p>
 
 # 简介
-![](http://image.coolapk.com/apk_image/2017/0927/device-2017-09-27-003700-157097-o_1bqvgt6ji19b6v1mu21v7e18pu11-uid-638761@1080x1920.png)
+![](http://image.coolapk.com/apk_image/2017/0927/enframe_2017-09-27-14-54-05-157097-o_1br12be2rhlctli1m8inp510mr11-uid-638761@1055x1875.png)
 全新的昕浏览器 [官网](https://adymilk.github.io/)
 
 1、遵守软件开发友好原则 ，及时 释放 CPU 更省电。
@@ -113,3 +113,12 @@
 - [x] 首页上滑进入设置界面
 - [x] 修改了搜索界面
 - [x] 增加UA
+
+### V 2.9.8 更新日志
+
+- [x] 优化扫一扫，支持从相册扫码二维码
+- [x] 优化关于软件界面
+
+### V Bate 3.0.1 更新日志
+- [x] 优化网页加载速度
+- [x] 

@@ -23,13 +23,12 @@ import android.widget.Toast;
 import com.adymilk.easybrowser.por.Browser;
 import com.adymilk.easybrowser.por.R;
 import com.adymilk.easybrowser.por.SetttingActivity;
+import com.gyf.barlibrary.BarHide;
 import com.gyf.barlibrary.ImmersionBar;
 import com.heima.easysp.SharedPreferencesUtils;
 
-public class SearchActivity extends AppCompatActivity implements android.view.GestureDetector.OnGestureListener{
+public class SearchActivity extends AppCompatActivity {
     private String searchEngines;
-    //定义手势检测器实例
-    GestureDetector detector;
     //声明相关变量
     private TextView btn_submit;
     private String searchKey;
@@ -43,14 +42,13 @@ public class SearchActivity extends AppCompatActivity implements android.view.Ge
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // 沉浸状态栏
         setContentView(R.layout.activity_search);
         String imaePath = SharedPreferencesUtils.init(this).getString("imaePath");
         if (!(imaePath.isEmpty())){
             ((LinearLayout)findViewById(R.id.search_bg)).setBackground(Drawable.createFromPath(imaePath));
         }
 
-        //创建手势检测器
-        detector = new GestureDetector(this,this);
 
         editText = (EditText) findViewById(R.id.edit_url);
         spinner = (Spinner) findViewById(R.id.spinner);
@@ -236,62 +234,11 @@ public class SearchActivity extends AppCompatActivity implements android.view.Ge
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    //将该activity上的触碰事件交给GestureDetector处理
-    public boolean onTouchEvent(MotionEvent me){
-        return detector.onTouchEvent(me);
-    }
 
-    @Override
-    public boolean onDown(MotionEvent motionEvent) {
-        return false;
-    }
-
-    @Override
-    public void onShowPress(MotionEvent motionEvent) {
-
-    }
-
-    @Override
-    public boolean onSingleTapUp(MotionEvent motionEvent) {
-        return false;
-    }
-
-    @Override
-    public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
-        return false;
-    }
-
-    @Override
-    public void onLongPress(MotionEvent motionEvent) {
-
-    }
-
-    /**
-     * 滑屏监测
-     *
-     */
-    @Override
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-                           float velocityY) {
-        float minMove = 120;         //最小滑动距离
-        float minVelocity = 0;      //最小滑动速度
-        float beginX = e1.getX();
-        float endX = e2.getX();
-        float beginY = e1.getY();
-        float endY = e2.getY();
-
-        if(beginX-endX>minMove&&Math.abs(velocityX)>minVelocity){   //左滑
-//            Toast.makeText(this,velocityX+"左滑",Toast.LENGTH_SHORT).show();
-        }else if(endX-beginX>minMove&&Math.abs(velocityX)>minVelocity){   //右滑
-//            Toast.makeText(this,velocityX+"右滑",Toast.LENGTH_SHORT).show();
-        }else if(beginY-endY>minMove&&Math.abs(velocityY)>minVelocity){   //上滑
-            finish();
-//            Toast.makeText(this,velocityX+"上滑",Toast.LENGTH_SHORT).show();
-        }else if(endY-beginY>minMove&&Math.abs(velocityY)>minVelocity){   //下滑
-
-//            Toast.makeText(this,velocityX+"下滑",Toast.LENGTH_SHORT).show();
-        }
-
-        return false;
+    // 沉浸状态栏
+    public void initStatusBar() {
+        ImmersionBar.with(this)
+                .hideBar(BarHide.FLAG_HIDE_BAR)
+                .init();
     }
 }

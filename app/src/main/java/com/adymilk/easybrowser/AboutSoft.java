@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.adymilk.easybrowser.por.R;
+import com.gyf.barlibrary.BarHide;
 import com.gyf.barlibrary.ImmersionBar;
 import com.leon.lib.settingview.LSettingItem;
 
@@ -22,19 +24,15 @@ public class AboutSoft extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.about_software);
-
         // 沉浸状态栏
-        ImmersionBar.with(this)
-                .fitsSystemWindows(true)
-                .statusBarColor(R.color.colorPrimary)
-                .init();
+//        initStatusBar();
 
-
-        ImageView iv_back = findViewById(R.id.iv_back);
+        setContentView(R.layout.about_software);
+        WebView webView = findViewById(R.id.webView_about);
         LSettingItem join_qq_group = findViewById(R.id.join_qq_group);
         LSettingItem donate = findViewById(R.id.donate);
 
+        webView.loadUrl("file:///android_asset/about.html");
 
         //加入QQ群
         join_qq_group.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
@@ -57,13 +55,6 @@ public class AboutSoft extends Activity {
         });
 
 
-        //返回上一个界面
-        iv_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
 
     }
@@ -100,6 +91,12 @@ public class AboutSoft extends Activity {
         }
     }
 
+
+    // 沉浸状态栏
+    public void initStatusBar() {
+        ImmersionBar.with(this)
+                .init();
+    }
 
     @Override
     protected void onResume() {

@@ -28,6 +28,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
@@ -44,10 +45,13 @@ import com.just.library.DefaultMsgConfig;
 import com.just.library.DownLoadResultListener;
 import com.just.library.FragmentKeyDown;
 import com.just.library.WebDefaultSettingsManager;
+import com.lb.material_preferences_library.PreferenceActivity;
+import com.lb.material_preferences_library.custom_preferences.Preference;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.tauth.Tencent;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 import me.curzbin.library.BottomDialog;
@@ -241,19 +245,17 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 
             mWebView = mAgentWeb.getWebCreator().get();
 
-
-
             String key_block_image = getString(string.block_image);
             String key_zoom = getString(string.zoom);
             String key_auto_phone = getString(string.auto_phone);
-            String key_hide_mode = getString(string.hide_mode);
             String key_block_ad = getString(string.block_ad);
+            String key_speed_up = getString(string.speed_up);
             String key_User_Agent = getString(string.User_Agent), defaultUa = getString(string.android);
             Boolean block_image = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(key_block_image, true);
-            Boolean zoom = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(key_zoom, true);
-            Boolean hide_mode = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(key_hide_mode, true);
+            Boolean zoom = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(key_zoom, false);
             Boolean block_ad = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(key_block_ad, true);
-            Boolean auto_phone = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(key_auto_phone, true);
+            Boolean speed_up = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(key_auto_phone, true);
+            Boolean auto_phone = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(key_speed_up, true);
            String ua = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(key_User_Agent, defaultUa);
 
             switch (ua){
@@ -284,8 +286,11 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
             }
 
             System.out.println("ua="+ua);
+            System.out.println("zoom:" + zoom);
             System.out.println("block_image：" + block_image);
             if (zoom) {
+                System.out.println("zoom:" + zoom);
+                mWebView.getSettings().setSupportZoom(true);
                 mWebView.getSettings().setBuiltInZoomControls(true);
             }
 
@@ -304,7 +309,15 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
             }
             if (auto_phone){
                 mWebView.getSettings().setUseWideViewPort(true);
+                mWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
                 mWebView.getSettings().setLoadWithOverviewMode(true);
+                mWebView.getSettings().setDefaultZoom(WebSettings.ZoomDensity.FAR);// 屏幕自适应网页,如果没有这个，在低分辨率的手机上显示可能会异常
+            }
+            if (speed_up) {
+                // 阻塞图片
+                mWebView.getSettings().setBlockNetworkImage(true);
+                //提高渲染等级
+                mWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
             }
 
 
@@ -321,6 +334,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
+            mWebView.getSettings().setBlockNetworkImage(false);
         }
     };
 
@@ -333,7 +347,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
     }
 
     protected void initView(View view) {
-        mBackImageView = (ImageView) view.findViewById(id.iv_back);
+        mBackImageView = (ImageView) view.findViewById(id.iv_close);
         mLineView = view.findViewById(id.view_line);
         mTitleTextView = (TextView) view.findViewById(id.toolbar_title);
         mBackImageView.setOnClickListener(mOnClickListener);
@@ -344,12 +358,6 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 
 
 
-    private void pageNavigator(int tag) {
-
-        mBackImageView.setVisibility(tag);
-//        mLineView.setVisibility(tag);
-    }
-
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -357,15 +365,11 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 
             switch (v.getId()) {
 
-                case id.iv_back:
-
-                    if (!mAgentWeb.back())
+                case id.iv_close:
                         AgentWebFragment.this.getActivity().finish();
-
                     break;
                 case id.iv_more:
                     showShareDialog();
-//                    showPoPup(v);
                     break;
 
             }
@@ -415,8 +419,14 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 
     @Override
     public void onDestroyView() {
-        mAgentWeb.clearWebCache();
-        mAgentWeb.destroyAndKill();
+        String key_hidden_mode = getString(string.hide_mode);
+        Boolean hidden_mode = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(key_hidden_mode, false);
+        if (hidden_mode) {
+            mAgentWeb.clearWebCache();
+            mAgentWeb.destroyAndKill();
+        }
+//        mAgentWeb.clearWebCache();
+//        mAgentWeb.destroyAndKill();
         mAgentWeb.getWebLifeCycle().onDestroy();
         super.onDestroyView();
         //  mAgentWeb.destroy();
