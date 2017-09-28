@@ -70,6 +70,8 @@ public class MainActivity extends Activity implements android.view.GestureDetect
     private IWXAPI wxApi;
     private String WX_APP_ID = "wxee53eb68352c793e";
 
+    private String key_Customize_Home_bg;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,11 +96,15 @@ public class MainActivity extends Activity implements android.view.GestureDetect
         tv_app_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                key_Customize_Home_bg = getString(R.string.Customize_Home_bg);
+                final Boolean Customize_Home_bg = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getBoolean(key_Customize_Home_bg, true);
+                if (Customize_Home_bg){
+                    //调用相册
+                    Intent intent = new Intent(Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, IMAGE);
+                }
 
-                //调用相册
-                Intent intent = new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, IMAGE);
             }
         });
         ImageView imv_setting = findViewById(R.id.imv_setting);
@@ -351,10 +357,21 @@ public class MainActivity extends Activity implements android.view.GestureDetect
     protected void onStart() {
         super.onStart();
         setSimpleMode();
+        key_Customize_Home_bg = getString(R.string.Customize_Home_bg);
+        final Boolean Customize_Home_bg = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(key_Customize_Home_bg, true);
         String imaePath = SharedPreferencesUtils.init(this).getString("imaePath");
-        if (!(imaePath.isEmpty())){
-            ((LinearLayout)findViewById(R.id.linearLayout_main)).setBackground(Drawable.createFromPath(imaePath));
+        if (Customize_Home_bg){
+            if (!(imaePath.isEmpty())){
+                ((LinearLayout)findViewById(R.id.linearLayout_main)).setBackground(Drawable.createFromPath(imaePath));
+            }
+        }else {
+            if (!(imaePath.isEmpty())){
+                LinearLayout linearLayout = findViewById(R.id.linearLayout_main);
+                linearLayout.setBackgroundColor(getResources().getColor(R.color.white));
+            }
         }
+        System.out.println("Customize_Home_bg"+Customize_Home_bg);
+
         initStatusBar();
         System.out.println("当前Activity状态为onStart");
     }

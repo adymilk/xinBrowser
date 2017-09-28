@@ -250,10 +250,12 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
             String key_auto_phone = getString(string.auto_phone);
             String key_block_ad = getString(string.block_ad);
             String key_speed_up = getString(string.speed_up);
+
             String key_User_Agent = getString(string.User_Agent), defaultUa = getString(string.android);
             Boolean block_image = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(key_block_image, true);
             Boolean zoom = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(key_zoom, false);
             Boolean block_ad = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(key_block_ad, true);
+
             Boolean speed_up = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(key_auto_phone, true);
             Boolean auto_phone = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(key_speed_up, true);
            String ua = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(key_User_Agent, defaultUa);
@@ -288,6 +290,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
             System.out.println("ua="+ua);
             System.out.println("zoom:" + zoom);
             System.out.println("block_image：" + block_image);
+
             if (zoom) {
                 System.out.println("zoom:" + zoom);
                 mWebView.getSettings().setSupportZoom(true);
@@ -319,6 +322,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                 //提高渲染等级
                 mWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
             }
+
 
 
             Log.i("Info", "url:" + url + " onPageStarted  target:" + getUrl());

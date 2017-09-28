@@ -11,16 +11,18 @@ import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 
 import com.adymilk.easybrowser.por.R;
+import com.just.library.AgentWeb;
 import com.lb.material_preferences_library.PreferenceActivity;
 import com.lb.material_preferences_library.custom_preferences.ListPreference;
 
 
 public class CommSettingsActivity extends PreferenceActivity {
-
+    private AgentWeb mAgentWeb;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
 //        final String themePrefKey = getString(R.string.pref_theme), defaultTheme = getResources().getString(R.string.pref_theme_default);
@@ -52,7 +54,9 @@ public class CommSettingsActivity extends PreferenceActivity {
                 /**
                  * TODO: 清除浏览器缓存
                  */
-                Toast.makeText(getApplicationContext(), "已清除缓存", Toast.LENGTH_SHORT).show();
+
+                mAgentWeb.clearWebCache();
+                Toast.makeText(getApplicationContext(), "已清除!", Toast.LENGTH_SHORT).show();
                 return false;
             }
         });

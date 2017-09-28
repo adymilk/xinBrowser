@@ -25,7 +25,7 @@
             android:icon="@mipmap/simple"
             android:defaultValue="true"
             android:key="@string/simple_mode"
-            android:summary="不显示主页的推荐入口"
+            android:summary="隐藏首页推荐入口，只保留搜索框"
             android:title="@string/simple_mode" />
 
         <SwitchPreference
@@ -41,6 +41,14 @@
             android:key="@string/auto_phone"
             android:summary="根据屏幕大小自动缩放网页"
             android:title="@string/auto_phone" />
+
+
+        <SwitchPreference
+            android:icon="@mipmap/themes"
+            android:defaultValue="true"
+            android:key="@string/Customize_Home_bg"
+            android:summary="点击首页顶部可以自定义背景"
+            android:title="@string/Customize_Home_bg" />
 
 
         <Preference

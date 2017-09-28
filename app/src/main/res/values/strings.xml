@@ -29,6 +29,7 @@
     <string name="use_other_browser_open">换浏览器打开</string>
     <string name="block_image">智能无图</string>
     <string name="auto_phone">网页自适应</string>
+    <string name="Customize_Home_bg">开启主页自定义背景</string>
     <string name="open_bookmarks">打开书签</string>
     <string name="night_mode">夜间模式</string>
     <string name="setting">设置</string>
