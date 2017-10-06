@@ -36,6 +36,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.adymilk.easybrowser.SearchActivity;
 import com.adymilk.easybrowser.ShareToTencent;
 import com.heima.easysp.SharedPreferencesUtils;
 import com.just.library.AgentWeb;
@@ -45,13 +46,10 @@ import com.just.library.DefaultMsgConfig;
 import com.just.library.DownLoadResultListener;
 import com.just.library.FragmentKeyDown;
 import com.just.library.WebDefaultSettingsManager;
-import com.lb.material_preferences_library.PreferenceActivity;
-import com.lb.material_preferences_library.custom_preferences.Preference;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.tauth.Tencent;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
 import me.curzbin.library.BottomDialog;
@@ -60,7 +58,6 @@ import me.curzbin.library.OnItemClickListener;
 
 import com.just.library.PermissionInterceptor;
 
-import static android.Manifest.permission_group.LOCATION;
 import static com.adymilk.easybrowser.por.R.*;
 
 
@@ -131,6 +128,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         initView(view);
 
 
+
         DefaultMsgConfig.DownLoadMsgConfig mDownLoadMsgConfig=mAgentWeb.getDefaultMsgConfig().getDownLoadMsgConfig();
           mDownLoadMsgConfig.setCancel("放弃");  // 修改下载提示信息，这里可以语言切换
         //优化
@@ -147,7 +145,6 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         @Override
         public boolean intercept(String url, String[] permissions, String action) {
             Log.i(TAG, "url:" + url + "  permission:" + permissions + " action:" + action);
-            toastShowShort(getContext(),"正在申请权限！");
 
             return false;
         }
@@ -195,6 +192,14 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                     title = title.substring(0, 20) + "...";
                 }
             mTitleTextView.setText(title);
+            mTitleTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent();
+                    intent.setClass(getContext(),SearchActivity.class);
+                    startActivity(intent);
+                }
+            });
 
         }
     };
@@ -282,14 +287,13 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                 case "windows":
                     mWebView.getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Maxthon/%s Chrome/30.0.1551.0 Safari/537.36");
                     break;
+                case "微信浏览器":
+                    mWebView.getSettings().setUserAgentString("Mozilla/5.0 (Linux; Android 5.0; SM-N9100 Build/LRX21V) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/37.0.0.0 Mobile Safari/537.36 MicroMessenger/6.0.2.56_r958800.520 NetType/WIFI");
+                    break;
 
                 default:
                     break;
             }
-
-            System.out.println("ua="+ua);
-            System.out.println("zoom:" + zoom);
-            System.out.println("block_image：" + block_image);
 
             if (zoom) {
                 System.out.println("zoom:" + zoom);

@@ -1,6 +1,5 @@
 package com.adymilk.easybrowser.por;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -8,14 +7,19 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.adymilk.easybrowser.AboutSoft;
 import com.adymilk.easybrowser.CommSettingsActivity;
 import com.gyf.barlibrary.ImmersionBar;
 import com.leon.lib.settingview.LSettingItem;
+import com.umeng.analytics.MobclickAgent;
+
+import static com.adymilk.easybrowser.por.Utils.destoryImmersionBar;
+import static com.adymilk.easybrowser.por.Utils.slideActivity;
 
 import java.util.List;
 
@@ -23,7 +27,7 @@ import java.util.List;
  * Created by jack on 17-9-21.
  */
 
-public class SetttingActivity extends Activity {
+public class SetttingActivity extends AppCompatActivity {
     private String appVersion;
     private String appPackName;
 
@@ -31,30 +35,30 @@ public class SetttingActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        slideActivity(this);
         setContentView(R.layout.layout_setting);
         getPackInfo();//获取app版本信息
-        // 沉浸状态栏
-        ImmersionBar.with(this)
-                .fitsSystemWindows(true)
-                .statusBarColor(R.color.colorPrimary)
-                .init();
 
 
         LSettingItem comm_setting = (LSettingItem) findViewById(R.id.comm_setting);
         LSettingItem message = (LSettingItem) findViewById(R.id.message);
         LSettingItem about = (LSettingItem) findViewById(R.id.about);
         LSettingItem open_source = (LSettingItem) findViewById(R.id.open_source);
-        ImageView iv_back = (ImageView) findViewById(R.id.iv_back);
-
-
-        about.setRightText(appVersion);
-
-        iv_back.setOnClickListener(new View.OnClickListener() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.setting_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationIcon(R.mipmap.back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
+
+
+
+        about.setRightText(appVersion);
+
 
         //TODO: 通用设置
         comm_setting.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
@@ -141,6 +145,28 @@ public class SetttingActivity extends Activity {
 //        mAgentWeb.clearWebCache();
         System.out.println("当前Activity为 onResume");
         super.onResume();
+        MobclickAgent.onResume(this);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // 沉浸状态栏
+        ImmersionBar.with(this)
+                .fitsSystemWindows(true)
+                .statusBarColor(R.color.blue_color)
+                .init();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        destoryImmersionBar();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
 }

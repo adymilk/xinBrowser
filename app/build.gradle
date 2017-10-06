@@ -13,10 +13,10 @@ android {
     buildToolsVersion "26.0.0"
     defaultConfig {
         applicationId "com.adymilk.easybrowser.por"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 26
-        versionCode 4
-        versionName "Bate 3.0.1"
+        versionCode 8
+        versionName "Beta 3.0.32"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -24,6 +24,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             minifyEnabled true
             signingConfig signingConfigs.config
+        }
+    }
+
+    productFlavors {
+        coolapk {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "coolapk"]
+        }
+        xiaomi {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "xiaomi"]
         }
     }
 }
@@ -46,28 +55,15 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    //    浏览器库
-    //    下拉刷新
-    //   沉浸状态栏
-    //    主题
-    //    多彩主题
-
-    //    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+' //微信开发工具包
-    //支付宝转账
-    //浏览器库
-
-    //    compile 'com.github.NightFarmer:Themer:1.0.0'
-    //    compile 'com.github.garretyoder:Colorful:1.1'
-    //    compile 'com.github.NashLegend:AnyPref:1.2.6'
     compile files('libs/open_sdk_r5793.jar')
     testCompile 'junit:junit:4.12'
 
-    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+' //微信SDK
     compile 'com.github.open-android:SharedPreferencesUtils:0.1.0' //保存用户设置工具类
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'moe.feng:AlipayZeroSdk:1.1' //支付宝转账
     compile 'com.android.support:appcompat-v7:26.+'
-    compile 'com.just.agentweb:agentweb:2.0.1'
+    compile 'com.just.agentweb:agentweb:2.0.1' //agentweb框架
     compile 'com.android.support:cardview-v7:26.0.0-alpha1'
     compile 'com.lcodecorex:tkrefreshlayout:1.0.7'
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
@@ -79,6 +75,7 @@ dependencies {
     compile 'com.leon:lsettingviewlibrary:1.5.0'
     compile 'com.github.AndroidDeveloperLB:MaterialPreferenceLibrary:10'
     compile 'com.github.XuDaojie:QRCode-Android:v0.4.2' //二维码
+    compile 'com.umeng.analytics:analytics:latest.integration' //友盟
     testCompile 'junit:junit:4.12'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'

@@ -1,6 +1,6 @@
 <resources>
     <string name="app">昕浏览器</string>
-    <string name="app_name">昕浏览器Pro</string>
+    <string name="app_name">昕浏览器 Pro</string>
     <string name="error">网络错误</string>
     <string name="shortcut_item_photograph">摄影</string>
     <string name="shortcut_item_games">游戏</string>
@@ -22,6 +22,7 @@
     <string name="collect">收藏</string>
     <string name="reload">刷新</string>
     <string name="clear_cache">清除缓存</string>
+    <string name="downloadManager">下载管理</string>
     <string name="as_book">加入书签</string>
     <string name="simple_mode">简约模式</string>
     <string name="dark">夜间模式</string>
@@ -62,6 +63,7 @@
 
     <string-array name="User_Agent">
         <item>UC浏览器</item>
+        <item>微信浏览器</item>
         <item>Chrome</item>
         <item>百度浏览器</item>
         <item>QQ浏览器</item>
@@ -74,6 +76,7 @@
     </string-array>
     <string-array name="User_Agent_values">
         <item>UC浏览器</item>
+        <item>微信浏览器</item>
         <item>Chrome</item>
         <item>百度浏览器</item>
         <item>QQ浏览器</item>

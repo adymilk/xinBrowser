@@ -5,34 +5,20 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.Toolbar;
 import android.view.GestureDetector;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.adymilk.easybrowser.por.BookmarkActivity;
 import com.adymilk.easybrowser.por.Browser;
 import com.adymilk.easybrowser.por.R;
 import com.adymilk.easybrowser.por.SetttingActivity;
@@ -40,6 +26,9 @@ import com.gyf.barlibrary.BarHide;
 import com.gyf.barlibrary.ImmersionBar;
 import com.heima.easysp.SharedPreferencesUtils;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.umeng.analytics.MobclickAgent;
+
+import static com.adymilk.easybrowser.por.Utils.hideBar;
 
 
 public class MainActivity extends Activity implements android.view.GestureDetector.OnGestureListener {
@@ -81,7 +70,7 @@ public class MainActivity extends Activity implements android.view.GestureDetect
         // 用昕浏览器打开链接
         openBrowser();
         // 沉浸状态栏
-        initStatusBar();
+       hideBar(this);
 
         setContentView(R.layout.activity_main);
 
@@ -137,6 +126,8 @@ public class MainActivity extends Activity implements android.view.GestureDetect
                 startActivity(intent);
             }
         });
+
+        MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
 
 
     }
@@ -343,36 +334,26 @@ public class MainActivity extends Activity implements android.view.GestureDetect
 
     }
 
-
-    // 沉浸状态栏
-    public void initStatusBar() {
-        ImmersionBar.with(this)
-                .hideBar(BarHide.FLAG_HIDE_BAR)
-                .init();
-    }
-
-
-
     @Override
     protected void onStart() {
         super.onStart();
         setSimpleMode();
         key_Customize_Home_bg = getString(R.string.Customize_Home_bg);
         final Boolean Customize_Home_bg = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(key_Customize_Home_bg, true);
-        String imaePath = SharedPreferencesUtils.init(this).getString("imaePath");
+        String imaePath;
+        imaePath = SharedPreferencesUtils.init(this).getString("imaePath");
         if (Customize_Home_bg){
             if (!(imaePath.isEmpty())){
-                ((LinearLayout)findViewById(R.id.linearLayout_main)).setBackground(Drawable.createFromPath(imaePath));
+                imaePath = SharedPreferencesUtils.init(this).getString("imaePath");
             }
         }else {
-            if (!(imaePath.isEmpty())){
-                LinearLayout linearLayout = findViewById(R.id.linearLayout_main);
-                linearLayout.setBackgroundColor(getResources().getColor(R.color.white));
-            }
+            imaePath = null;
         }
+        ((LinearLayout)findViewById(R.id.linearLayout_main)).setBackground(Drawable.createFromPath(imaePath));
         System.out.println("Customize_Home_bg"+Customize_Home_bg);
 
-        initStatusBar();
+        //隐藏状态栏
+        hideBar(this);
         System.out.println("当前Activity状态为onStart");
     }
 
@@ -381,10 +362,8 @@ public class MainActivity extends Activity implements android.view.GestureDetect
         System.out.println("当前Activity状态为onDestroy");
         super.onDestroy();
         finish();
+        MobclickAgent.onKillProcess(this);
         System.exit(0);//退出
-        if (mImmersionBar != null) {
-            mImmersionBar.destroy();  //不调用该方法，如果界面bar发生改变，在不关闭app的情况下，退出此界面再进入将记忆最后一次bar改变的状态
-        }
     }
 
     @Override
@@ -425,16 +404,19 @@ public class MainActivity extends Activity implements android.view.GestureDetect
         ((LinearLayout)findViewById(R.id.linearLayout_main)).setBackground(Drawable.createFromPath(imaePath));
     }
 
-    private void toastShowShort(Context context, String msg) {
-        Toast mToast = null;
-        if (mToast == null) {
-            mToast = Toast.makeText(context.getApplicationContext(), msg, Toast.LENGTH_SHORT);
-        } else {
-
-            mToast.setText(msg);
-        }
-        mToast.show();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
+
 
 
 }

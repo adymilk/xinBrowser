@@ -10,13 +10,14 @@ import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.gyf.barlibrary.BarHide;
 import com.gyf.barlibrary.ImmersionBar;
 import com.just.library.AgentWeb;
 import com.just.library.PermissionInterceptor;
-import com.r0adkll.slidr.Slidr;
-import com.r0adkll.slidr.model.SlidrConfig;
-import com.r0adkll.slidr.model.SlidrPosition;
+import com.umeng.analytics.MobclickAgent;
+
+import static com.adymilk.easybrowser.por.Utils.destoryImmersionBar;
+import static com.adymilk.easybrowser.por.Utils.hideBar;
+import static com.adymilk.easybrowser.por.Utils.slideActivity;
 
 
 public class CardView1Activity extends Activity {
@@ -32,7 +33,8 @@ public class CardView1Activity extends Activity {
         Bundle bundle=intent.getExtras();
         String targetUrl=bundle.getString("targetUrl");
 
-        initBarAndSildeActivity();
+        hideBar(this);
+        slideActivity(this);
 
         mAgentWeb = AgentWeb.with(this)//传入Activity
                 .setAgentWebParent(mLinearLayout, new LinearLayout.LayoutParams(-1, -1))//传入AgentWeb 的父控件 ，如果父控件为 RelativeLayout ， 那么第二参数需要传入 RelativeLayout.LayoutParams ,第一个参数和第二个参数应该对应。
@@ -47,19 +49,6 @@ public class CardView1Activity extends Activity {
 
     }
 
-    public void initBarAndSildeActivity(){
-        // 沉浸状态栏
-        ImmersionBar.with(this)
-                .hideBar(BarHide.FLAG_HIDE_BAR)
-                .init();
-
-        //滑动隐藏 Activity
-        SlidrConfig config = new SlidrConfig.Builder()
-                .position(SlidrPosition.LEFT)
-                .edge(true)
-                .build();
-        Slidr.attach(this, config);
-    }
 
     protected PermissionInterceptor mPermissionInterceptor = new PermissionInterceptor() {
         String TAG = null;
@@ -79,31 +68,28 @@ public class CardView1Activity extends Activity {
     @Override
     protected void onResume() {
 //        mAgentWeb.clearWebCache();
-        initBarAndSildeActivity();
         System.out.println("当前Activity为 onResume");
         super.onResume();
+        MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         System.out.println("当前Activity为 onPause");
         super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     @Override
-    protected void onRestart() {
-        System.out.println("当前Activity为 onRestart");
-        super.onRestart();
+    protected void onStart() {
+        super.onStart();
+        hideBar(this);
     }
 
     @Override
     protected void onDestroy() {
-        finish();
-        System.out.println("当前Activity为 onDestroy");
-        if (mImmersionBar != null){
-            mImmersionBar.destroy();  //不调用该方法，如果界面bar发生改变，在不关闭app的情况下，退出此界面再进入将记忆最后一次bar改变的状态
-        }
         super.onDestroy();
+        destoryImmersionBar();
     }
 
 

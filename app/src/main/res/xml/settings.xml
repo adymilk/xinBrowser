@@ -58,6 +58,13 @@
             android:summary="清除所有缓存"
             android:title="@string/clear_cache" />
 
+        <Preference
+            android:icon="@mipmap/download1"
+            android:defaultValue="false"
+            android:key="@string/downloadManager"
+            android:summary="/storage/emulated/0/Download"
+            android:title="@string/downloadManager" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="高级设置">
