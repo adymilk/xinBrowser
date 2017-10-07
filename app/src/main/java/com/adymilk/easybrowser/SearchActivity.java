@@ -3,6 +3,7 @@ package com.adymilk.easybrowser;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -36,25 +37,36 @@ public class SearchActivity extends AppCompatActivity {
     private Spinner spinner;
     private ImageView clear;
     private String s;
+    private String key_Customize_Home_bg;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // 沉浸状态栏
         setContentView(R.layout.activity_search);
-        String imaePath = SharedPreferencesUtils.init(this).getString("imaePath");
-        if (!(imaePath.isEmpty())){
-            ((LinearLayout)findViewById(R.id.search_bg)).setBackground(Drawable.createFromPath(imaePath));
+
+        key_Customize_Home_bg = getString(R.string.Customize_Home_bg);
+        final Boolean Customize_Home_bg = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(key_Customize_Home_bg, true);
+        String imaePath;
+        imaePath = SharedPreferencesUtils.init(this).getString("imaePath");
+        if (Customize_Home_bg){
+            if (!(imaePath.isEmpty())){
+                imaePath = SharedPreferencesUtils.init(this).getString("imaePath");
+
+            }
+        }else {
+            imaePath = null;
         }
+        ((LinearLayout)findViewById(R.id.search_bg)).setBackground(Drawable.createFromPath(imaePath));
+
+
 
 
         editText = (EditText) findViewById(R.id.edit_url);
         spinner = (Spinner) findViewById(R.id.spinner);
         btn_submit = (TextView) findViewById(R.id.btn_submit);
         clear = (ImageView) findViewById(R.id.clear);
-        clear.setVisibility(View.GONE);
+        clear.setVisibility(View.INVISIBLE);
         s = editText.getText().toString();
 
 
@@ -134,9 +146,9 @@ public class SearchActivity extends AppCompatActivity {
 
                 }else {
                     System.out.println("字符为空");
-                    clear.setVisibility(View.GONE);
+                    clear.setVisibility(View.INVISIBLE);
                     btn_submit.setText("取消");
-                    clear.setVisibility(View.GONE);
+                    clear.setVisibility(View.INVISIBLE);
                     btn_submit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -224,7 +236,7 @@ public class SearchActivity extends AppCompatActivity {
 
         Intent intent = new Intent();
         intent.setClass(SearchActivity.this, Browser.class);//从一个activity跳转到另一个activity
-        intent.putExtra("str", searchKey);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
+        intent.putExtra("targetUrl", searchKey);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
         startActivity(intent);
     }
 
@@ -235,10 +247,4 @@ public class SearchActivity extends AppCompatActivity {
     }
 
 
-    // 沉浸状态栏
-    public void initStatusBar() {
-        ImmersionBar.with(this)
-                .hideBar(BarHide.FLAG_HIDE_BAR)
-                .init();
-    }
 }

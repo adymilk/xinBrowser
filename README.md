@@ -1,10 +1,13 @@
-# 昕浏览器
+<h1 align="center">昕浏览器</h1>
 
 <p align="center"><img src="http://image.coolapk.com/apk_logo/2017/0827/icon-for-157097-o_1bohp62u4b6le6j1i4jdn41c4lq-uid-638761.jpg"/></p>
 
+
+<p align="center">[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Slidr-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1364) [![Build Status](https://travis-ci.org/r0adkll/Slidr.svg?branch=master)](https://travis-ci.org/r0adkll/Slidr)</p>
+
+已发布到 [酷安](https://www.coolapk.com/apk/157097)
+
 # 简介
-![](http://image.coolapk.com/apk_image/2017/0927/enframe_2017-09-27-14-54-05-157097-o_1br12be2rhlctli1m8inp510mr11-uid-638761@1055x1875.png)
-全新的昕浏览器 [官网](https://adymilk.github.io/)
 
 1、遵守软件开发友好原则 ，及时 释放 CPU 更省电。
 
@@ -26,7 +29,7 @@
 
 ## 核心理念
 
-> “安静的让用户快速准确找到所需要的信息并快速离开！不打扰，不去故意很懂你。”
+> “专注产品质量优化！不打扰，不去故意很懂你。”
 
 ## 最新功能
 
@@ -122,3 +125,24 @@
 ### V Bate 3.0.1 更新日志
 - [x] 优化网页加载速度.
 - [x] 新增首页背景设置开关
+
+### V Bate 3.0.2 更新日志
+- [x] 新增模拟微信浏览器UA .
+- [x] 调整网页标题栏高度
+- [x] 网页标题栏可点击
+
+### V Bate 3.0.3 更新日志
+- [x] 新增下载管理
+- [x] 优化沉浸状态栏
+- [x] 优化代码提高启动速度
+
+### V Bate 3.0.32 更新日志
+- [x] 优化代码,性能提升 50%
+- [x] 优化沉浸状态栏
+- [x] 主页图标部分重新设计
+- [x] 搜索结果界面添加下载管理入口
+- [x] 优化书签
+
+### V Bate 3.0.33 更新日志
+- [x] 增加微信二维码捐赠
+- [x] 修复开源相关跳转错误

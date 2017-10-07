@@ -27,6 +27,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.adymilk.easybrowser.por.Utils.initBar;
+import static com.adymilk.easybrowser.por.Utils.slideActivity;
+
 
 public class BookmarkActivity extends Activity {
     private ListView lv_book_Main;
@@ -40,8 +43,9 @@ public class BookmarkActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-    // 初始化 滑动返回和沉浸状态栏
-        initBarAndSildeActivity();
+        // 沉浸状态栏
+        initBar(this);
+        slideActivity(this);
         setContentView(R.layout.activity_bookmark);
 
 
@@ -82,25 +86,11 @@ public class BookmarkActivity extends Activity {
                 System.out.println("书签Url"+书签Url);
                 Intent intent = new Intent();
                 intent.setClass(BookmarkActivity.this, Browser.class);
-                intent.putExtra("str", 书签Url);
+                intent.putExtra("targetUrl", 书签Url);
                 System.out.println();
                 startActivity(intent);
             }
         });
-
-
-        lv_book_Main.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                书签标题 = SharedPreferencesUtils.init(BookmarkActivity.this).getString("bookmarkTitle" + Integer.toString(i+1) );
-//                System.out.println("书签标题是："+ 书签标题);
-
-
-                showDelItemDialog("警告","删除这条书签吗",i);
-                return false;
-            }
-        });
-
 
     }
 
@@ -220,21 +210,5 @@ public class BookmarkActivity extends Activity {
         });
         builder.show();
     }
-
-    public void initBarAndSildeActivity(){
-        // 沉浸状态栏
-        ImmersionBar.with(this)
-                .fitsSystemWindows(true)
-                .statusBarColor(R.color.colorPrimary)
-                .init();
-
-        //滑动隐藏 Activity
-        SlidrConfig config = new SlidrConfig.Builder()
-                .position(SlidrPosition.LEFT)
-                .edge(true)
-                .build();
-        Slidr.attach(this, config);
-    }
-
 
 }

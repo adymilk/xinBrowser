@@ -12,10 +12,10 @@
 
 
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar"></style>
-        <style name="AppTheme1" parent="AppBaseTheme">
-            <item name="windowActionBar">false</item>
-            <item name="windowNoTitle">true</item>
-        </style>
+    <style name="AppTheme1" parent="AppBaseTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 
     <style name="toolBar">
         <item name="colorControlNormal">#ffffff</item>
@@ -37,6 +37,12 @@
         <item name="colorPrimary">@color/colorPrimaryDark</item>
         <!--返回键样式-->
         <item name="drawerArrowStyle">@style/AppTheme.DrawerArrowToggle</item>
+        <!--标题颜色-->
+        <!--<item name="android:textColorPrimary">@color/write</item>-->
+        <!--状态栏颜色-->
+        <item name="android:colorPrimaryDark" tools:targetApi="lollipop">@color/blue_color</item>
+
+        <!--<item name="android:actionMenuTextColor">@color/write</item>-->
     </style>
 
     <style name="AppTheme.DrawerArrowToggle" parent="Base.Widget.AppCompat.DrawerArrowToggle">
@@ -50,7 +56,6 @@
     <style name="touming" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorPrimaryDark">@color/black</item>
     </style>
 
 
@@ -60,7 +65,8 @@
         <item name="android:colorAccent" tools:ignore="NewApi">@color/accent_color</item>
         <item name="android:listSeparatorTextViewStyle">@style/MPL_PreferenceListHeader</item>
         <item name="colorPrimary">#FF03A9F4</item>
-        <item name="colorPrimaryDark">#FF0288D1</item>
+        <!--<item name="colorPrimaryDark">#FF0288D1</item>-->
+        <item name="colorPrimaryDark">#FF03A9F4</item>
     </style>
 
     <style name="AppTheme.Light" parent="@style/Theme.AppCompat.Light.DarkActionBar">
@@ -70,7 +76,7 @@
         <item name="android:colorAccent" tools:ignore="NewApi">@color/accent_color</item>
         <item name="android:listSeparatorTextViewStyle">@style/MPL_PreferenceListHeader</item>
         <item name="colorPrimary">#FF03A9F4</item>
-        <item name="colorPrimaryDark">#FF0288D1</item>
+        <item name="colorPrimaryDark">#FF03A9F4</item>
         <item name="actionBarTheme">@style/AppTheme.ActionBarTheme.Light</item>
     </style>
 

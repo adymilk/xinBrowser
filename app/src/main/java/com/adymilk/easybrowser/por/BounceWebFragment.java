@@ -54,8 +54,7 @@ public class BounceWebFragment extends com.adymilk.easybrowser.por.AgentWebFragm
                 .go(getUrl());
 
 
-
-        addBGChild((FrameLayout) mAgentWeb.getWebCreator().getGroup()); // 得到 AgentWeb 最底层的控件
+//        addBGChild((FrameLayout) mAgentWeb.getWebCreator().getGroup()); // 得到 AgentWeb 最底层的控件
         initView(view);
 
     }

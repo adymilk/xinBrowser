@@ -24,25 +24,26 @@
         android:supportsRtl="true"
         android:theme="@style/BaseAppTheme"
         tools:replace="android:icon">
+
         <activity
             android:name=".Browser"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true"
-            android:theme="@style/touming" />
+            android:theme="@style/BrowserTheme" />
         <activity
             android:name=".BaseWebActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true"
             android:theme="@style/touming" />
         <activity
-            android:name="com.adymilk.easybrowser.CardView1Activity"
+            android:name="com.adymilk.easybrowser.CardViewActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true"
             android:theme="@style/touming" />
         <activity android:name="com.adymilk.easybrowser.ShareToTencent" />
         <activity
             android:name=".BookmarkActivity"
-            android:theme="@style/touming" />
+            android:theme="@style/BrowserTheme" />
 
         <!-- ############ QQ空间和QQ SSO授权的Activity注册 ############ -->
         <activity
@@ -92,8 +93,13 @@
                 <data android:scheme="sdksample" />
             </intent-filter>
         </activity>
-        <activity android:name=".SetttingActivity" />
-        <activity android:name="com.adymilk.easybrowser.AboutSoft" />
+        <activity android:name=".SetttingActivity"
+            android:label="@string/setting"
+            android:theme="@style/touming"/>
+        <activity
+            android:name="com.adymilk.easybrowser.AboutSoft"
+            android:label="@string/about_soft"
+            android:theme="@style/touming" />
         <activity
             android:name="com.adymilk.easybrowser.MainActivity"
             android:configChanges="orientation|screenSize"
@@ -157,19 +163,21 @@
                 <data android:scheme="http" />
                 <data android:scheme="https" />
             </intent-filter>
-
-            <meta-data
-                android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts" />
         </activity>
         <activity
             android:name="com.adymilk.easybrowser.CommSettingsActivity"
             android:label="@string/comm_settings"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"/>
         <activity android:name="com.adymilk.easybrowser.SearchActivity"
             android:windowSoftInputMode="stateAlwaysVisible">
         </activity>
         <activity android:name="io.github.xudaojie.qrcodelib.CaptureActivity" />
+
+        <!--友盟-->
+        <meta-data android:value="59d6e5e6bbea831d79000036" android:name="UMENG_APPKEY"/>
+        <meta-data android:value="${UMENG_CHANNEL_VALUE}" android:name="UMENG_CHANNEL"/>
+
+
     </application>
 
 </manifest>

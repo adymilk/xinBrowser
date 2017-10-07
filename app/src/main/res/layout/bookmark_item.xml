@@ -20,6 +20,7 @@
 
 
         <TextView
+            android:singleLine="true"
             android:gravity="center_vertical"
             android:id="@+id/tv_book_title"
             android:textSize="19sp"

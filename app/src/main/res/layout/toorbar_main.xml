@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:layout_height="?android:actionBarSize"
+    android:layout_height="40dp"
     android:background="@color/colorPrimary"
+    android:titleTextColor="@android:color/white"
     app:contentInsetLeft="0dp"
     app:contentInsetStart="0dp"
-    android:titleTextColor="@android:color/white"
-    app:titleTextColor="@android:color/white"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    app:titleTextColor="@android:color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,10 +19,10 @@
             android:layout_width="55dp"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:src="@mipmap/cha"
             android:background="@drawable/iv_back_selector"
+            android:clickable="true"
             android:scaleType="center"
-            android:clickable="true" />
+            android:src="@mipmap/cha" />
 
         <TextView
             android:id="@+id/toolbar_title"
@@ -32,18 +31,17 @@
             android:layout_centerInParent="true"
             android:singleLine="true"
             android:textColor="@android:color/white"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
 
         <ImageView
             android:id="@+id/iv_more"
             android:layout_width="55dp"
             android:layout_height="match_parent"
-            android:src="@mipmap/more"
-            android:scaleType="center"
             android:layout_alignParentRight="true"
             android:background="@drawable/iv_back_selector"
-            />
+            android:scaleType="center"
+            android:src="@mipmap/more" />
     </RelativeLayout>
 
 

@@ -17,6 +17,10 @@ import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrPosition;
 import com.tencent.tauth.Tencent;
 
+import static com.adymilk.easybrowser.por.Utils.destoryImmersionBar;
+import static com.adymilk.easybrowser.por.Utils.initBar;
+import static com.adymilk.easybrowser.por.Utils.slideActivity;
+
 
 public class Browser extends AppCompatActivity {
 
@@ -30,7 +34,9 @@ public class Browser extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        initBarAndSildeActivity();
+        // 沉浸状态栏
+        initBar(this);
+        slideActivity(this);
 
         setContentView(com.adymilk.easybrowser.por.R.layout.activity_browser);
 
@@ -39,7 +45,7 @@ public class Browser extends AppCompatActivity {
 
         Intent intent=getIntent();//getIntent将该项目中包含的原始intent检索出来，将检索出来的intent赋值给一个Intent类型的变量intent
         Bundle bundle=intent.getExtras();//.getExtras()得到intent所附带的额外数据
-        String str=bundle.getString("str");//getString()返回指定key的值
+        String str = bundle.getString("targetUrl");//getString()返回指定key的值
 
         mFrameLayout = (FrameLayout) this.findViewById(com.adymilk.easybrowser.por.R.id.container_framelayout);
 
@@ -75,29 +81,12 @@ public class Browser extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    public void initBarAndSildeActivity(){
-        // 沉浸状态栏
-        ImmersionBar.with(this)
-                .fitsSystemWindows(true)
-                .statusBarColor(R.color.colorPrimary)
-                .init();
 
-        //滑动隐藏 Activity
-        SlidrConfig config = new SlidrConfig.Builder()
-                .position(SlidrPosition.LEFT)
-                .edge(true)
-                .build();
-        Slidr.attach(this, config);
-    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        finish();
-        System.out.println("当前onDestroy");
-        if (mImmersionBar != null){
-            mImmersionBar.destroy();  //不调用该方法，如果界面bar发生改变，在不关闭app的情况下，退出此界面再进入将记忆最后一次bar改变的状态
-        }
+        destoryImmersionBar();
 
 
     }

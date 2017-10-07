@@ -5,34 +5,52 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.adymilk.easybrowser.por.R;
+import com.adymilk.easybrowser.por.SetttingActivity;
 import com.gyf.barlibrary.BarHide;
 import com.gyf.barlibrary.ImmersionBar;
 import com.leon.lib.settingview.LSettingItem;
 
 import moe.feng.alipay.zerosdk.AlipayZeroSdk;
 
-public class AboutSoft extends Activity {
+import static com.adymilk.easybrowser.por.Utils.slideActivity;
 
+public class AboutSoft extends AppCompatActivity {
+    private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // 沉浸状态栏
-//        initStatusBar();
+        initStatusBar();
+        slideActivity(this);
 
         setContentView(R.layout.about_software);
-        WebView webView = findViewById(R.id.webView_about);
-        LSettingItem join_qq_group = findViewById(R.id.join_qq_group);
-        LSettingItem donate = findViewById(R.id.donate);
+        webView = (WebView) findViewById(R.id.webView_about);
+        LSettingItem join_qq_group = (LSettingItem) findViewById(R.id.join_qq_group);
+        LSettingItem donate = (LSettingItem) findViewById(R.id.donate);
+        LSettingItem wechat_donate = (LSettingItem) findViewById(R.id.wechat_donate);
 
         webView.loadUrl("file:///android_asset/about.html");
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.setting_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationIcon(R.mipmap.back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         //加入QQ群
         join_qq_group.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
@@ -55,20 +73,21 @@ public class AboutSoft extends Activity {
         });
 
 
-
-
+        wechat_donate.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
+            @Override
+            public void click(boolean isChecked) {
+                /**
+                 * TODO: 微信转账二维码
+                 * url:https://ww2.sinaimg.cn/thumb300/00674Nvvgw1f83ly0wyw5j30k00joq5a.jpg
+                 */
+                Intent intent = new Intent();
+                intent.setClass(AboutSoft.this, com.adymilk.easybrowser.por.Browser.class);//从一个activity跳转到另一个activity
+                intent.putExtra("targetUrl", "https://ww2.sinaimg.cn/thumb300/00674Nvvgw1f83ly0wyw5j30k00joq5a.jpg");//给intent添加额外数据，key为“str”,key值为"Intent Demo"
+                startActivity(intent);
+            }
+        });
     }
 
-    private void toastShowShort(Context context, String msg) {
-        Toast mToast = null;
-        if (mToast == null) {
-            mToast = Toast.makeText(context.getApplicationContext(), msg, Toast.LENGTH_SHORT);
-        } else {
-
-            mToast.setText(msg);
-        }
-        mToast.show();
-    }
 
     /****************
      *
@@ -95,6 +114,8 @@ public class AboutSoft extends Activity {
     // 沉浸状态栏
     public void initStatusBar() {
         ImmersionBar.with(this)
+                .statusBarColor(R.color.blue_color)
+                .fitsSystemWindows(true)
                 .init();
     }
 
