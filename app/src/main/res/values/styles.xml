@@ -45,9 +45,6 @@
         <!--<item name="android:actionMenuTextColor">@color/write</item>-->
     </style>
 
-
-
-
     <style name="AppTheme.DrawerArrowToggle" parent="Base.Widget.AppCompat.DrawerArrowToggle">
         <item name="color">@android:color/white</item>
     </style>
@@ -59,17 +56,6 @@
     <style name="touming" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
-        <!--标题颜色-->
-        <item name="android:textColorPrimary">@color/white</item>
-        <!--标题颜色-->
-        <item name="android:actionMenuTextColor">@color/write</item>
-    </style>
-
-    <style name="BrowserTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <!--标题颜色-->
-        <item name="android:textColorPrimary">@color/black</item>
     </style>
 
 
