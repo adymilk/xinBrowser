@@ -3,7 +3,7 @@
 <p align="center"><img src="http://image.coolapk.com/apk_logo/2017/0827/icon-for-157097-o_1bohp62u4b6le6j1i4jdn41c4lq-uid-638761.jpg"/></p>
 
 
-<p align="center">[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Slidr-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1364) [![Build Status](https://travis-ci.org/r0adkll/Slidr.svg?branch=master)](https://travis-ci.org/r0adkll/Slidr)</p>
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Slidr-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1364) [![Build Status](https://travis-ci.org/r0adkll/Slidr.svg?branch=master)](https://travis-ci.org/r0adkll/Slidr)
 
 已发布到 [酷安](https://www.coolapk.com/apk/157097)
 
