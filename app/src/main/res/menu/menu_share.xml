@@ -38,7 +38,7 @@
         android:title="@string/clear_cache" />
     <item
         android:id="@+id/qq1"
-        android:icon="@mipmap/book"
+        android:icon="@mipmap/add"
         android:title="@string/as_book" />
 
     <item
@@ -54,8 +54,13 @@
 
     <item
         android:id="@+id/bookmarks"
-        android:icon="@mipmap/bookmark"
+        android:icon="@mipmap/book"
         android:title="@string/open_bookmarks" />
+
+    <item
+        android:id="@+id/download"
+        android:icon="@mipmap/download1"
+        android:title="@string/downloadManager" />
 
 
     <item

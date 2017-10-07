@@ -1,5 +1,6 @@
 package com.adymilk.easybrowser.por;
 
+import android.annotation.TargetApi;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -224,6 +225,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
             super.onReceivedHttpError(view, request, errorResponse);
         }
 
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
             return shouldOverrideUrlLoading(view, request.getUrl() + "");
@@ -342,6 +344,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
+            //关闭图片阻塞
             mWebView.getSettings().setBlockNetworkImage(false);
         }
     };
@@ -587,18 +590,24 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                                 }
                                 break;
 
+                            case "打开书签":
+                                intent.setClass(getContext(), com.adymilk.easybrowser.por.BookmarkActivity.class);
+                                startActivity(intent);
+                                break;
+
+                            case "下载管理":
+                                Intent intent1 = new Intent(Intent.ACTION_GET_CONTENT);
+                                intent1.setType("file/*");//设置类型，我这里是任意类型，任意后缀的可以这样写。
+                                intent1.addCategory(Intent.CATEGORY_OPENABLE);
+                                startActivity(intent1);
+                                break;
 
                             case "设置":
-
                                 intent.setClass(getContext(), SetttingActivity.class);
                                 startActivity(intent);
                                 break;
 
-                            case "打开书签":
 
-                                intent.setClass(getContext(), com.adymilk.easybrowser.por.BookmarkActivity.class);
-                                startActivity(intent);
-                                break;
 
                             default:
                                 break;

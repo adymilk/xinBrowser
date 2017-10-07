@@ -55,8 +55,6 @@ public class SetttingActivity extends AppCompatActivity {
             }
         });
 
-
-
         about.setRightText(appVersion);
 
 
@@ -103,7 +101,7 @@ public class SetttingActivity extends AppCompatActivity {
                  */
                 Intent intent = new Intent();
                 intent.setClass(SetttingActivity.this, com.adymilk.easybrowser.por.Browser.class);//从一个activity跳转到另一个activity
-                intent.putExtra("str", "https://github.com/adymilk/xinBrowser");//给intent添加额外数据，key为“str”,key值为"Intent Demo"
+                intent.putExtra("targetUrl", "https://github.com/adymilk/xinBrowser");//给intent添加额外数据，key为“str”,key值为"Intent Demo"
                 startActivity(intent);
             }
         });

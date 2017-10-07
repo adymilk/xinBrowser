@@ -1,8 +1,6 @@
 package com.adymilk.easybrowser;
 
 import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
@@ -19,13 +17,12 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.adymilk.easybrowser.por.BookmarkActivity;
 import com.adymilk.easybrowser.por.Browser;
 import com.adymilk.easybrowser.por.R;
 import com.adymilk.easybrowser.por.SetttingActivity;
-import com.gyf.barlibrary.BarHide;
-import com.gyf.barlibrary.ImmersionBar;
 import com.heima.easysp.SharedPreferencesUtils;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.umeng.analytics.MobclickAgent;
 
 import static com.adymilk.easybrowser.por.Utils.hideBar;
@@ -41,9 +38,6 @@ public class MainActivity extends Activity implements android.view.GestureDetect
     private String searchKey;
     //定义手势检测器实例
     GestureDetector detector;
-
-    // 状态栏
-    private ImmersionBar mImmersionBar;
     private LinearLayout cardview_content;
     private CardView cardView1;
     private CardView cardView2;
@@ -56,8 +50,6 @@ public class MainActivity extends Activity implements android.view.GestureDetect
     private TextView editText;
     private Spinner spinner;
     private ImageView scaner;
-    private IWXAPI wxApi;
-    private String WX_APP_ID = "wxee53eb68352c793e";
 
     private String key_Customize_Home_bg;
 
@@ -240,61 +232,34 @@ public class MainActivity extends Activity implements android.view.GestureDetect
             String 腾讯游戏 = "http://h5.qq.com";
             String 段子 = "http://m.budejie.com/";
             String 生活 = "http://go.uc.cn/page/life/life?uc_param_str=dnfrpfbivecpbtntlaad&source=webapp#!/meituan";
-            String 游戏 = "http://59600.com";
             String 新闻 = "http://3g.163.com/";
             String 小说 = "http://t.shuqi.com/route.php?pagename=";
             switch (v.getId()) {
                 case R.id.cardview1:
-                    intent.setClass(MainActivity.this, com.adymilk.easybrowser.CardView1Activity.class);//从一个activity跳转到另一个activity
-                    intent.putExtra("targetUrl", 直播);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
-                    startActivity(intent);
+                    startActivityToCardViewActivity(intent, CardViewActivity.class, 直播);
                     break;
                 case R.id.cardview2:
-                    intent.setClass(MainActivity.this, com.adymilk.easybrowser.CardView1Activity.class);//从一个activity跳转到另一个activity
-                    intent.putExtra("targetUrl", 漫画);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
-                    startActivity(intent);
+                    startActivityToCardViewActivity(intent, CardViewActivity.class, 漫画);
                     break;
                 case R.id.cardview3:
-                    intent.setClass(MainActivity.this, com.adymilk.easybrowser.CardView1Activity.class);//从一个activity跳转到另一个activity
-                    intent.putExtra("targetUrl", 腾讯游戏);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
-                    startActivity(intent);
+                    startActivityToCardViewActivity(intent, CardViewActivity.class, 腾讯游戏);
                     break;
                 case R.id.cardview4:
-                    intent.setClass(MainActivity.this, Browser.class);//从一个activity跳转到另一个activity
-                    intent.putExtra("str", 段子);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
-                    startActivity(intent);
+                    startActivityToCardViewActivity(intent, Browser.class, 段子);
                     break;
                 case R.id.cardview5:
-                    intent.setClass(MainActivity.this, com.adymilk.easybrowser.CardView1Activity.class);//从一个activity跳转到另一个activity
-                    intent.putExtra("targetUrl", 生活);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
-                    startActivity(intent);
+                    startActivityToCardViewActivity(intent, CardViewActivity.class, 生活);
                     break;
                 case R.id.cardview6:
-                    intent.setClass(MainActivity.this, Browser.class);//从一个activity跳转到另一个activity
-                    intent.putExtra("str", 游戏);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
-                    startActivity(intent);
+                    startActivityToCardViewActivity(intent, CardViewActivity.class, 小说);
                     break;
                 case R.id.cardview7:
-                    intent.setClass(MainActivity.this, com.adymilk.easybrowser.CardView1Activity.class);//从一个activity跳转到另一个activity
-                    intent.putExtra("targetUrl", 新闻);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
-                    startActivity(intent);
+                    startActivityToCardViewActivity(intent, CardViewActivity.class, 新闻);
                     break;
                 case R.id.cardview8:
-                    intent.setClass(MainActivity.this, com.adymilk.easybrowser.CardView1Activity.class);//从一个activity跳转到另一个activity
-                    intent.putExtra("targetUrl", 小说);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
-                    startActivity(intent);
+                    startActivityToCardViewActivity(intent, BookmarkActivity.class, "书签");
                     break;
                 case R.id.iv_scaner:
-                    //实例化
-
-//                    wxApi = WXAPIFactory.createWXAPI(MainActivity.this, WX_APP_ID);
-//                    wxApi.registerApp(WX_APP_ID);
-//
-//                    if (!wxApi.isWXAppInstalled()) {
-//                        toastShowShort(MainActivity.this, "未安装微信客户端！");
-//                    } else {
-//                        toWeChatScanDirect(MainActivity.this);
-//                    }
                     Intent i = new Intent(MainActivity.this, io.github.xudaojie.qrcodelib.CaptureActivity.class);
                     startActivityForResult(i, REQUEST_QR_CODE);
                     break;
@@ -305,20 +270,6 @@ public class MainActivity extends Activity implements android.view.GestureDetect
         }
     }
 
-    // 跳转微信扫一扫
-    public static void toWeChatScanDirect(Context context) {
-        try {
-            Intent intent = new Intent();
-            intent.setComponent(new ComponentName("com.tencent.mm", "com.tencent.mm.ui.LauncherUI"));
-            intent.putExtra("LauncherUI.From.Scaner.Shortcut", true);
-            intent.setFlags(335544320);
-            intent.setAction("android.intent.action.VIEW");
-            context.startActivity(intent);
-        } catch (Exception e) {
-        }
-    }
-
-
     //    清爽模式
     public void setSimpleMode() {
         final String key_simple_mode = getString(R.string.simple_mode);
@@ -328,16 +279,28 @@ public class MainActivity extends Activity implements android.view.GestureDetect
             cardview_content.setVisibility(View.GONE);
         } else if (!isSimpleMode) {
             cardview_content.setVisibility(View.VISIBLE);
-
         }
+    }
 
-
+    //CardView 点击跳转
+    public void startActivityToCardViewActivity(Intent intent, Class c, String s) {
+        intent.setClass(MainActivity.this, c);//从一个activity跳转到另一个activity
+        intent.putExtra("targetUrl", s);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
+        startActivity(intent);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         setSimpleMode();
+        setHomeBg();
+
+        //隐藏状态栏
+        hideBar(this);
+        System.out.println("当前Activity状态为onStart");
+    }
+
+    private void setHomeBg() {
         key_Customize_Home_bg = getString(R.string.Customize_Home_bg);
         final Boolean Customize_Home_bg = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(key_Customize_Home_bg, true);
         String imaePath;
@@ -351,10 +314,6 @@ public class MainActivity extends Activity implements android.view.GestureDetect
         }
         ((LinearLayout)findViewById(R.id.linearLayout_main)).setBackground(Drawable.createFromPath(imaePath));
         System.out.println("Customize_Home_bg"+Customize_Home_bg);
-
-        //隐藏状态栏
-        hideBar(this);
-        System.out.println("当前Activity状态为onStart");
     }
 
     @Override
@@ -376,7 +335,7 @@ public class MainActivity extends Activity implements android.view.GestureDetect
             String result = data.getStringExtra("result");
             Intent intent = new Intent();
             intent.setClass(MainActivity.this, Browser.class);//从一个activity跳转到另一个activity
-            intent.putExtra("str", result);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
+            intent.putExtra("targetUrl", result);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
             startActivity(intent);
             Toast.makeText(MainActivity.this, result, Toast.LENGTH_SHORT).show();
         }
@@ -400,7 +359,6 @@ public class MainActivity extends Activity implements android.view.GestureDetect
 //        Bitmap bm = BitmapFactory.decodeFile(imaePath);
         SharedPreferencesUtils.init(this).putString("imaePath",imaePath);
         System.out.println("图片路径"+ imaePath);
-//        toastShowShort(this,"图片路径为："+imaePath);
         ((LinearLayout)findViewById(R.id.linearLayout_main)).setBackground(Drawable.createFromPath(imaePath));
     }
 

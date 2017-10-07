@@ -3,14 +3,17 @@ package com.adymilk.easybrowser;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.gyf.barlibrary.ImmersionBar;
 import com.just.library.AgentWeb;
 import com.just.library.PermissionInterceptor;
 import com.umeng.analytics.MobclickAgent;
@@ -20,11 +23,10 @@ import static com.adymilk.easybrowser.por.Utils.hideBar;
 import static com.adymilk.easybrowser.por.Utils.slideActivity;
 
 
-public class CardView1Activity extends Activity {
+public class CardViewActivity extends Activity {
     private LinearLayout mLinearLayout;
     private AgentWeb mAgentWeb;
     private WebView mWebView;
-    private ImmersionBar mImmersionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +61,29 @@ public class CardView1Activity extends Activity {
         @Override
         public boolean intercept(String url, String[] permissions, String action) {
             Log.i(TAG, "url:" + url + "  permission:" + permissions + " action:" + action);
-            toastShowShort(CardView1Activity.this,"正在申请权限！");
+            toastShowShort(CardViewActivity.this, "正在申请权限！");
 
             return false;
+        }
+    };
+
+    protected WebViewClient webViewClient = new WebViewClient() {
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+            mWebView = mAgentWeb.getWebCreator().get();
+            // 阻塞图片
+            mWebView.getSettings().setBlockNetworkImage(true);
+            //提高渲染等级
+            mWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            //关闭图片阻塞
+            mWebView.getSettings().setBlockNetworkImage(false);
         }
     };
 

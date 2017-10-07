@@ -40,7 +40,7 @@
         <!--标题颜色-->
         <!--<item name="android:textColorPrimary">@color/write</item>-->
         <!--状态栏颜色-->
-        <item name="android:colorPrimaryDark">@color/blue_color</item>
+        <item name="android:colorPrimaryDark" tools:targetApi="lollipop">@color/blue_color</item>
 
         <!--<item name="android:actionMenuTextColor">@color/write</item>-->
     </style>
@@ -60,10 +60,16 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <!--标题颜色-->
-        <item name="android:textColorPrimary">@color/write</item>
-
+        <item name="android:textColorPrimary">@color/white</item>
         <!--标题颜色-->
         <item name="android:actionMenuTextColor">@color/write</item>
+    </style>
+
+    <style name="BrowserTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--标题颜色-->
+        <item name="android:textColorPrimary">@color/black</item>
     </style>
 
 

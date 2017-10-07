@@ -9,13 +9,21 @@
     tools:context=".SetttingActivity">
 
 
+    <android.support.v7.widget.Toolbar
+        android:background="@color/blue_color"
+        android:id="@+id/setting_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+    </android.support.v7.widget.Toolbar>
+
 
     <com.leon.lib.settingview.LSettingItem
         android:id="@+id/join_qq_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         leon:leftIcon="@mipmap/qq_group"
-        leon:leftText="加入官方群"
+        leon:leftText="@string/join_qq_group"
         leon:rightStyle="iconShow" />
 
     <com.leon.lib.settingview.LSettingItem
@@ -23,7 +31,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         leon:leftIcon="@mipmap/zhifubao"
-        leon:leftText="支付宝捐赠"
+        leon:leftText="@string/alipay_donate"
+        leon:rightStyle="iconShow" />
+
+    <com.leon.lib.settingview.LSettingItem
+        android:id="@+id/wechat_donate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        leon:leftIcon="@mipmap/wechat_donate"
+        leon:leftText="@string/wechat_donate"
         leon:rightStyle="iconShow" />
 
 

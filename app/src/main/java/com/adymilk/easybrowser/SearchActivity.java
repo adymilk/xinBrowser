@@ -236,7 +236,7 @@ public class SearchActivity extends AppCompatActivity {
 
         Intent intent = new Intent();
         intent.setClass(SearchActivity.this, Browser.class);//从一个activity跳转到另一个activity
-        intent.putExtra("str", searchKey);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
+        intent.putExtra("targetUrl", searchKey);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
         startActivity(intent);
     }
 

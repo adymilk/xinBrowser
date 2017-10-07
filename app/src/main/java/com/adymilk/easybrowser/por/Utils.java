@@ -2,6 +2,7 @@ package com.adymilk.easybrowser.por;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.annotation.ColorRes;
@@ -51,7 +52,7 @@ public class Utils extends Activity{
         }
     }
 
-    private void toastShowShort(Context context, String msg) {
+    private static void toastShowShort(Context context, String msg) {
         Toast mToast = null;
         if (mToast == null) {
             mToast = Toast.makeText(context.getApplicationContext(), msg, Toast.LENGTH_SHORT);
@@ -61,5 +62,6 @@ public class Utils extends Activity{
         }
         mToast.show();
     }
+
 
 }

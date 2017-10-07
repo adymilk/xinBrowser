@@ -15,8 +15,8 @@ android {
         applicationId "com.adymilk.easybrowser.por"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 8
-        versionName "Beta 3.0.32"
+        versionCode 9
+        versionName "Beta 3.0.33"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -27,6 +27,7 @@ android {
         }
     }
 
+    // 多渠道打包
     productFlavors {
         coolapk {
             manifestPlaceholders = [UMENG_CHANNEL_VALUE: "coolapk"]
@@ -55,7 +56,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile files('libs/open_sdk_r5793.jar')
+    compile files('libs/open_sdk_r5793.jar') //QQ SDK
     testCompile 'junit:junit:4.12'
 
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+' //微信SDK
@@ -71,9 +72,9 @@ dependencies {
     compile 'com.gyf.barlibrary:barlibrary:2.2.8' //沉浸状态栏
     compile 'com.r0adkll:slidableactivity:2.0.5' //滑动关闭当前 Activity
     compile 'com.android.support:support-v4:26.+'
-    compile 'top.zibin:BottomDialog:1.0.1'
-    compile 'com.leon:lsettingviewlibrary:1.5.0'
-    compile 'com.github.AndroidDeveloperLB:MaterialPreferenceLibrary:10'
+    compile 'top.zibin:BottomDialog:1.0.1' //底下部弹出Dialog
+    compile 'com.leon:lsettingviewlibrary:1.5.0' //设置
+    compile 'com.github.AndroidDeveloperLB:MaterialPreferenceLibrary:10' //设置
     compile 'com.github.XuDaojie:QRCode-Android:v0.4.2' //二维码
     compile 'com.umeng.analytics:analytics:latest.integration' //友盟
     testCompile 'junit:junit:4.12'

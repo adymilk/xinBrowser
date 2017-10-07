@@ -18,6 +18,7 @@ import com.r0adkll.slidr.model.SlidrPosition;
 import com.tencent.tauth.Tencent;
 
 import static com.adymilk.easybrowser.por.Utils.destoryImmersionBar;
+import static com.adymilk.easybrowser.por.Utils.initBar;
 import static com.adymilk.easybrowser.por.Utils.slideActivity;
 
 
@@ -34,10 +35,7 @@ public class Browser extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // 沉浸状态栏
-        ImmersionBar.with(this)
-                .fitsSystemWindows(true)
-                .statusBarColor(R.color.colorPrimary)
-                .init();
+        initBar(this);
         slideActivity(this);
 
         setContentView(com.adymilk.easybrowser.por.R.layout.activity_browser);
@@ -47,7 +45,7 @@ public class Browser extends AppCompatActivity {
 
         Intent intent=getIntent();//getIntent将该项目中包含的原始intent检索出来，将检索出来的intent赋值给一个Intent类型的变量intent
         Bundle bundle=intent.getExtras();//.getExtras()得到intent所附带的额外数据
-        String str=bundle.getString("str");//getString()返回指定key的值
+        String str = bundle.getString("targetUrl");//getString()返回指定key的值
 
         mFrameLayout = (FrameLayout) this.findViewById(com.adymilk.easybrowser.por.R.id.container_framelayout);
 
