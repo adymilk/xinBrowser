@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.v7.widget.Toolbar
+        android:background="@color/blue_color"
+        android:id="@+id/setting_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+    </android.support.v7.widget.Toolbar>
+
+
+    <LinearLayout
+        android:background="@color/blue_color"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!--<com.facebook.drawee.view.SimpleDraweeView-->
+        <!--android:id="@+id/goods_image"-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="100dp"-->
+        <!--fresco:placeholderImage="@mipmap/img"/>-->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/goods_image"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@mipmap/img" />
+
+
+        <TextView
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/write"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:padding="5dp"
+            android:text="商品名称"
+            android:id="@+id/goods_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_margin="8dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_margin="5dp"
+            android:text="产地=null"
+            android:id="@+id/goods_prodAddr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+        <TextView
+            android:layout_margin="5dp"
+            android:text="规格=null"
+            android:id="@+id/goods_spec"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_margin="5dp"
+            android:text="分类=null"
+            android:id="@+id/goods_goodsType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_margin="5dp"
+            android:text="国家=null"
+            android:id="@+id/zpg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_margin="5dp"
+            android:text="商标=null"
+            android:id="@+id/trademark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_margin="5dp"
+            android:text="代码=null"
+            android:id="@+id/code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_margin="5dp"
+            android:text="厂商=null"
+            android:id="@+id/manuName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</LinearLayout>
+

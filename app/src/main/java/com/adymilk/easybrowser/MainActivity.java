@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v7.widget.CardView;
@@ -18,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.adymilk.easybrowser.Ui.BarcodeActivity;
 import com.adymilk.easybrowser.por.BookmarkActivity;
 import com.adymilk.easybrowser.por.Browser;
 import com.adymilk.easybrowser.por.R;
@@ -25,7 +27,7 @@ import com.adymilk.easybrowser.por.SetttingActivity;
 import com.heima.easysp.SharedPreferencesUtils;
 import com.umeng.analytics.MobclickAgent;
 
-import static com.adymilk.easybrowser.por.Utils.hideBar;
+import static com.adymilk.easybrowser.Utils.comm.hideBar;
 
 
 public class MainActivity extends Activity implements android.view.GestureDetector.OnGestureListener {
@@ -50,8 +52,9 @@ public class MainActivity extends Activity implements android.view.GestureDetect
     private TextView editText;
     private Spinner spinner;
     private ImageView scaner;
-
     private String key_Customize_Home_bg;
+    private String resJson;
+    protected Handler mHandler = new Handler();
 
 
     @Override
@@ -152,7 +155,7 @@ public class MainActivity extends Activity implements android.view.GestureDetect
                 searchKey = uri.toString();
                 Intent intent = new Intent();
                 intent.setClass(MainActivity.this, com.adymilk.easybrowser.por.Browser.class);//从一个activity跳转到另一个activity
-                intent.putExtra("str", searchKey);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
+                intent.putExtra("targetUrl", searchKey);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
                 startActivity(intent);
             }
         }
@@ -332,12 +335,46 @@ public class MainActivity extends Activity implements android.view.GestureDetect
         if (resultCode == RESULT_OK
                 && requestCode == REQUEST_QR_CODE
                 && data != null) {
-            String result = data.getStringExtra("result");
-            Intent intent = new Intent();
-            intent.setClass(MainActivity.this, Browser.class);//从一个activity跳转到另一个activity
-            intent.putExtra("targetUrl", result);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
-            startActivity(intent);
-            Toast.makeText(MainActivity.this, result, Toast.LENGTH_SHORT).show();
+            final String result = data.getStringExtra("result");
+            boolean isNum = result.matches("[0-9]+");
+            if (isNum == false) {
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, Browser.class);//从一个activity跳转到另一个activity
+                intent.putExtra("targetUrl", result);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
+                startActivity(intent);
+                Toast.makeText(MainActivity.this, result, Toast.LENGTH_SHORT).show();
+            } else {
+                //如果是数字（条形码）
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, BarcodeActivity.class);//从一个activity跳转到另一个activity
+                intent.putExtra("barcode", result);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
+                startActivity(intent);
+//                // TODO：解析 条形码接口返回的 json 数据
+//                new Thread(){
+//                    //在新线程中发送网络请求
+//                    public void run() {
+//                        String appid="47350";//要替换成自己的
+//                        String secret="80c96b01d8d142979a7eef72cefc32c4";//要替换成自己的
+//                        final String res=new ShowApiRequest( "http://route.showapi.com/66-22", appid, secret)
+//                                .addTextPara("code", result)
+//                                .post();
+//
+//                        System.out.println("返回的json"+res);
+//                        //把返回内容通过handler对象更新到界面
+//                        mHandler.post(new Thread(){
+//                            public void run() {
+////                                txt.setText(res+"  "+new Date());
+//                                Intent intent = new Intent();
+//                                intent.setClass(MainActivity.this, BarcodeActivity.class);//从一个activity跳转到另一个activity
+//                                intent.putExtra("resJson", res);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
+//                                startActivity(intent);
+//                            }
+//                        });
+//                    }
+//                }.start();
+
+            }
+
         }
         //获取图片路径
         else if (requestCode == IMAGE && resultCode == Activity.RESULT_OK && data != null) {

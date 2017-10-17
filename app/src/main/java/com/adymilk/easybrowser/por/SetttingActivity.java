@@ -18,8 +18,8 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.leon.lib.settingview.LSettingItem;
 import com.umeng.analytics.MobclickAgent;
 
-import static com.adymilk.easybrowser.por.Utils.destoryImmersionBar;
-import static com.adymilk.easybrowser.por.Utils.slideActivity;
+import static com.adymilk.easybrowser.Utils.comm.destoryImmersionBar;
+import static com.adymilk.easybrowser.Utils.comm.slideActivity;
 
 import java.util.List;
 

@@ -50,6 +50,12 @@
         <item>必应</item>
         <item>搜狗</item>
         <item>神马</item>
+        <item>磁力</item>
+        <item>酷安</item>
+        <item>知乎</item>
+        <item>豆瓣</item>
+        <item>GitHub</item>
+        <item>Bilibili</item>
     </array>
     <string name="title_activity_settings">Settings</string>
     <string name="comm_settings">常规设置</string>

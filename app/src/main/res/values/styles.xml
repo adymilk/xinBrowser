@@ -71,6 +71,14 @@
         <item name="android:colorPrimaryDark" tools:targetApi="lollipop">@color/black</item>
     </style>
 
+    <style name="scanTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+
+        <!--标题颜色-->
+        <item name="android:textColorPrimary">@color/write</item>
+        <!--状态栏颜色-->
+        <item name="android:colorPrimaryDark" tools:targetApi="lollipop">@color/blue_color</item>
+    </style>
+
 
     <!--夜间主题-->
     <style name="AppTheme.Dark" parent="@style/Theme.AppCompat.NoActionBar">

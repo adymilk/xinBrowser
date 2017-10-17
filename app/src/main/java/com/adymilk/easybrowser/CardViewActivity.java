@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -18,9 +17,9 @@ import com.just.library.AgentWeb;
 import com.just.library.PermissionInterceptor;
 import com.umeng.analytics.MobclickAgent;
 
-import static com.adymilk.easybrowser.por.Utils.destoryImmersionBar;
-import static com.adymilk.easybrowser.por.Utils.hideBar;
-import static com.adymilk.easybrowser.por.Utils.slideActivity;
+import static com.adymilk.easybrowser.Utils.comm.destoryImmersionBar;
+import static com.adymilk.easybrowser.Utils.comm.hideBar;
+import static com.adymilk.easybrowser.Utils.comm.slideActivity;
 
 
 public class CardViewActivity extends Activity {
@@ -43,6 +42,7 @@ public class CardViewActivity extends Activity {
                 .useDefaultIndicator()// 使用默认进度条
                 .defaultProgressBarColor() // 使用默认进度条颜色
                 .setPermissionInterceptor(mPermissionInterceptor)
+                .setWebViewClient(webViewClient)
                 .createAgentWeb()
                 .ready()
                 .go(targetUrl);
@@ -72,6 +72,9 @@ public class CardViewActivity extends Activity {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
+
+            // call js
+            mAgentWeb.getJsEntraceAccess().quickCallJs("callByAndroid");
             mWebView = mAgentWeb.getWebCreator().get();
             // 阻塞图片
             mWebView.getSettings().setBlockNetworkImage(true);
@@ -84,6 +87,9 @@ public class CardViewActivity extends Activity {
             super.onPageFinished(view, url);
             //关闭图片阻塞
             mWebView.getSettings().setBlockNetworkImage(false);
+
+            mWebView.loadUrl("javascript: $('.u-ad-wrap').remove();$('.home_packet').remove();$('.pbpb-item').remove();$('.m_pbpb_m0').remove();");
+//            mAgentWeb.getJsEntraceAccess().quickCallJs("var x = document.getElementsByClassName(\"u-ad-wrap\");for(var i=0;i<x.length;i++){x[i].style.display='none';}");
         }
     };
 
