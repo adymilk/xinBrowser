@@ -8,9 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.GestureDetector;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -19,13 +17,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.adymilk.easybrowser.por.Browser;
 import com.adymilk.easybrowser.por.R;
-import com.adymilk.easybrowser.por.SetttingActivity;
-import com.gyf.barlibrary.BarHide;
-import com.gyf.barlibrary.ImmersionBar;
 import com.heima.easysp.SharedPreferencesUtils;
 
 public class SearchActivity extends AppCompatActivity {
@@ -89,24 +83,46 @@ public class SearchActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i == 0) {
-                    searchEngines = "https://m.baidu.com/s?word=";
-                    System.out.println("选择的是百度");
-                } else if (i == 1) {
-                    searchEngines = "https://www.google.fr/search?ei=CDiYWeLYGoKTa5r0qRg&q=";
-                    System.out.println("选择的是谷歌");
-                } else if (i == 2) {
-                    searchEngines = "https://cn.bing.com/search?q=";
-                    System.out.println("必应");
-                } else if (i == 3) {
-                    searchEngines = "https://wap.sogou.com/web/searchList.jsp?keyword=";
-                    System.out.println("搜狗");
-                } else if (i == 4) {
-                    searchEngines = "http://m.sm.cn/s?q=";
-                    System.out.println("神马");
-                } else {
-                    System.out.println("未选择");
+                switch (i) {
+                    case 0: //百度
+                        searchEngines = "https://m.baidu.com/s?word=";
+                        break;
+                    case 1: //谷歌
+                        searchEngines = "https://www.google.fr/search?ei=CDiYWeLYGoKTa5r0qRg&q=";
+                        break;
+                    case 2: //必应
+                        searchEngines = "https://cn.bing.com/search?q=";
+                        break;
+                    case 3: //搜狗
+                        searchEngines = "https://wap.sogou.com/web/searchList.jsp?keyword=";
+                        break;
+                    case 4: //神马
+                        searchEngines = "http://m.sm.cn/s?q=";
+                        break;
+                    case 5: //磁力链接
+                        searchEngines = "http://www.sexba.net/search-kw-";
+                        break;
+                    case 6: //酷安
+                        searchEngines = "https://www.coolapk.com/search?q=";
+                        break;
+                    case 7: //知乎
+                        searchEngines = "https://www.zhihu.com/search?type=content&q=";
+                        break;
+                    case 8: //豆瓣
+                        searchEngines = "https://m.douban.com/search/?query=";
+                        break;
+                    case 9: //github
+                        searchEngines = "https://github.com/search?q=";
+                        break;
+                    case 10: //bilibili
+                        searchEngines = "https://m.bilibili.com/search.html?keyword=";
+                        break;
+
+                    default:
+                        break;
                 }
+
+
             }
 
             @Override
@@ -118,16 +134,16 @@ public class SearchActivity extends AppCompatActivity {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                System.out.println("字符串长度为："+s.length());
-                System.out.println("状态为：beforeTextChanged");
+//                System.out.println("字符串长度为："+s.length());
+//                System.out.println("状态为：beforeTextChanged");
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                System.out.println("字符串长度为："+charSequence.length());
-                System.out.println("状态为：onTextChanged");
+//                System.out.println("字符串长度为："+charSequence.length());
+//                System.out.println("状态为：onTextChanged");
                 if (charSequence.length()!= 0){
-                    System.out.println("字符不为空");
+//                    System.out.println("字符不为空");
                     btn_submit.setText("搜索");
                     clear.setVisibility(View.VISIBLE);
                     btn_submit.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +161,7 @@ public class SearchActivity extends AppCompatActivity {
                     });
 
                 }else {
-                    System.out.println("字符为空");
+//                    System.out.println("字符为空");
                     clear.setVisibility(View.INVISIBLE);
                     btn_submit.setText("取消");
                     clear.setVisibility(View.INVISIBLE);
@@ -163,8 +179,8 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                System.out.println("字符串长度为："+s.length());
-                System.out.println("状态为：afterTextChanged");
+//                System.out.println("字符串长度为："+s.length());
+//                System.out.println("状态为：afterTextChanged");
             }
         });
 
@@ -213,23 +229,19 @@ public class SearchActivity extends AppCompatActivity {
          */
         searchKey = editText.getText().toString();
 
-//    包含 http 头
-        if (searchKey.indexOf("http") != -1) {
+        if (searchKey.startsWith("http")) {
             searchKey = searchKey;
-        } else if (searchKey.indexOf("www.") != -1) {
+
+        } else if (searchKey.startsWith("www.")
+                || searchKey.endsWith(".com")
+                || searchKey.endsWith(".cn")
+                || searchKey.endsWith(".org")
+                || searchKey.endsWith(".info")
+                || searchKey.endsWith(".net")
+                || searchKey.endsWith("io")
+                || searchKey.endsWith(".cc")) {
             searchKey = "http://" + searchKey;
-        } else if (searchKey.lastIndexOf(".com") != -1) {
-            searchKey = "http://" + searchKey;
-        } else if (searchKey.lastIndexOf(".cn") != -1) {
-            searchKey = "http://" + searchKey;
-        } else if (searchKey.lastIndexOf(".org") != -1) {
-            searchKey = "http://" + searchKey;
-        } else if (searchKey.lastIndexOf(".info") != -1) {
-            searchKey = "http://" + searchKey;
-        } else if (searchKey.lastIndexOf(".net") != -1) {
-            searchKey = "http://" + searchKey;
-        } else if (searchKey.lastIndexOf(".io") != -1) {
-            searchKey = "http://" + searchKey;
+
         } else {
             searchKey = searchEngines + searchKey;
         }
@@ -238,6 +250,7 @@ public class SearchActivity extends AppCompatActivity {
         intent.setClass(SearchActivity.this, Browser.class);//从一个activity跳转到另一个activity
         intent.putExtra("targetUrl", searchKey);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
         startActivity(intent);
+
     }
 
     public void hideInput(View view) {

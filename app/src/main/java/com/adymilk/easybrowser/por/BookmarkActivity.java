@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,19 +15,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
-import com.gyf.barlibrary.ImmersionBar;
 import com.heima.easysp.SharedPreferencesUtils;
-import com.r0adkll.slidr.Slidr;
-import com.r0adkll.slidr.model.SlidrConfig;
-import com.r0adkll.slidr.model.SlidrPosition;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.adymilk.easybrowser.por.Utils.initBar;
-import static com.adymilk.easybrowser.por.Utils.slideActivity;
+import static com.adymilk.easybrowser.Utils.comm.initBar;
+import static com.adymilk.easybrowser.Utils.comm.slideActivity;
 
 
 public class BookmarkActivity extends Activity {

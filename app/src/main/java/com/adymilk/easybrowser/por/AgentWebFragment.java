@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -15,8 +16,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
 import android.util.Log;
@@ -25,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -51,6 +55,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.tauth.Tencent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.curzbin.library.BottomDialog;
@@ -59,6 +64,7 @@ import me.curzbin.library.OnItemClickListener;
 
 import com.just.library.PermissionInterceptor;
 
+import static com.adymilk.easybrowser.Utils.comm.showDialog;
 import static com.adymilk.easybrowser.por.R.*;
 
 
@@ -117,13 +123,15 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                 .setAgentWebWebSettings(getSettings())//
                 .setWebViewClient(mWebViewClient)
                 .setWebChromeClient(mWebChromeClient)
+                .addDownLoadResultListener(mDownLoadResultListener) //下载回调
+                .openParallelDownload()//打开并行下载 , 默认串行下载
+                .setNotifyIcon(R.mipmap.download)
                 .setPermissionInterceptor(mPermissionInterceptor)
                 .setReceivedTitleCallback(mCallback)
-                .setSecurityType(AgentWeb.SecurityType.strict)
-                .addDownLoadResultListener(mDownLoadResultListener)
+                .setSecurityType(AgentWeb.SecurityType.strict)//严格模式
                 .createAgentWeb()//
                 .ready()//
-                .go(getUrl());
+                .go(getUrl());//WebView载入该url地址的页面并显示。
 
 
         initView(view);
@@ -228,23 +236,36 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+
             return shouldOverrideUrlLoading(view, request.getUrl() + "");
         }
 
 
         //
         @Override
-        public boolean shouldOverrideUrlLoading(final WebView view, String url) {
+        public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
+
 //            LogUtils.i("Info", "mWebViewClient shouldOverrideUrlLoading:" + url);
             //intent:// scheme的处理 如果返回false ， 则交给 DefaultWebClient 处理 ， 默认会打开该Activity  ， 如果Activity不存在则跳到应用市场上去.  true 表示拦截
             //例如优酷视频播放 ，intent://play?...package=com.youku.phone;end;
             //优酷想唤起自己应用播放该视频 ， 下面拦截地址返回 true  则会在应用内 H5 播放 ，禁止优酷唤起播放该视频， 如果返回 false ， DefaultWebClient  会根据intent 协议处理 该地址 ， 首先匹配该应用存不存在 ，如果存在 ， 唤起该应用播放 ， 如果不存在 ， 则跳到应用市场下载该应用 .
-            if (url.startsWith("intent://"))
+
+            if (!url.startsWith("http")) {
+
+                Snackbar.make(view, "请求打开app", Snackbar.LENGTH_LONG)
+                        .setAction("打开", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                openBrowser(url);
+                            }
+                        })
+                        .show();
+                return true;
+            } else {
                 return false;
+            }
             /*else if (isAlipay(view, url))   //1.2.5开始不用调用该方法了 ，只要引入支付宝sdk即可 ， DefaultWebClient 默认会处理相应url调起支付宝
                 return true;*/
-
-            return false;
         }
 
         @Override
@@ -269,28 +290,28 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 
             switch (ua){
                 case "UC浏览器":
-                    mWebView.getSettings().setUserAgentString("Mozilla/5.0 (iPhone; CPU iPhone OS 9_2_1 like Mac OS X; zh-CN) AppleWebKit/537.51.1 (KHTML, like Gecko) Mobile/13D15 UCBrowser/10.9.15.793 Mobile");
+                    setBrowserUserAgent("Mozilla/5.0 (Linux; U; Android 6.0.1; zh-CN; MI 5 Build/MXB48T) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/40.0.2214.89 UCBrowser/11.5.8.945 Mobile Safari/537.36");
                     break;
                 case "Chrome":
-                    mWebView.getSettings().setUserAgentString("User-Agent: Mozilla/5.0 (Linux; U; Android 2.2.1; zh-cn; HTC_Wildfire_A3333 Build/FRG83D) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1");
+                    setBrowserUserAgent("User-Agent: Mozilla/5.0 (Linux; U; Android 2.2.1; zh-cn; HTC_Wildfire_A3333 Build/FRG83D) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1");
                     break;
                 case "百度浏览器":
-                    mWebView.getSettings().setUserAgentString("Mozilla/5.0 (Linux; U; Android 4.4.4; zh-cn; CHM-CL00 Build/CHM-CL00) AppleWebKit/534.24 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.24 T5/2.0 baiduboxapp/7.1 (Baidu; P1 4.4.4)");
+                    setBrowserUserAgent("Mozilla/5.0 (Linux; Android 7.0; HUAWEI NXT-AL10 Build/HUAWEINXT-AL10; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/48.0.2564.116 Mobile Safari/537.36 baidubrowser/7.12.12.0 (Baidu; P1 7.0)");
                     break;
                 case "QQ浏览器":
-                    mWebView.getSettings().setUserAgentString("Mozilla/5.0 (Linux; U; Android 5.1; zh-cn; m2 note Build/LMY47D) AppleWebKit/537.36 (KHTML, like Gecko)Version/4.0 Chrome/37.0.0.0 MQQBrowser/6.6 Mobile Safari/537.36");
+                    setBrowserUserAgent("Mozilla/5.0 (Linux; U; Android 5.1; zh-cn; m2 note Build/LMY47D) AppleWebKit/537.36 (KHTML, like Gecko)Version/4.0 Chrome/37.0.0.0 MQQBrowser/6.6 Mobile Safari/537.36");
                     break;
                 case "Safari":
-                    mWebView.getSettings().setUserAgentString("Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_5; de-de) AppleWebKit/534.15+ (KHTML, like Gecko) Version/5.0.3 Safari/533.19.4");
+                    setBrowserUserAgent("Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_5; de-de) AppleWebKit/534.15+ (KHTML, like Gecko) Version/5.0.3 Safari/533.19.4");
                     break;
                 case "Iphone":
-                    mWebView.getSettings().setUserAgentString("Mozilla/5.0 (iPhone; CPU iPhone OS 5_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B179 Safari/537.4 Maxthon/%s  ");
+                    setBrowserUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 5_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B179 Safari/537.4 Maxthon/%s  ");
                     break;
                 case "windows":
-                    mWebView.getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Maxthon/%s Chrome/30.0.1551.0 Safari/537.36");
+                    setBrowserUserAgent("Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Maxthon/%s Chrome/30.0.1551.0 Safari/537.36");
                     break;
                 case "微信浏览器":
-                    mWebView.getSettings().setUserAgentString("Mozilla/5.0 (Linux; Android 5.0; SM-N9100 Build/LRX21V) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/37.0.0.0 Mobile Safari/537.36 MicroMessenger/6.0.2.56_r958800.520 NetType/WIFI");
+                    setBrowserUserAgent("Mozilla/5.0 (Linux; Android 6.0.1; MI 5s Build/MXB48T; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/53.0.2785.49 Mobile MQQBrowser/6.2 TBS/043305 Safari/537.36 MicroMessenger/6.5.8.1060 NetType/2G Language/zh_CN");
                     break;
 
                 default:
@@ -341,11 +362,18 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 
         }
 
+        private void setBrowserUserAgent(String s) {
+            mWebView.getSettings().setUserAgentString(s);
+        }
+
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
+            mWebView = mAgentWeb.getWebCreator().get();
             //关闭图片阻塞
             mWebView.getSettings().setBlockNetworkImage(false);
+            mWebView.loadUrl("javascript: $('#topBanner').remove();$('.bar-budejie').remove();$('#content').css('margin-top','-90px');$('#downApp').remove();$('#wrapper .top-bar').remove();");
+            Log.i("Info", "url:" + url + " onPageFinished  target:" + getUrl());
         }
     };
 
@@ -358,11 +386,11 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
     }
 
     protected void initView(View view) {
-        mBackImageView = (ImageView) view.findViewById(id.iv_close);
+        mBackImageView = view.findViewById(id.iv_close);
         mLineView = view.findViewById(id.view_line);
-        mTitleTextView = (TextView) view.findViewById(id.toolbar_title);
+        mTitleTextView = view.findViewById(id.toolbar_title);
         mBackImageView.setOnClickListener(mOnClickListener);
-        mMoreImageView = (ImageView) view.findViewById(id.iv_more);
+        mMoreImageView = view.findViewById(id.iv_more);
         mMoreImageView.setOnClickListener(mOnClickListener);
 //        pageNavigator(View.GONE);
     }

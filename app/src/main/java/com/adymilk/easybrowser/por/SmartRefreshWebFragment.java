@@ -37,7 +37,7 @@ public class SmartRefreshWebFragment extends com.adymilk.easybrowser.por.BounceW
         super.onViewCreated(view, savedInstanceState);
 
 //        final SmartRefreshLayout mSmartRefreshLayout= (SmartRefreshLayout) this.mSmartRefreshWebLayout.getLayout();
-//
+
 //        final WebView mWebView=this.mSmartRefreshWebLayout.getWeb();
 //        mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
 //            @Override

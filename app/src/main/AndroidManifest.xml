@@ -24,7 +24,6 @@
         android:supportsRtl="true"
         android:theme="@style/BaseAppTheme"
         tools:replace="android:icon">
-
         <activity
             android:name=".Browser"
             android:configChanges="orientation|screenSize"
@@ -50,6 +49,8 @@
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
             android:noHistory="true">
+
+
             　　
 
 
@@ -57,6 +58,8 @@
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
+
+
                 　　　　
 
 
@@ -93,9 +96,10 @@
                 <data android:scheme="sdksample" />
             </intent-filter>
         </activity>
-        <activity android:name=".SetttingActivity"
+        <activity
+            android:name=".SetttingActivity"
             android:label="@string/setting"
-            android:theme="@style/touming"/>
+            android:theme="@style/touming" />
         <activity
             android:name="com.adymilk.easybrowser.AboutSoft"
             android:label="@string/about_soft"
@@ -167,17 +171,25 @@
         <activity
             android:name="com.adymilk.easybrowser.CommSettingsActivity"
             android:label="@string/comm_settings"
-            android:theme="@style/AppTheme"/>
-        <activity android:name="com.adymilk.easybrowser.SearchActivity"
-            android:windowSoftInputMode="stateAlwaysVisible">
-        </activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.adymilk.easybrowser.SearchActivity"
+            android:windowSoftInputMode="stateAlwaysVisible" />
         <activity android:name="io.github.xudaojie.qrcodelib.CaptureActivity" />
 
-        <!--友盟-->
-        <meta-data android:value="59d6e5e6bbea831d79000036" android:name="UMENG_APPKEY"/>
-        <meta-data android:value="${UMENG_CHANNEL_VALUE}" android:name="UMENG_CHANNEL"/>
+        <!-- 友盟 -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="59d6e5e6bbea831d79000036" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}" />
 
-
+        <!-- 条形码扫一扫结果 -->
+        <activity
+            android:name="com.adymilk.easybrowser.Ui.BarcodeActivity"
+            android:label="商品信息"
+            android:theme="@style/scanTheme" />
     </application>
 
 </manifest>

@@ -9,17 +9,13 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-import com.gyf.barlibrary.ImmersionBar;
+
 import com.just.library.AgentWeb;
 import com.just.library.FragmentKeyDown;
-import com.r0adkll.slidr.Slidr;
-import com.r0adkll.slidr.model.SlidrConfig;
-import com.r0adkll.slidr.model.SlidrPosition;
-import com.tencent.tauth.Tencent;
 
-import static com.adymilk.easybrowser.por.Utils.destoryImmersionBar;
-import static com.adymilk.easybrowser.por.Utils.initBar;
-import static com.adymilk.easybrowser.por.Utils.slideActivity;
+import static com.adymilk.easybrowser.Utils.comm.destoryImmersionBar;
+import static com.adymilk.easybrowser.Utils.comm.initBar;
+import static com.adymilk.easybrowser.Utils.comm.slideActivity;
 
 
 public class Browser extends AppCompatActivity {
@@ -27,9 +23,7 @@ public class Browser extends AppCompatActivity {
     private FrameLayout mFrameLayout;
     private FragmentManager mFragmentManager;
     private com.adymilk.easybrowser.por.AgentWebFragment mAgentWebFragment;
-    private ImmersionBar mImmersionBar;
     private AgentWeb mAgentWeb;
-    private Tencent mTencent;// 新建Tencent实例用于调用分享方法
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +37,7 @@ public class Browser extends AppCompatActivity {
         if (mAgentWeb != null)
         mAgentWeb.getWebCreator().getGroup().setBackgroundColor(getResources().getColor(R.color.black));
 
+        // 接收传递过来的值
         Intent intent=getIntent();//getIntent将该项目中包含的原始intent检索出来，将检索出来的intent赋值给一个Intent类型的变量intent
         Bundle bundle=intent.getExtras();//.getExtras()得到intent所附带的额外数据
         String str = bundle.getString("targetUrl");//getString()返回指定key的值

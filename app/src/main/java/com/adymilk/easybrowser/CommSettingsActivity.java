@@ -2,26 +2,23 @@ package com.adymilk.easybrowser;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
-import android.support.v4.content.FileProvider;
 import android.widget.Toast;
 
 
 import com.adymilk.easybrowser.por.R;
 import com.just.library.AgentWeb;
+import com.just.library.AgentWebUtils;
 import com.lb.material_preferences_library.PreferenceActivity;
 
 import java.io.File;
 
-import static com.adymilk.easybrowser.por.Utils.destoryImmersionBar;
+import static com.adymilk.easybrowser.Utils.comm.destoryImmersionBar;
 
 
 public class CommSettingsActivity extends PreferenceActivity {

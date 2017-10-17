@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/search_bg"
-    android:background="@color/write"
     android:orientation="vertical">
 
 
@@ -12,43 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:paddingLeft="30dp"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:gravity="bottom"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/frameLayout"
-            android:layout_alignParentStart="true">
-
-            <TextView
-                android:layout_marginRight="20dp"
-                android:textSize="12sp"
-                android:textColor="@color/gray"
-                android:text="https:"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_marginRight="20dp"
-                android:textSize="12sp"
-                android:textColor="@color/gray"
-                android:text="http:"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_marginRight="20dp"
-                android:textSize="12sp"
-                android:textColor="@color/gray"
-                android:text="www:"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-
-        </LinearLayout>
 
     <FrameLayout
         android:layout_marginTop="3dp"
@@ -59,7 +20,7 @@
         android:id="@+id/frameLayout">
 
         <LinearLayout
-
+            android:baselineAligned="false"
             android:weightSum="10"
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -74,9 +35,10 @@
                 android:id="@+id/spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginRight="0dp"
-                android:background="@color/white"
+                android:background="@drawable/edit_shap2"
                 android:entries="@array/spinnerData"
+                android:spinnerMode="dialog"
+                android:splitMotionEvents="true"
                 android:textAlignment="center"
                 android:textDirection="firstStrong" />
 
@@ -85,16 +47,14 @@
                 android:focusableInTouchMode="true"
                 android:textColorHint="@color/gray"
                 android:hint="搜索或输入网址"
-                android:textSize="14dp"
+                android:textSize="14sp"
                 android:id="@+id/edit_url"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:background="@drawable/edit_shap2"
-                android:contentDescription="搜索关键词"
                 android:padding="10dp"
                 android:textAlignment="center" />
-
 
         </LinearLayout>
 
@@ -108,14 +68,14 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
                 android:id="@+id/clear"
                 android:src="@mipmap/clear"
                 android:layout_width="20dp"
                 android:layout_height="match_parent" />
             <TextView
                 android:textColor="@color/black"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:gravity="center"
                 android:id="@+id/btn_submit"
                 android:text="搜索"
