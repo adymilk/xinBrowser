@@ -16,7 +16,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 26
         versionCode 12
-        versionName "Beta 3.0.3"
+        versionName "Beta 3.0.36"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
