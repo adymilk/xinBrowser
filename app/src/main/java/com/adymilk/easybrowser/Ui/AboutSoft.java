@@ -1,4 +1,4 @@
-package com.adymilk.easybrowser;
+package com.adymilk.easybrowser.Ui;
 
 import android.content.Intent;
 import android.net.Uri;

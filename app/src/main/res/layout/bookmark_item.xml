@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:background="@color/white"
     android:id="@+id/linearLayout_bookmark"
-    tools:context=".BookmarkActivity">
+    tools:context="com.adymilk.easybrowser.Ui.BookmarkActivity">
 
 
     <android.support.v7.widget.CardView

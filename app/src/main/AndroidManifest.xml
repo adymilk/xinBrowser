@@ -41,7 +41,7 @@
             android:theme="@style/touming" />
         <activity android:name="com.adymilk.easybrowser.ShareToTencent" />
         <activity
-            android:name=".BookmarkActivity"
+            android:name="com.adymilk.easybrowser.Ui.BookmarkActivity"
             android:theme="@style/BrowserTheme" />
 
         <!-- ############ QQ空间和QQ SSO授权的Activity注册 ############ -->
@@ -101,11 +101,11 @@
             android:label="@string/setting"
             android:theme="@style/touming" />
         <activity
-            android:name="com.adymilk.easybrowser.AboutSoft"
+            android:name="com.adymilk.easybrowser.Ui.AboutSoft"
             android:label="@string/about_soft"
             android:theme="@style/touming" />
         <activity
-            android:name="com.adymilk.easybrowser.MainActivity"
+            android:name="com.adymilk.easybrowser.Ui.MainActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true">
             <intent-filter>
@@ -173,7 +173,7 @@
             android:label="@string/comm_settings"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.adymilk.easybrowser.SearchActivity"
+            android:name="com.adymilk.easybrowser.Ui.SearchActivity"
             android:windowSoftInputMode="stateAlwaysVisible" />
         <activity android:name="io.github.xudaojie.qrcodelib.CaptureActivity" />
 

@@ -1,4 +1,4 @@
-package com.adymilk.easybrowser;
+package com.adymilk.easybrowser.Ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -31,39 +31,21 @@ public class SearchActivity extends AppCompatActivity {
     private Spinner spinner;
     private ImageView clear;
     private String s;
-    private String key_Customize_Home_bg;
+    private String key_Customize_Home_bg = "开启主页自定义背景";
+    private Boolean Customize_Home_bg = true;
+    private String imagePath;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        //设置主页背景图片
+        imagePath = SharedPreferencesUtils.init(this).getString("imagePath");
+        showImage(imagePath);
 
-        key_Customize_Home_bg = getString(R.string.Customize_Home_bg);
-        final Boolean Customize_Home_bg = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(key_Customize_Home_bg, true);
-        String imaePath;
-        imaePath = SharedPreferencesUtils.init(this).getString("imaePath");
-        if (Customize_Home_bg){
-            if (!(imaePath.isEmpty())){
-                imaePath = SharedPreferencesUtils.init(this).getString("imaePath");
-
-            }
-        }else {
-            imaePath = null;
-        }
-        ((LinearLayout)findViewById(R.id.search_bg)).setBackground(Drawable.createFromPath(imaePath));
-
-
-
-
-        editText = (EditText) findViewById(R.id.edit_url);
-        spinner = (Spinner) findViewById(R.id.spinner);
-        btn_submit = (TextView) findViewById(R.id.btn_submit);
-        clear = (ImageView) findViewById(R.id.clear);
-        clear.setVisibility(View.INVISIBLE);
-        s = editText.getText().toString();
-
-
+        //初始化Views
+        findViews();
 
         btn_submit.setText("取消");
         if (btn_submit.getText().equals("取消")){
@@ -100,7 +82,7 @@ public class SearchActivity extends AppCompatActivity {
                         searchEngines = "http://m.sm.cn/s?q=";
                         break;
                     case 5: //磁力链接
-                        searchEngines = "http://www.sexba.net/search-kw-";
+                        searchEngines = "http://www.sexba.net/search/";
                         break;
                     case 6: //酷安
                         searchEngines = "https://www.coolapk.com/search?q=";
@@ -179,8 +161,6 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-//                System.out.println("字符串长度为："+s.length());
-//                System.out.println("状态为：afterTextChanged");
             }
         });
 
@@ -214,13 +194,21 @@ public class SearchActivity extends AppCompatActivity {
 //                点击软键盘回车键
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
 
-
                     searchFunction();
                 }
                 return false;
             }
         });
 
+    }
+
+    private void findViews() {
+        editText = (EditText) findViewById(R.id.edit_url);
+        spinner = (Spinner) findViewById(R.id.spinner);
+        btn_submit = (TextView) findViewById(R.id.btn_submit);
+        clear = (ImageView) findViewById(R.id.clear);
+        clear.setVisibility(View.INVISIBLE);
+        s = editText.getText().toString();
     }
 
     private void searchFunction(){
@@ -259,5 +247,16 @@ public class SearchActivity extends AppCompatActivity {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
+    //加载图片
+    private void showImage(String imagePath) {
+        SharedPreferencesUtils.init(this).putString("imagePath", imagePath);
+        Customize_Home_bg = PreferenceManager.getDefaultSharedPreferences(SearchActivity.this).getBoolean(key_Customize_Home_bg, true);
+
+        if (!Customize_Home_bg) {
+            imagePath = null;
+        }
+        findViewById(R.id.search_bg).setBackground(Drawable.createFromPath(imagePath));
+        System.out.println("Customize_Home_bg" + Customize_Home_bg);
+    }
 
 }

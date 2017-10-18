@@ -1,15 +1,20 @@
 package com.adymilk.easybrowser.Utils;
 
 import android.app.Activity;
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.annotation.ColorRes;
 import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adymilk.easybrowser.por.R;
@@ -18,8 +23,8 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrPosition;
-import com.squareup.haha.guava.base.Function;
 
+import java.io.File;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -112,6 +117,38 @@ public class comm extends Activity {
     //显示对话框
 
     public static void showDialog() {
+
+    }
+
+    public static void downloadFiles(String url, TextView mTitleTextView, Context context) {
+        // http 下载链接（该链接为 CSDN APP 的下载链接，仅做参考）
+        String downloadUrl = url;
+        // 创建下载请求
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadUrl));
+        /*
+        * 设置在通知栏是否显示下载通知(下载进度), 有 3 个值可选:
+        *    VISIBILITY_VISIBLE:                   下载过程中可见, 下载完后自动消失 (默认)
+        *    VISIBILITY_VISIBLE_NOTIFY_COMPLETED:  下载过程中和下载完成后均可见
+        *    VISIBILITY_HIDDEN:                    始终不显示通知
+        */
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+        // 设置通知的标题和描述
+        request.setTitle(mTitleTextView.getText());
+        request.setDescription("文件下载");
+        // 设置下载文件的保存位置
+        File saveFile = new File(Environment.getExternalStorageDirectory(), "xinBrowserDownload.apk");
+        request.setDestinationUri(Uri.fromFile(saveFile));
+         /*
+          * 2. 获取下载管理器服务的实例, 添加下载任务
+          */
+        DownloadManager manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+
+        // 将下载请求加入下载队列, 返回一个下载ID
+        long downloadId = manager.enqueue(request);
+
+        // 如果中途想取消下载, 可以调用remove方法, 根据返回的下载ID取消下载, 取消下载后下载保存的文件将被删除
+        // manager.remove(downloadId);
 
     }
 }

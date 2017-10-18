@@ -89,7 +89,7 @@ public class BarcodeActivity extends AppCompatActivity {
                             goods_zpg.setText("国家：" + jsonObj.getString("zpg"));
                             goods_trademark.setText("商标：" + jsonObj.getString("trademark"));
                             goods_code.setText("代码：" + jsonObj.getString("code"));
-                            goods_manuName.setText("厂商" + jsonObj.getString("manuName"));
+                            goods_manuName.setText("厂商：" + jsonObj.getString("manuName"));
 
                             //加载图片
                             new load_image().execute(ImgUrl);
