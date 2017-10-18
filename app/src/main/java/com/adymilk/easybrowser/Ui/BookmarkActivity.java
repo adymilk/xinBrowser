@@ -1,4 +1,4 @@
-package com.adymilk.easybrowser.por;
+package com.adymilk.easybrowser.Ui;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,6 +15,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.adymilk.easybrowser.por.Browser;
+import com.adymilk.easybrowser.por.R;
 import com.heima.easysp.SharedPreferencesUtils;
 
 import java.util.ArrayList;

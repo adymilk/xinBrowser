@@ -12,7 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
-import com.adymilk.easybrowser.AboutSoft;
+import com.adymilk.easybrowser.Ui.AboutSoft;
 import com.adymilk.easybrowser.CommSettingsActivity;
 import com.gyf.barlibrary.ImmersionBar;
 import com.leon.lib.settingview.LSettingItem;

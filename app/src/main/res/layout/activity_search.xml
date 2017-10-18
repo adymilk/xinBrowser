@@ -43,6 +43,7 @@
                 android:textDirection="firstStrong" />
 
             <EditText
+                android:inputType="text"
                 android:textColor="@color/black"
                 android:focusableInTouchMode="true"
                 android:textColorHint="@color/gray"

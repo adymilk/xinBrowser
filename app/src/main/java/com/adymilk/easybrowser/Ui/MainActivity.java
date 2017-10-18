@@ -1,12 +1,12 @@
-package com.adymilk.easybrowser;
+package com.adymilk.easybrowser.Ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v7.widget.CardView;
@@ -19,12 +19,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.adymilk.easybrowser.Ui.BarcodeActivity;
-import com.adymilk.easybrowser.por.BookmarkActivity;
+import com.adymilk.easybrowser.CardViewActivity;
 import com.adymilk.easybrowser.por.Browser;
 import com.adymilk.easybrowser.por.R;
 import com.adymilk.easybrowser.por.SetttingActivity;
 import com.heima.easysp.SharedPreferencesUtils;
+import com.squareup.haha.perflib.Main;
 import com.umeng.analytics.MobclickAgent;
 
 import static com.adymilk.easybrowser.Utils.comm.hideBar;
@@ -52,9 +52,12 @@ public class MainActivity extends Activity implements android.view.GestureDetect
     private TextView editText;
     private Spinner spinner;
     private ImageView scaner;
-    private String key_Customize_Home_bg;
-    private String resJson;
-    protected Handler mHandler = new Handler();
+    private String key_Customize_Home_bg = "开启主页自定义背景";
+    private Boolean Customize_Home_bg = true;
+    private String imagePath;
+    private ImageView imv_setting;
+    private TextView tv_app_name;
+
 
 
     @Override
@@ -69,35 +72,34 @@ public class MainActivity extends Activity implements android.view.GestureDetect
 
         setContentView(R.layout.activity_main);
 
-
         //创建手势检测器
         detector = new GestureDetector(this,this);
 
-        findViews(); //获取控件
-
-
-        TextView tv_app_name = findViewById(R.id.app_name);
+        //获取控件
+        findViews();
         tv_app_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                key_Customize_Home_bg = getString(R.string.Customize_Home_bg);
-                final Boolean Customize_Home_bg = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getBoolean(key_Customize_Home_bg, true);
+                startToSysImagesManager();
+
+            }
+
+            private void startToSysImagesManager() {
+                Customize_Home_bg = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getBoolean(key_Customize_Home_bg, true);
                 if (Customize_Home_bg){
                     //调用相册
                     Intent intent = new Intent(Intent.ACTION_PICK,
-                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(intent, IMAGE);
                 }
-
             }
         });
-        ImageView imv_setting = findViewById(R.id.imv_setting);
+
+
         imv_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this, SetttingActivity.class);
-                startActivity(intent);
+                startActivityTo(MainActivity.this, SetttingActivity.class);
             }
         });
 
@@ -116,9 +118,7 @@ public class MainActivity extends Activity implements android.view.GestureDetect
         editText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this, SearchActivity.class);
-                startActivity(intent);
+                startActivityTo(MainActivity.this, SearchActivity.class);
             }
         });
 
@@ -140,6 +140,8 @@ public class MainActivity extends Activity implements android.view.GestureDetect
         cardView8 =  findViewById(R.id.cardview8);
         spinner   =  findViewById(R.id.spinner);
         scaner    =  findViewById(R.id.iv_scaner);
+        imv_setting = findViewById(R.id.imv_setting);
+        tv_app_name = findViewById(R.id.app_name);
     }
 
 
@@ -225,6 +227,7 @@ public class MainActivity extends Activity implements android.view.GestureDetect
         return false;
     }
 
+    //CardView 点击事件
     class myOnClickListen implements View.OnClickListener {
 
         @Override
@@ -296,28 +299,15 @@ public class MainActivity extends Activity implements android.view.GestureDetect
     protected void onStart() {
         super.onStart();
         setSimpleMode();
-        setHomeBg();
-
+        //设置主页背景图片
+        imagePath = SharedPreferencesUtils.init(this).getString("imagePath");
+        showImage(imagePath);
         //隐藏状态栏
         hideBar(this);
         System.out.println("当前Activity状态为onStart");
     }
 
-    private void setHomeBg() {
-        key_Customize_Home_bg = getString(R.string.Customize_Home_bg);
-        final Boolean Customize_Home_bg = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(key_Customize_Home_bg, true);
-        String imaePath;
-        imaePath = SharedPreferencesUtils.init(this).getString("imaePath");
-        if (Customize_Home_bg){
-            if (!(imaePath.isEmpty())){
-                imaePath = SharedPreferencesUtils.init(this).getString("imaePath");
-            }
-        }else {
-            imaePath = null;
-        }
-        ((LinearLayout)findViewById(R.id.linearLayout_main)).setBackground(Drawable.createFromPath(imaePath));
-        System.out.println("Customize_Home_bg"+Customize_Home_bg);
-    }
+
 
     @Override
     protected void onDestroy() {
@@ -349,30 +339,6 @@ public class MainActivity extends Activity implements android.view.GestureDetect
                 intent.setClass(MainActivity.this, BarcodeActivity.class);//从一个activity跳转到另一个activity
                 intent.putExtra("barcode", result);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
                 startActivity(intent);
-//                // TODO：解析 条形码接口返回的 json 数据
-//                new Thread(){
-//                    //在新线程中发送网络请求
-//                    public void run() {
-//                        String appid="47350";//要替换成自己的
-//                        String secret="80c96b01d8d142979a7eef72cefc32c4";//要替换成自己的
-//                        final String res=new ShowApiRequest( "http://route.showapi.com/66-22", appid, secret)
-//                                .addTextPara("code", result)
-//                                .post();
-//
-//                        System.out.println("返回的json"+res);
-//                        //把返回内容通过handler对象更新到界面
-//                        mHandler.post(new Thread(){
-//                            public void run() {
-////                                txt.setText(res+"  "+new Date());
-//                                Intent intent = new Intent();
-//                                intent.setClass(MainActivity.this, BarcodeActivity.class);//从一个activity跳转到另一个activity
-//                                intent.putExtra("resJson", res);//给intent添加额外数据，key为“str”,key值为"Intent Demo"
-//                                startActivity(intent);
-//                            }
-//                        });
-//                    }
-//                }.start();
-
             }
 
         }
@@ -392,11 +358,15 @@ public class MainActivity extends Activity implements android.view.GestureDetect
 
 
     //加载图片
-    private void showImage(String imaePath){
-//        Bitmap bm = BitmapFactory.decodeFile(imaePath);
-        SharedPreferencesUtils.init(this).putString("imaePath",imaePath);
-        System.out.println("图片路径"+ imaePath);
-        ((LinearLayout)findViewById(R.id.linearLayout_main)).setBackground(Drawable.createFromPath(imaePath));
+    private void showImage(String imagePath) {
+        SharedPreferencesUtils.init(this).putString("imagePath", imagePath);
+        Customize_Home_bg = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getBoolean(key_Customize_Home_bg, true);
+
+        if (!Customize_Home_bg) {
+            imagePath = null;
+        }
+        findViewById(R.id.linearLayout_main).setBackground(Drawable.createFromPath(imagePath));
+        System.out.println("Customize_Home_bg" + Customize_Home_bg);
     }
 
     @Override
@@ -409,6 +379,13 @@ public class MainActivity extends Activity implements android.view.GestureDetect
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
+    }
+
+    //点击跳转Activity
+    private void startActivityTo(Context context, Class c) {
+        Intent intent = new Intent();
+        intent.setClass(context, c);
+        startActivity(intent);
     }
 
 

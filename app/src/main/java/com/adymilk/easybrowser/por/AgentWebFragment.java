@@ -18,17 +18,14 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -41,13 +38,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.adymilk.easybrowser.SearchActivity;
+import com.adymilk.easybrowser.Ui.BookmarkActivity;
+import com.adymilk.easybrowser.Ui.SearchActivity;
 import com.adymilk.easybrowser.ShareToTencent;
 import com.heima.easysp.SharedPreferencesUtils;
 import com.just.library.AgentWeb;
 import com.just.library.AgentWebSettings;
 import com.just.library.ChromeClientCallbackManager;
-import com.just.library.DefaultMsgConfig;
 import com.just.library.DownLoadResultListener;
 import com.just.library.FragmentKeyDown;
 import com.just.library.WebDefaultSettingsManager;
@@ -55,7 +52,6 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.tauth.Tencent;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import me.curzbin.library.BottomDialog;
@@ -64,7 +60,7 @@ import me.curzbin.library.OnItemClickListener;
 
 import com.just.library.PermissionInterceptor;
 
-import static com.adymilk.easybrowser.Utils.comm.showDialog;
+import static com.adymilk.easybrowser.Utils.comm.downloadFiles;
 import static com.adymilk.easybrowser.por.R.*;
 
 
@@ -91,6 +87,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
     private IWXAPI wxApi;
     private String WX_APP_ID = "wxee53eb68352c793e";
     private WebView mWebView;
+
 
 
     public static AgentWebFragment getInstance(Bundle bundle) {
@@ -124,8 +121,8 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                 .setWebViewClient(mWebViewClient)
                 .setWebChromeClient(mWebChromeClient)
                 .addDownLoadResultListener(mDownLoadResultListener) //下载回调
-                .openParallelDownload()//打开并行下载 , 默认串行下载
-                .setNotifyIcon(R.mipmap.download)
+//                .openParallelDownload()//打开并行下载 , 默认串行下载
+//                .setNotifyIcon(R.mipmap.download)
                 .setPermissionInterceptor(mPermissionInterceptor)
                 .setReceivedTitleCallback(mCallback)
                 .setSecurityType(AgentWeb.SecurityType.strict)//严格模式
@@ -137,10 +134,9 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         initView(view);
 
 
-
-        DefaultMsgConfig.DownLoadMsgConfig mDownLoadMsgConfig=mAgentWeb.getDefaultMsgConfig().getDownLoadMsgConfig();
-          mDownLoadMsgConfig.setCancel("放弃");  // 修改下载提示信息，这里可以语言切换
-        //优化
+//        DefaultMsgConfig.DownLoadMsgConfig mDownLoadMsgConfig=mAgentWeb.getDefaultMsgConfig().getDownLoadMsgConfig();
+//          mDownLoadMsgConfig.setCancel("放弃");  // 修改下载提示信息，这里可以语言切换
+//        //优化
 
     }
 
@@ -261,11 +257,34 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                         })
                         .show();
                 return true;
-            } else {
-                return false;
+            } else if (url.endsWith(".apk")) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("确认下载吗？")
+                        .setIcon(mipmap.download1)
+                        .setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                downloadFiles(url, mTitleTextView, getContext());
+                            }
+
+
+                        })
+                        .setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+
+                            }
+                        })
+                        .create()
+                        .show();
+                return true;
             }
             /*else if (isAlipay(view, url))   //1.2.5开始不用调用该方法了 ，只要引入支付宝sdk即可 ， DefaultWebClient 默认会处理相应url调起支付宝
                 return true;*/
+            return false;
         }
 
         @Override
@@ -350,15 +369,13 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                 mWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
             }
 
-
-
             Log.i("Info", "url:" + url + " onPageStarted  target:" + getUrl());
 
-            if (url.equals(getUrl())) {
+//            if (url.equals(getUrl())) {
 //                pageNavigator(View.GONE);
-            } else {
+//            } else {
 //                pageNavigator(View.VISIBLE);
-            }
+//            }
 
         }
 
@@ -370,11 +387,14 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             mWebView = mAgentWeb.getWebCreator().get();
+
             //关闭图片阻塞
             mWebView.getSettings().setBlockNetworkImage(false);
-            mWebView.loadUrl("javascript: $('#topBanner').remove();$('.bar-budejie').remove();$('#content').css('margin-top','-90px');$('#downApp').remove();$('#wrapper .top-bar').remove();");
-            Log.i("Info", "url:" + url + " onPageFinished  target:" + getUrl());
+            adBlock();
+//            Log.i("Info", "url:" + url + " onPageFinished  target:" + getUrl());
         }
+
+
     };
 
 
@@ -619,7 +639,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                                 break;
 
                             case "打开书签":
-                                intent.setClass(getContext(), com.adymilk.easybrowser.por.BookmarkActivity.class);
+                                intent.setClass(getContext(), BookmarkActivity.class);
                                 startActivity(intent);
                                 break;
 
@@ -659,5 +679,10 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         mToast.show();
     }
 
+
+    //屏蔽广告
+    private void adBlock() {
+        mWebView.loadUrl("javascript: $('#topBanner').remove();$('.bar-budejie').remove();$('#content').css('margin-top','-90px');$('#downApp').remove();$('#wrapper .top-bar').remove();");
+    }
 
 }
