@@ -84,8 +84,8 @@ public class BarcodeActivity extends AppCompatActivity {
                             System.out.println("jsonObj对象=" + res);
                             goods_name.setText(jsonObj.getString("goodsName"));
                             goods_prodAddr.setText("产地：" + jsonObj.getString("prodAddr"));
-                            goods_type.setText("规格：" + jsonObj.getString("goodsType"));
-                            goods_spec.setText("分类：" + jsonObj.getString("spec"));
+                            goods_type.setText("规格：" + jsonObj.getString("spec"));
+                            goods_spec.setText("分类：" + jsonObj.getString("goodsType"));
                             goods_zpg.setText("国家：" + jsonObj.getString("zpg"));
                             goods_trademark.setText("商标：" + jsonObj.getString("trademark"));
                             goods_code.setText("代码：" + jsonObj.getString("code"));

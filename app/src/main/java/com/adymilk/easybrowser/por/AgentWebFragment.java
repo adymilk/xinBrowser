@@ -1,6 +1,7 @@
 package com.adymilk.easybrowser.por;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -9,17 +10,22 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -41,6 +47,9 @@ import android.widget.Toast;
 import com.adymilk.easybrowser.Ui.BookmarkActivity;
 import com.adymilk.easybrowser.Ui.SearchActivity;
 import com.adymilk.easybrowser.ShareToTencent;
+import com.adymilk.easybrowser.Ui.SetttingActivity;
+import com.gyf.barlibrary.BarHide;
+import com.gyf.barlibrary.ImmersionBar;
 import com.heima.easysp.SharedPreferencesUtils;
 import com.just.library.AgentWeb;
 import com.just.library.AgentWebSettings;
@@ -52,6 +61,8 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.tauth.Tencent;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import me.curzbin.library.BottomDialog;
@@ -60,8 +71,11 @@ import me.curzbin.library.OnItemClickListener;
 
 import com.just.library.PermissionInterceptor;
 
+import static android.content.ContentValues.TAG;
+import static com.adymilk.easybrowser.Utils.comm.adBlock;
 import static com.adymilk.easybrowser.Utils.comm.downloadFiles;
 import static com.adymilk.easybrowser.por.R.*;
+import static java.lang.String.*;
 
 
 /**
@@ -78,7 +92,6 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
     protected AgentWeb mAgentWeb;
     public static final String URL_KEY = "url_key";
     private ImageView mMoreImageView;
-    private PopupMenu mPopupMenu;
     private int 书签数量 = 0;
     private String 网页标题;
     private String 网页链接;
@@ -87,6 +100,8 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
     private IWXAPI wxApi;
     private String WX_APP_ID = "wxee53eb68352c793e";
     private WebView mWebView;
+    private Boolean isPageError = false;
+    private Toolbar mtoolbar;
 
 
 
@@ -193,8 +208,8 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         public void onReceivedTitle(WebView view, String title) {
             网页标题 = title;
             if (mTitleTextView != null && !TextUtils.isEmpty(title))
-                if (title.length() >= 20) {
-                    title = title.substring(0, 20) + "...";
+                if (title.length() >= 19) {
+                    title = title.substring(0, 19) + "..";
                 }
             mTitleTextView.setText(title);
             mTitleTextView.setOnClickListener(new View.OnClickListener() {
@@ -218,15 +233,34 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
     protected WebViewClient mWebViewClient = new WebViewClient() {
 
         @Override
+        public WebResourceResponse shouldInterceptRequest(WebView view,  String url) {
+            Log.i("Info", "shouldInterceptRequest url=" + url + ";threadInfo" + Thread.currentThread());
+            WebResourceResponse response = null;
+            if (url.contains("hmbgw.com")
+                    ||url.contains("cqssbl.com")
+                    ||url.contains("adservice")
+                    ||url.contains("pagead2.googlesyndication.com")
+                    ||url.contains("wen.jshbyn.com")
+                    ||url.contains("lg4.jointreport-switch.com")){
+
+                response = new WebResourceResponse("image/png", "UTF-8", null);
+            }
+
+            return response;
+
+        }
+
+        @Override
         public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
 //            toastShowShort(getContext(),"onReceivedError");
-//            startActivity(new Intent(getContext(), ErrorActivity.class));
+//            mWebView.loadUrl("file:///android_asset/404.html");
             super.onReceivedError(view, request, error);
         }
 
         @Override
         public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
             super.onReceivedHttpError(view, request, errorResponse);
+//            toastShowShort(getContext(),"onReceivedHttpError");
         }
 
         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -245,7 +279,6 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
             //intent:// scheme的处理 如果返回false ， 则交给 DefaultWebClient 处理 ， 默认会打开该Activity  ， 如果Activity不存在则跳到应用市场上去.  true 表示拦截
             //例如优酷视频播放 ，intent://play?...package=com.youku.phone;end;
             //优酷想唤起自己应用播放该视频 ， 下面拦截地址返回 true  则会在应用内 H5 播放 ，禁止优酷唤起播放该视频， 如果返回 false ， DefaultWebClient  会根据intent 协议处理 该地址 ， 首先匹配该应用存不存在 ，如果存在 ， 唤起该应用播放 ， 如果不存在 ， 则跳到应用市场下载该应用 .
-
             if (!url.startsWith("http")) {
 
                 Snackbar.make(view, "请求打开app", Snackbar.LENGTH_LONG)
@@ -257,6 +290,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                         })
                         .show();
                 return true;
+
             } else if (url.endsWith(".apk")) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -281,6 +315,14 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                         .create()
                         .show();
                 return true;
+            }else if (url.contains("hmbgw.com")
+                    ||url.contains("cqssbl.com")
+                    ||url.contains("adservice")
+                    ||url.contains("pagead2.googlesyndication.com")
+                    ||url.contains("wen.jshbyn.com")
+                    ||url.contains("lg4.jointreport-switch.com")
+                    ||url.contains("ssdao.firstguo.com")){
+                return true;
             }
             /*else if (isAlipay(view, url))   //1.2.5开始不用调用该方法了 ，只要引入支付宝sdk即可 ， DefaultWebClient 默认会处理相应url调起支付宝
                 return true;*/
@@ -289,9 +331,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
-
             mWebView = mAgentWeb.getWebCreator().get();
-
             String key_block_image = getString(string.block_image);
             String key_zoom = getString(string.zoom);
             String key_auto_phone = getString(string.auto_phone);
@@ -364,7 +404,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
             }
             if (speed_up) {
                 // 阻塞图片
-                mWebView.getSettings().setBlockNetworkImage(true);
+//                mWebView.getSettings().setBlockNetworkImage(true);
                 //提高渲染等级
                 mWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
             }
@@ -386,11 +426,18 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
+//
             mWebView = mAgentWeb.getWebCreator().get();
-
+            new Handler().postDelayed(new Runnable()
+            {
+                public void run()
+                {
+                    adBlock(mWebView);
+                }
+            }, 100);
             //关闭图片阻塞
-            mWebView.getSettings().setBlockNetworkImage(false);
-            adBlock();
+//            mWebView.getSettings().setBlockNetworkImage(false);
+
 //            Log.i("Info", "url:" + url + " onPageFinished  target:" + getUrl());
         }
 
@@ -406,6 +453,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
     }
 
     protected void initView(View view) {
+        mtoolbar = view.findViewById(id.toolbar);
         mBackImageView = view.findViewById(id.iv_close);
         mLineView = view.findViewById(id.view_line);
         mTitleTextView = view.findViewById(id.toolbar_title);
@@ -574,7 +622,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                                 if (!wxApi.isWXAppInstalled()){
                                     toastShowShort(getContext(),"未安装微信客户端！");
                                 }else {
-                                    shareTo(String.valueOf(item.getTitle()));
+                                    shareTo(valueOf(item.getTitle()));
                                 }
                                 break;
 
@@ -582,14 +630,14 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                                 if (!wxApi.isWXAppInstalled()){
                                     toastShowShort(getContext(),"未安装微信客户端");
                                 }else {
-                                    shareTo(String.valueOf(item.getTitle()));
+                                    shareTo(valueOf(item.getTitle()));
                                 }
                                 break;
                             case "QQ":
                                 if (!isQQClientAvailable(getContext())){
                                     toastShowShort(getContext(),"未安装QQ客户端");
                                 }else {
-                                    shareTo(String.valueOf(item.getTitle()));
+                                    shareTo(valueOf(item.getTitle()));
                                 }
                                 break;
 
@@ -597,12 +645,12 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                                 if (!isQQClientAvailable(getContext())){
                                     toastShowShort(getContext(),"未安装QQ客户端");
                                 }else {
-                                    shareTo(String.valueOf(item.getTitle()));
+                                    shareTo(valueOf(item.getTitle()));
                                 }
                                 break;
 
                             case "更多":
-                                网页链接 = mAgentWeb.getWebCreator().get().getUrl().toString();
+                                网页链接 = mAgentWeb.getWebCreator().get().getUrl();
                                 shareText(网页链接);
                                 break;
                             case "刷新":
@@ -634,7 +682,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                                 if (!isQQClientAvailable(getContext())){
                                     toastShowShort(getContext(),"未安装QQ客户端");
                                 }else {
-                                    shareTo(String.valueOf(item.getTitle()));
+                                    shareTo(valueOf(item.getTitle()));
                                 }
                                 break;
 
@@ -680,9 +728,8 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
     }
 
 
-    //屏蔽广告
-    private void adBlock() {
-        mWebView.loadUrl("javascript: $('#topBanner').remove();$('.bar-budejie').remove();$('#content').css('margin-top','-90px');$('#downApp').remove();$('#wrapper .top-bar').remove();");
-    }
+
+
+
 
 }

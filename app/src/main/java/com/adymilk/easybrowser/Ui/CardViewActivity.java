@@ -1,4 +1,4 @@
-package com.adymilk.easybrowser;
+package com.adymilk.easybrowser.Ui;
 
 import android.app.Activity;
 import android.content.Context;
@@ -74,10 +74,9 @@ public class CardViewActivity extends Activity {
             super.onPageStarted(view, url, favicon);
 
             // call js
-            mAgentWeb.getJsEntraceAccess().quickCallJs("callByAndroid");
             mWebView = mAgentWeb.getWebCreator().get();
             // 阻塞图片
-            mWebView.getSettings().setBlockNetworkImage(true);
+//            mWebView.getSettings().setBlockNetworkImage(true);
             //提高渲染等级
             mWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
         }
@@ -86,11 +85,12 @@ public class CardViewActivity extends Activity {
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             //关闭图片阻塞
-            mWebView.getSettings().setBlockNetworkImage(false);
+//            mWebView.getSettings().setBlockNetworkImage(false);
 
-            mWebView.loadUrl("javascript: $('.u-ad-wrap').remove();$('.home_packet').remove();$('.pbpb-item').remove();$('.m_pbpb_m0').remove();");
-//            mAgentWeb.getJsEntraceAccess().quickCallJs("var x = document.getElementsByClassName(\"u-ad-wrap\");for(var i=0;i<x.length;i++){x[i].style.display='none';}");
+            adBlock();
         }
+
+
     };
 
     @Override
@@ -139,6 +139,11 @@ public class CardViewActivity extends Activity {
             mToast.setText(msg);
         }
         mToast.show();
+    }
+
+    //屏蔽广告
+    private void adBlock() {
+        mWebView.loadUrl("javascript: $('.u-ad-wrap').remove();$('.home_packet').remove();$('.pbpb-item').remove();$('.m_pbpb_m0').remove();$('.experience').remove();$('#bo1').remove();");
     }
 
 }

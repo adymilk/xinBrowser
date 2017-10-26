@@ -14,6 +14,7 @@ import android.os.Environment;
 import android.support.annotation.ColorRes;
 import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,6 +77,11 @@ public class comm extends Activity {
             mToast.setText(msg);
         }
         mToast.show();
+    }
+
+    //屏蔽广告
+    public static void adBlock(WebView mWebView) {
+        mWebView.loadUrl("javascript: $('.adsbygoogle').remove();$('#topBanner').remove();$('.bar-budejie').remove();$('#content').css('margin-top','-90px');$('#downApp').remove();$('#wrapper .top-bar').remove();");
     }
 
     /**

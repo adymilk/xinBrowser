@@ -35,7 +35,7 @@
             android:hardwareAccelerated="true"
             android:theme="@style/touming" />
         <activity
-            android:name="com.adymilk.easybrowser.CardViewActivity"
+            android:name="com.adymilk.easybrowser.Ui.CardViewActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true"
             android:theme="@style/touming" />
@@ -97,7 +97,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SetttingActivity"
+            android:name="com.adymilk.easybrowser.Ui.SetttingActivity"
             android:label="@string/setting"
             android:theme="@style/touming" />
         <activity
@@ -174,6 +174,7 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name="com.adymilk.easybrowser.Ui.SearchActivity"
+            android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysVisible" />
         <activity android:name="io.github.xudaojie.qrcodelib.CaptureActivity" />
 

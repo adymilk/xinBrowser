@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/write"
     android:orientation="vertical"
-    tools:context=".SetttingActivity">
+    tools:context="com.adymilk.easybrowser.Ui.SetttingActivity">
 
 
     <android.support.v7.widget.Toolbar

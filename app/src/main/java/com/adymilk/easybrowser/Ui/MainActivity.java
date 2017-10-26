@@ -19,12 +19,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.adymilk.easybrowser.CardViewActivity;
 import com.adymilk.easybrowser.por.Browser;
 import com.adymilk.easybrowser.por.R;
-import com.adymilk.easybrowser.por.SetttingActivity;
 import com.heima.easysp.SharedPreferencesUtils;
-import com.squareup.haha.perflib.Main;
 import com.umeng.analytics.MobclickAgent;
 
 import static com.adymilk.easybrowser.Utils.comm.hideBar;
@@ -238,7 +235,8 @@ public class MainActivity extends Activity implements android.view.GestureDetect
             String 腾讯游戏 = "http://h5.qq.com";
             String 段子 = "http://m.budejie.com/";
             String 生活 = "http://go.uc.cn/page/life/life?uc_param_str=dnfrpfbivecpbtntlaad&source=webapp#!/meituan";
-            String 新闻 = "http://3g.163.com/";
+            String 精选 = "http://adymilk.xiaopangkj.space/public/wx";
+//            String 新闻 = "http://3g.163.com/";
             String 小说 = "http://t.shuqi.com/route.php?pagename=";
             switch (v.getId()) {
                 case R.id.cardview1:
@@ -260,7 +258,7 @@ public class MainActivity extends Activity implements android.view.GestureDetect
                     startActivityToCardViewActivity(intent, CardViewActivity.class, 小说);
                     break;
                 case R.id.cardview7:
-                    startActivityToCardViewActivity(intent, CardViewActivity.class, 新闻);
+                    startActivityToCardViewActivity(intent, Browser.class, 精选);
                     break;
                 case R.id.cardview8:
                     startActivityToCardViewActivity(intent, BookmarkActivity.class, "书签");
