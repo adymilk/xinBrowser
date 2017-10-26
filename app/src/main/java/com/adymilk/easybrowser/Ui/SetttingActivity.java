@@ -1,4 +1,4 @@
-package com.adymilk.easybrowser.por;
+package com.adymilk.easybrowser.Ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,8 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
-import com.adymilk.easybrowser.Ui.AboutSoft;
 import com.adymilk.easybrowser.CommSettingsActivity;
+import com.adymilk.easybrowser.por.R;
 import com.gyf.barlibrary.ImmersionBar;
 import com.leon.lib.settingview.LSettingItem;
 import com.umeng.analytics.MobclickAgent;

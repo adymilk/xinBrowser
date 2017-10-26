@@ -1,5 +1,6 @@
 package com.adymilk.easybrowser.Ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -10,6 +11,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -20,7 +22,11 @@ import android.widget.TextView;
 
 import com.adymilk.easybrowser.por.Browser;
 import com.adymilk.easybrowser.por.R;
+import com.gyf.barlibrary.BarHide;
+import com.gyf.barlibrary.ImmersionBar;
 import com.heima.easysp.SharedPreferencesUtils;
+
+import static com.adymilk.easybrowser.Utils.comm.slideActivity;
 
 public class SearchActivity extends AppCompatActivity {
     private String searchEngines;
@@ -39,6 +45,8 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        slideActivity(this);
+//        ImmersionBar.with(this).init();
         setContentView(R.layout.activity_search);
         //设置主页背景图片
         imagePath = SharedPreferencesUtils.init(this).getString("imagePath");
@@ -70,7 +78,7 @@ public class SearchActivity extends AppCompatActivity {
                         searchEngines = "https://m.baidu.com/s?word=";
                         break;
                     case 1: //谷歌
-                        searchEngines = "https://www.google.fr/search?ei=CDiYWeLYGoKTa5r0qRg&q=";
+                        searchEngines = "https://ssdao.firstguo.com/search?q=";
                         break;
                     case 2: //必应
                         searchEngines = "https://cn.bing.com/search?q=";
