@@ -13,8 +13,8 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.just.library.AgentWeb;
-import com.just.library.PermissionInterceptor;
+import com.just.agentweb.AgentWeb;
+import com.just.agentweb.PermissionInterceptor;
 import com.umeng.analytics.MobclickAgent;
 
 import static com.adymilk.easybrowser.Utils.comm.destoryImmersionBar;

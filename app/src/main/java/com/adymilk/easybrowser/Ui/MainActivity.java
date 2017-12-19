@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -23,6 +24,9 @@ import com.adymilk.easybrowser.por.Browser;
 import com.adymilk.easybrowser.por.R;
 import com.heima.easysp.SharedPreferencesUtils;
 import com.umeng.analytics.MobclickAgent;
+
+import java.io.InputStream;
+import java.net.URL;
 
 import static com.adymilk.easybrowser.Utils.comm.hideBar;
 
@@ -61,7 +65,6 @@ public class MainActivity extends Activity implements android.view.GestureDetect
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        System.out.println("当前Activity状态为onCreate");
         // 用昕浏览器打开链接
         openBrowser();
         // 沉浸状态栏
@@ -69,7 +72,11 @@ public class MainActivity extends Activity implements android.view.GestureDetect
 
         setContentView(R.layout.activity_main);
 
-        //创建手势检测器
+
+        //加载搜索界面随着节日活动改变的图片
+        new load_image().execute("http://oe3vwrk94.bkt.clouddn.com/xingBrowser_MainActivity_logo.png");
+
+                //创建手势检测器
         detector = new GestureDetector(this,this);
 
         //获取控件
@@ -235,7 +242,7 @@ public class MainActivity extends Activity implements android.view.GestureDetect
             String 腾讯游戏 = "http://h5.qq.com";
             String 段子 = "http://m.budejie.com/";
             String 生活 = "http://go.uc.cn/page/life/life?uc_param_str=dnfrpfbivecpbtntlaad&source=webapp#!/meituan";
-            String 精选 = "http://adymilk.xiaopangkj.space/public/wx";
+            String B站 = "https://m.bilibili.com";
 //            String 新闻 = "http://3g.163.com/";
             String 小说 = "http://t.shuqi.com/route.php?pagename=";
             switch (v.getId()) {
@@ -258,7 +265,7 @@ public class MainActivity extends Activity implements android.view.GestureDetect
                     startActivityToCardViewActivity(intent, CardViewActivity.class, 小说);
                     break;
                 case R.id.cardview7:
-                    startActivityToCardViewActivity(intent, Browser.class, 精选);
+                    startActivityToCardViewActivity(intent, Browser.class, B站);
                     break;
                 case R.id.cardview8:
                     startActivityToCardViewActivity(intent, BookmarkActivity.class, "书签");
@@ -387,6 +394,36 @@ public class MainActivity extends Activity implements android.view.GestureDetect
     }
 
 
+    //加载网络图片
+
+    Drawable LoadImageFromWebOperations(String url) {
+        InputStream is = null;
+        Drawable d = null;
+        try {
+            is = (InputStream) new URL(url).getContent();
+            d = Drawable.createFromStream(is, "src name");
+            return d;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    class load_image extends AsyncTask<String, Void, Drawable> {
+
+        @Override
+        protected Drawable doInBackground(String... params) {
+            Drawable drawable = LoadImageFromWebOperations(params[0]);
+            return drawable;
+        }
+
+        @Override
+        protected void onPostExecute(Drawable result) {
+            super.onPostExecute(result);
+            ImageView logo = findViewById(R.id.logo);
+            logo.setImageDrawable(result);
+        }
+
+    }
 
 
 }

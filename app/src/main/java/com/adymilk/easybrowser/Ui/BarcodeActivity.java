@@ -3,12 +3,11 @@ package com.adymilk.easybrowser.Ui;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.adymilk.easybrowser.por.R;
@@ -105,7 +104,7 @@ public class BarcodeActivity extends AppCompatActivity {
     }
 
 
-    Drawable LoadImageFromWebOperations(String url) {
+    static Drawable LoadImageFromWebOperations(String url) {
         InputStream is = null;
         Drawable d = null;
         try {

@@ -10,9 +10,9 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.just.library.AgentWeb;
-import com.just.library.AgentWebUtils;
-import com.just.library.IWebLayout;
+import com.just.agentweb.AgentWeb;
+import com.just.agentweb.IWebLayout;
+
 
 /**
  * Created by cenxiaozhong on 2017/7/1.

@@ -1,32 +1,29 @@
 package com.adymilk.easybrowser.Ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.adymilk.easybrowser.por.Browser;
 import com.adymilk.easybrowser.por.R;
-import com.gyf.barlibrary.BarHide;
-import com.gyf.barlibrary.ImmersionBar;
 import com.heima.easysp.SharedPreferencesUtils;
 
-import static com.adymilk.easybrowser.Utils.comm.slideActivity;
+import java.io.InputStream;
+import java.net.URL;
 
 public class SearchActivity extends AppCompatActivity {
     private String searchEngines;
@@ -48,6 +45,10 @@ public class SearchActivity extends AppCompatActivity {
 //        slideActivity(this);
 //        ImmersionBar.with(this).init();
         setContentView(R.layout.activity_search);
+
+
+        //加载搜索界面随着节日活动改变的图片
+        new load_image().execute("http://oe3vwrk94.bkt.clouddn.com/xingBrowser_searchActivity_img.jpg");
         //设置主页背景图片
         imagePath = SharedPreferencesUtils.init(this).getString("imagePath");
         showImage(imagePath);
@@ -235,7 +236,8 @@ public class SearchActivity extends AppCompatActivity {
                 || searchKey.endsWith(".info")
                 || searchKey.endsWith(".net")
                 || searchKey.endsWith("io")
-                || searchKey.endsWith(".cc")) {
+                || searchKey.endsWith(".cc")
+                || searchKey.startsWith("192.168.")) {
             searchKey = "http://" + searchKey;
 
         } else {
@@ -265,6 +267,38 @@ public class SearchActivity extends AppCompatActivity {
         }
         findViewById(R.id.search_bg).setBackground(Drawable.createFromPath(imagePath));
         System.out.println("Customize_Home_bg" + Customize_Home_bg);
+    }
+
+
+    //加载网络图片
+
+    Drawable LoadImageFromWebOperations(String url) {
+        InputStream is = null;
+        Drawable d = null;
+        try {
+            is = (InputStream) new URL(url).getContent();
+            d = Drawable.createFromStream(is, "src name");
+            return d;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    class load_image extends AsyncTask<String, Void, Drawable> {
+
+        @Override
+        protected Drawable doInBackground(String... params) {
+            Drawable drawable = LoadImageFromWebOperations(params[0]);
+            return drawable;
+        }
+
+        @Override
+        protected void onPostExecute(Drawable result) {
+            super.onPostExecute(result);
+            ImageView search_img = (ImageView) findViewById(R.id.search_img);
+            search_img.setImageDrawable(result);
+        }
+
     }
 
 }

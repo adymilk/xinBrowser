@@ -10,13 +10,9 @@ import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 
-
 import com.adymilk.easybrowser.por.R;
-import com.just.library.AgentWeb;
-import com.just.library.AgentWebUtils;
+import com.just.agentweb.AgentWeb;
 import com.lb.material_preferences_library.PreferenceActivity;
-
-import java.io.File;
 
 import static com.adymilk.easybrowser.Utils.comm.destoryImmersionBar;
 

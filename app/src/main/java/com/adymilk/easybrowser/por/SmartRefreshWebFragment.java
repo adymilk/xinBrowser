@@ -4,13 +4,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.FrameLayout;
 
-import com.just.library.IWebLayout;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.just.agentweb.IWebLayout;
 
 
 public class SmartRefreshWebFragment extends com.adymilk.easybrowser.por.BounceWebFragment {

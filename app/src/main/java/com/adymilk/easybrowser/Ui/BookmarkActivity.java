@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 import static com.adymilk.easybrowser.Utils.comm.initBar;
 import static com.adymilk.easybrowser.Utils.comm.slideActivity;
 
@@ -50,12 +51,11 @@ public class BookmarkActivity extends Activity {
         ImageView clear_Allbook = (ImageView) findViewById(R.id.clear_Allbook);
         ImageView iv_back = (ImageView) findViewById(R.id.iv_back);
         tv_bookIsEmpty = (TextView) findViewById(R.id.tv_bookIsEmpty);
-        书签数量 = SharedPreferencesUtils.init(BookmarkActivity.this).getInt("书签数量");
-        if (书签数量 == 0){
-            lv_book_Main.setVisibility(View.GONE);
+        SharedPreferencesUtils.init(BookmarkActivity.this)
+                .putString("bookmarkTitle" + Integer.toString(0), "三步枫的博客" )
+                .putString("bookmarkLink" + Integer.toString(0), "https://adymilk.cn");
 
-            tv_bookIsEmpty.setVisibility(View.VISIBLE);
-        }
+
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,7 +65,7 @@ public class BookmarkActivity extends Activity {
         clear_Allbook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialog("警告！","确定要全部删除吗？");
+                dell_all_books("警告！","确定要全部删除吗？");
             }
         });
 
@@ -79,12 +79,12 @@ public class BookmarkActivity extends Activity {
         lv_book_Main.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                书签Url = SharedPreferencesUtils.init(BookmarkActivity.this).getString("bookmarkLink" + Integer.toString(i+1) );
-                System.out.println("书签Url"+书签Url);
+                书签Url = SharedPreferencesUtils.init(BookmarkActivity.this).getString("bookmarkLink" + Integer.toString(i) );
+
                 Intent intent = new Intent();
                 intent.setClass(BookmarkActivity.this, Browser.class);
                 intent.putExtra("targetUrl", 书签Url);
-                System.out.println();
+                System.out.println("点击的条目是："+i);
                 startActivity(intent);
             }
         });
@@ -96,15 +96,16 @@ public class BookmarkActivity extends Activity {
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         Map<String, Object> map;
         书签数量 = SharedPreferencesUtils.init(BookmarkActivity.this).getInt("书签数量");
-        for(int i=1; i<= 书签数量; i++)
-        {
-            书签标题 = SharedPreferencesUtils.init(BookmarkActivity.this).getString("bookmarkTitle" + Integer.toString(i));
-            System.out.println("书签为：" + 书签标题);
-            map = new HashMap<String, Object>();
-            map.put("title", 书签标题);
-            map.put("img", R.mipmap.delete);
-            list.add(map);
+        for(int i=0; i<= 书签数量; i++)
+            {
+                map = new HashMap<String, Object>();
+                书签标题 = SharedPreferencesUtils.init(BookmarkActivity.this).getString("bookmarkTitle" + i);
+                System.out.println("当前书签的序号是:"+i+书签标题);
+                map.put("title", 书签标题);
+                map.put("img", R.mipmap.delete);
+                list.add(map);
         }
+
         return list;
     }
 
@@ -153,8 +154,8 @@ public class BookmarkActivity extends Activity {
                 holder = new ViewHolder();
                 //根据自定义的Item布局加载布局
                 convertView = mInflater.inflate(R.layout.bookmark_item, null);
-                holder.title = (TextView)convertView.findViewById(R.id.tv_book_title);
-                holder.iv_del = (ImageView)convertView.findViewById(R.id.del_bookmark);
+                holder.title = convertView.findViewById(R.id.tv_book_title);
+                holder.iv_del = convertView.findViewById(R.id.del_bookmark);
                 //将设置好的布局保存到缓存中，并将其设置在Tag里，以便后面方便取出Tag
                 convertView.setTag(holder);
             }else
@@ -162,6 +163,7 @@ public class BookmarkActivity extends Activity {
                 holder = (ViewHolder)convertView.getTag();
             }
             holder.title.setText((String)data.get(position).get("title"));
+            System.out.println("书签的position:"+data.get(position).get("title")+position);
 //            holder.iv_del.setImageResource((Integer)data.get(position).get("img"));
 
             return convertView;
@@ -169,8 +171,8 @@ public class BookmarkActivity extends Activity {
 
     }
 
-    //    对话框方法
-    public void showDialog(String title,String msg){
+    //删除全部书签
+    public void dell_all_books(String title,String msg){
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(BookmarkActivity.this);
         builder.setTitle(title);
         builder.setMessage(msg);
@@ -179,9 +181,7 @@ public class BookmarkActivity extends Activity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 SharedPreferencesUtils.init(BookmarkActivity.this).putInt("书签数量",0);
-                lv_book_Main.setVisibility(View.GONE);
-
-                tv_bookIsEmpty.setVisibility(View.VISIBLE);
+                reload();
             }
         });
         builder.show();
@@ -207,5 +207,16 @@ public class BookmarkActivity extends Activity {
         });
         builder.show();
     }
+
+    //重启Activity
+    public void reload() {
+        Intent intent = getIntent();
+        overridePendingTransition(0, 0);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(intent);
+    }
+
 
 }

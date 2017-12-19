@@ -4,16 +4,10 @@ import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
-import android.support.annotation.ColorRes;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -120,11 +114,7 @@ public class comm extends Activity {
     }
 
 
-    //显示对话框
 
-    public static void showDialog() {
-
-    }
 
     public static void downloadFiles(String url, TextView mTitleTextView, Context context) {
         // http 下载链接（该链接为 CSDN APP 的下载链接，仅做参考）

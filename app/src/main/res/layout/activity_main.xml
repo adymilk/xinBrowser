@@ -8,23 +8,29 @@
 
 
     <LinearLayout
-        android:gravity="center"
-        android:layout_weight="1"
-        android:orientation="horizontal"
+        android:gravity="bottom"
+        android:layout_weight="2"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <ImageView
+            android:layout_gravity="bottom"
+            android:id="@+id/logo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <TextView
             android:id="@+id/app_name"
-            android:gravity="center|bottom"
-            android:paddingBottom="15dp"
+            android:gravity="center"
+            android:paddingBottom="1dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/app"
-
             android:textColor="#999999"
             android:textSize="22sp"
             android:textStyle="bold" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -351,13 +357,13 @@
                             android:paddingTop="10dp"
                             android:paddingBottom="5dp"
                             android:layout_weight="1"
-                            android:src="@mipmap/wx_article"
+                            android:src="@mipmap/bilibili"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
 
                         <TextView
                             android:layout_weight="1"
-                            android:text="精选"
+                            android:text="Bilibili"
                             android:id="@+id/id_num7"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"

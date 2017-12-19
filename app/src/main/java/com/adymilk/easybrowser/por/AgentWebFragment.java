@@ -1,7 +1,6 @@
 package com.adymilk.easybrowser.por;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -10,9 +9,6 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -24,7 +20,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -44,38 +39,36 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.adymilk.easybrowser.ShareToTencent;
 import com.adymilk.easybrowser.Ui.BookmarkActivity;
 import com.adymilk.easybrowser.Ui.SearchActivity;
-import com.adymilk.easybrowser.ShareToTencent;
 import com.adymilk.easybrowser.Ui.SetttingActivity;
-import com.gyf.barlibrary.BarHide;
-import com.gyf.barlibrary.ImmersionBar;
 import com.heima.easysp.SharedPreferencesUtils;
-import com.just.library.AgentWeb;
-import com.just.library.AgentWebSettings;
-import com.just.library.ChromeClientCallbackManager;
-import com.just.library.DownLoadResultListener;
-import com.just.library.FragmentKeyDown;
-import com.just.library.WebDefaultSettingsManager;
+import com.just.agentweb.AgentWeb;
+import com.just.agentweb.AgentWebSettings;
+import com.just.agentweb.ChromeClientCallbackManager;
+import com.just.agentweb.DownLoadResultListener;
+import com.just.agentweb.FragmentKeyDown;
+import com.just.agentweb.PermissionInterceptor;
+import com.just.agentweb.WebDefaultSettingsManager;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.tauth.Tencent;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 import me.curzbin.library.BottomDialog;
 import me.curzbin.library.Item;
 import me.curzbin.library.OnItemClickListener;
 
-import com.just.library.PermissionInterceptor;
-
-import static android.content.ContentValues.TAG;
 import static com.adymilk.easybrowser.Utils.comm.adBlock;
 import static com.adymilk.easybrowser.Utils.comm.downloadFiles;
-import static com.adymilk.easybrowser.por.R.*;
-import static java.lang.String.*;
+import static com.adymilk.easybrowser.por.R.id;
+import static com.adymilk.easybrowser.por.R.layout;
+import static com.adymilk.easybrowser.por.R.menu;
+import static com.adymilk.easybrowser.por.R.mipmap;
+import static com.adymilk.easybrowser.por.R.string;
+import static java.lang.String.valueOf;
 
 
 /**
@@ -555,7 +548,6 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         书签数量 = SharedPreferencesUtils.init(getContext()).getInt("书签数量");
         书签数量 = 书签数量 + 1;
         SharedPreferencesUtils.init(getContext()).putInt("书签数量",书签数量);
-        System.out.println("书签数量为：" + 书签数量 );
         网页标题 = mTitleTextView.getText().toString();
         网页链接 = mAgentWeb.getWebCreator().get().getUrl().toString();
 
@@ -563,9 +555,8 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         SharedPreferencesUtils.init(getContext())
                 .putString("bookmarkTitle" + Integer.toString(书签数量), 网页标题 )
                 .putString("bookmarkLink" + Integer.toString(书签数量), 网页链接);
-        String bookmarkTitle = SharedPreferencesUtils.init(getContext()).getString("bookmarkTitle" + Integer.toString(书签数量));
-        String bookmarkUrl = SharedPreferencesUtils.init(getContext()).getString("bookmarkLink" + Integer.toString(书签数量));
-        System.out.println("书签为：书签为："+ bookmarkTitle + bookmarkUrl);
+        SharedPreferencesUtils.init(getContext()).getString("bookmarkTitle" + Integer.toString(书签数量));
+        SharedPreferencesUtils.init(getContext()).getString("bookmarkLink" + Integer.toString(书签数量));
 
         toastShowShort(getContext(), "书签添加成功！");
     }
@@ -703,8 +694,6 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                                 startActivity(intent);
                                 break;
 
-
-
                             default:
                                 break;
 
@@ -726,9 +715,6 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         }
         mToast.show();
     }
-
-
-
 
 
 

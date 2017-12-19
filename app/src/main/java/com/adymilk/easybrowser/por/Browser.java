@@ -1,29 +1,20 @@
 package com.adymilk.easybrowser.por;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 
-import com.gyf.barlibrary.ImmersionBar;
-import com.just.library.AgentWeb;
-import com.just.library.FragmentKeyDown;
+import com.just.agentweb.AgentWeb;
+import com.just.agentweb.FragmentKeyDown;
 
 import static com.adymilk.easybrowser.Utils.comm.destoryImmersionBar;
-import static com.adymilk.easybrowser.Utils.comm.hideBar;
 import static com.adymilk.easybrowser.Utils.comm.initBar;
 import static com.adymilk.easybrowser.Utils.comm.slideActivity;
 

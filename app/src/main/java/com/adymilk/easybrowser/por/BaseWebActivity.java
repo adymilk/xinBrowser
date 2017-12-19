@@ -19,10 +19,8 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.gyf.barlibrary.ImmersionBar;
-import com.just.library.AgentWeb;
-import com.just.library.ChromeClientCallbackManager;
-import com.just.library.LogUtils;
+import com.just.agentweb.AgentWeb;
+import com.just.agentweb.ChromeClientCallbackManager;
 
 /**
  * Created by cenxiaozhong on 2017/5/26.

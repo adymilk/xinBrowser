@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
-import com.just.library.IWebLayout;
+import com.just.agentweb.IWebLayout;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 /**

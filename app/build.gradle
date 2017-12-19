@@ -16,7 +16,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 26
         versionCode 15
-        versionName "Beta 3.0.381"
+        versionName "Beta 3.0.382"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -80,7 +80,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'moe.feng:AlipayZeroSdk:1.1'
     compile 'com.android.support:appcompat-v7:26.+'
-    compile 'com.just.agentweb:agentweb:2.0.1'
+    compile 'com.just.agentweb:agentweb:3.0.0-beta'
     compile 'com.android.support:cardview-v7:26.0.0-alpha1'
     compile 'com.lcodecorex:tkrefreshlayout:1.0.7'
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
