@@ -48,7 +48,7 @@ public class SearchActivity extends AppCompatActivity {
 
 
         //加载搜索界面随着节日活动改变的图片
-        new load_image().execute("http://oe3vwrk94.bkt.clouddn.com/xingBrowser_searchActivity_img.jpg");
+//        new load_image().execute("http://oe3vwrk94.bkt.clouddn.com/xingBrowser_searchActivity_img.jpg");
         //设置主页背景图片
         imagePath = SharedPreferencesUtils.init(this).getString("imagePath");
         showImage(imagePath);
