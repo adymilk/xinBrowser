@@ -74,7 +74,7 @@ public class MainActivity extends Activity implements android.view.GestureDetect
 
 
         //加载搜索界面随着节日活动改变的图片
-        new load_image().execute("http://oe3vwrk94.bkt.clouddn.com/xingBrowser_MainActivity_logo.png");
+        new load_image().execute("https://github.com//adymilk/xinBrowser/raw/master/festival_images/logo.gif");
 
                 //创建手势检测器
         detector = new GestureDetector(this,this);

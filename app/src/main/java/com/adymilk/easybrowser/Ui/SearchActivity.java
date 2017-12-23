@@ -295,8 +295,7 @@ public class SearchActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Drawable result) {
             super.onPostExecute(result);
-            ImageView search_img = (ImageView) findViewById(R.id.search_img);
-            search_img.setImageDrawable(result);
+
         }
 
     }
