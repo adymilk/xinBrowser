@@ -7,6 +7,7 @@
 
 已发布到 [酷安](https://www.coolapk.com/apk/157097)
 
+![](http://image.coolapk.com/apk_image/2017/1007/device-2017-10-07-000245-157097-o_1brp6rdesvos30q1kb8dof18kb12-uid-638761@1080x1920.png)
 # 简介
 
 1、遵守软件开发友好原则 ，及时 释放 CPU 更省电。
