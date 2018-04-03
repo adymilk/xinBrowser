@@ -15,8 +15,8 @@ android {
         applicationId "com.adymilk.easybrowser.por"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 17
-        versionName "Beta 3.0.383"
+        versionCode 18
+        versionName "Beta 3.0.384"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

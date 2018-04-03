@@ -2,15 +2,54 @@
 <html>
 <head>
     <title>关于昕浏览器</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
 		.container{
 			padding:4px;
 		}
 		p{
-		color:#757575;
+		    color:#757575;
+		}
+
+		.card{
+		    box-shadow: 2px 2px 15px 10px #eee;
+		    padding: 5px 8px;
+		    margin: 13px 0;
+		    border-radius: 3px;
+		}
+		.card:hover{
+		    background-color: #eee;
 		}
 		h4{
-		color: #999;}
+		color: #999;
+		}
+
+		img{
+		    width: 100%;
+		}
+
+		a{
+		    text-decoration:none;
+		    color: #ffffff;
+		    display: block;
+		    width: 1wh;
+		    padding: 8px;
+		    text-align: center;
+		    margin: 5px;
+		    border-radius: 4px;
+		    font-size: 1.2rem;
+		    text-shadow: 0 0 5px #999;
+		}
+
+		.btn:nth-child(odd){
+		    background-color: orange;
+		}
+		.btn:nth-child(even){
+		    background-color: green;
+		}
+
+
+
 
 
     </style>
@@ -18,26 +57,40 @@
 <body>
 <div class="container">
 
-    <h4>相遇相知</h4>
-    <p>心有灵犀，就该无悔；曾经，朝夕相伴，就已足够。忆起，花满城；存封，心依然。</p>
+    <img src="https://i.loli.net/2018/04/03/5ac390d883811.jpg" alt="图片无法加载...">
 
-    <h4>细致入微</h4>
+    <div class="card">
+        <h4>相遇相知</h4>
+        <p>心有灵犀，就该无悔；曾经，朝夕相伴，就已足够。忆起，花满城；存封，心依然。</p>
+    </div>
 
-    <p>核心理念：“不打扰，不故意装作很懂你。”</p>
+    <div class="card">
+        <h4>细致入微</h4>
+        <p>核心理念：“不打扰，不故意装作很懂你。”</p>
+    </div>
 
-    <h4>结伴而行</h4>
-    <p>陪伴一生的是自己的名字和那些或清晰或模糊的名字所带来的感动</p>
+    <div class="card">
+        <h4>结伴而行</h4>
+        <p>陪伴一生的是自己的名字和那些或清晰或模糊的名字所带来的感动</p>
+    </div>
 
-    <h4>真诚致谢</h4>
-    <p>感谢那些积极帮助昕浏览器提出改进意见和捐赠的朋友</p>
+    <div class="card">
+        <h4>真诚致谢</h4>
+        <p>感谢那些积极帮助昕浏览器提出改进意见和捐赠的朋友</p>
+    </div>
 
-    <h4>关于捐赠</h4>
-    <p>所有的捐赠都将用来昕浏览器的继续研发以及开发者更新的积极性。</p>
+    <div class="card">
+        <h4>关于捐赠</h4>
+        <p>所有的捐赠都将用来昕浏览器的继续研发以及开发者更新的积极性。</p>
+    </div>
 
-    <h4>开源相关</h4>
 
-    <a href="https://www.coolapk.com/apk/157097">酷安</a><br/>
-    <a href="https://github.com/adymilk/xinBrowser">github</a><br/>
+    <div class="card">
+        <h4>开源相关</h4>
+        <a href="https://www.coolapk.com/apk/157097" class="btn">酷安</a>
+        <a href="https://github.com/adymilk/xinBrowser" class="btn">github</a>
+    </div>
+
 
 
 </div>

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -24,9 +23,6 @@ import com.adymilk.easybrowser.por.Browser;
 import com.adymilk.easybrowser.por.R;
 import com.heima.easysp.SharedPreferencesUtils;
 import com.umeng.analytics.MobclickAgent;
-
-import java.io.InputStream;
-import java.net.URL;
 
 import static com.adymilk.easybrowser.Utils.comm.hideBar;
 
@@ -72,11 +68,7 @@ public class MainActivity extends Activity implements android.view.GestureDetect
 
         setContentView(R.layout.activity_main);
 
-
-        //加载搜索界面随着节日活动改变的图片
-        new load_image().execute("https://github.com//adymilk/xinBrowser/raw/master/festival_images/logo.gif");
-
-                //创建手势检测器
+        //创建手势检测器
         detector = new GestureDetector(this,this);
 
         //获取控件
@@ -392,38 +384,5 @@ public class MainActivity extends Activity implements android.view.GestureDetect
         intent.setClass(context, c);
         startActivity(intent);
     }
-
-
-    //加载网络图片
-
-    Drawable LoadImageFromWebOperations(String url) {
-        InputStream is = null;
-        Drawable d = null;
-        try {
-            is = (InputStream) new URL(url).getContent();
-            d = Drawable.createFromStream(is, "src name");
-            return d;
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    class load_image extends AsyncTask<String, Void, Drawable> {
-
-        @Override
-        protected Drawable doInBackground(String... params) {
-            Drawable drawable = LoadImageFromWebOperations(params[0]);
-            return drawable;
-        }
-
-        @Override
-        protected void onPostExecute(Drawable result) {
-            super.onPostExecute(result);
-            ImageView logo = findViewById(R.id.logo);
-            logo.setImageDrawable(result);
-        }
-
-    }
-
 
 }

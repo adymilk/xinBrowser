@@ -53,7 +53,7 @@ public class BookmarkActivity extends Activity {
         tv_bookIsEmpty = (TextView) findViewById(R.id.tv_bookIsEmpty);
         SharedPreferencesUtils.init(BookmarkActivity.this)
                 .putString("bookmarkTitle" + Integer.toString(0), "三步枫的博客" )
-                .putString("bookmarkLink" + Integer.toString(0), "https://adymilk.cn");
+                .putString("bookmarkLink" + Integer.toString(0), "https://blog.adymilk.cn");
 
 
         iv_back.setOnClickListener(new View.OnClickListener() {
